@@ -2,12 +2,12 @@ package com.backend.group6.golddigger.model;
 
 public class Player {
 
-    int id;
-    String name;
-    double goldAmount;
-    double health;
-    Mine currentMine;
-    Backpack backpack;
+    private int id;
+    private String name;
+    private double goldAmount;
+    private double health;
+    private Mine currentMine;
+    private Backpack backpack;
 
     public Player(int id, String name, double goldAmount, double health, Mine currentMine, Backpack backpack) {
         this.id = id;
