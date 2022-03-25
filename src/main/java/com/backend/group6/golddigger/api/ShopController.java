@@ -1,5 +1,6 @@
 package com.backend.group6.golddigger.api;
 
+import com.backend.group6.golddigger.model.InventoryItem;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
