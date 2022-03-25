@@ -1,6 +1,8 @@
 package com.backend.group6.golddigger.dao;
 
 import com.backend.group6.golddigger.model.FoodItem;
+import com.backend.group6.golddigger.model.InventoryItem;
+import com.backend.group6.golddigger.model.Pickaxe;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
