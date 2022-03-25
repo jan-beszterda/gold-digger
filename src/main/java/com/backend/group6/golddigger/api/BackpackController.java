@@ -5,6 +5,7 @@ import com.backend.group6.golddigger.service.BackpackService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/backpack")
@@ -24,5 +25,10 @@ public class BackpackController {
     @PostMapping()
     public void putFoodInBackpack(@RequestBody FoodItem foodItemToPutIn) {
         backpackService.putFoodItemInBackpack(foodItemToPutIn);
+    }
+
+    @DeleteMapping("{id}")
+    public void removeFoodFromBackpack(@PathVariable("id") UUID id) {
+        backpackService.removeFoodFromBackpack(id);
     }
 }

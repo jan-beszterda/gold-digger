@@ -5,6 +5,7 @@ import com.backend.group6.golddigger.model.FoodItem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BackpackService {
@@ -21,5 +22,9 @@ public class BackpackService {
 
     public void putFoodItemInBackpack(FoodItem foodItemToPutIn) {
         backpackDAO.createFoodItem(foodItemToPutIn);
+    }
+
+    public void removeFoodFromBackpack(UUID id) {
+        backpackDAO.deleteFoodItem(id);
     }
 }

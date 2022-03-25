@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -18,12 +19,25 @@ public class BackpackDAO {
         return DB;
     }
 
+    public Optional<FoodItem> findFoodItemById(UUID id) {
+        return getFoodFromBackpack().stream()
+                .filter(foodItem -> foodItem.getId().equals(id))
+                .findFirst();
+    }
+
     public void createFoodItem(FoodItem newFoodItem) {
         UUID id = UUID.randomUUID();
         insertFoodItem(id, newFoodItem);
     }
 
+    public void deleteFoodItem(UUID id) {
+        Optional<FoodItem> foodItemToRemove = findFoodItemById(id);
+        DB.remove(foodItemToRemove.get());
+    }
+
     private void insertFoodItem(UUID id, FoodItem newFoodItem) {
         DB.add(new FoodItem(id, newFoodItem.getName(), newFoodItem.getHealthEffect(), newFoodItem.getWeight()));
     }
+
+
 }
