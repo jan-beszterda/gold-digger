@@ -1,10 +1,12 @@
 package com.backend.group6.golddigger.dao;
 
 import com.backend.group6.golddigger.model.FoodItem;
+import com.backend.group6.golddigger.model.InventoryItem;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -17,5 +19,12 @@ public class ShopInventoryDAO {
 
     public List<InventoryItem> getInventory() {
         return data;
+    }
+
+    public void removeItem(UUID id, int count) {
+        Optional<InventoryItem> item = data.stream()
+                .filter(inventoryItem -> inventoryItem.getItem().getId().equals(id))
+                .findFirst();
+        item.ifPresent(inventoryItem -> inventoryItem.setCount(inventoryItem.getCount() - count));
     }
 }
