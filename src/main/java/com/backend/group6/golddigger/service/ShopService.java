@@ -1,6 +1,10 @@
 package com.backend.group6.golddigger.service;
 
+import com.backend.group6.golddigger.dao.ShopInventoryDAO;
+import com.backend.group6.golddigger.model.InventoryItem;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ShopService {
@@ -11,6 +15,6 @@ public class ShopService {
     }
 
     public List<InventoryItem> getInventory() {
-        return shopInventoryDAO.getIventory();
+        return shopInventoryDAO.getInventory();
     }
 }
