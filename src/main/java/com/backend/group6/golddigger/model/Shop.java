@@ -9,7 +9,7 @@ public class Shop {
 
     public Shop() {
         this.name = "";
-        this.inventory = new ArrayList<();
+        this.inventory = new ArrayList<>();
     }
 
     public String getName() {
