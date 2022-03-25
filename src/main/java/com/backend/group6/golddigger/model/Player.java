@@ -1,15 +1,17 @@
 package com.backend.group6.golddigger.model;
 
+import java.util.UUID;
+
 public class Player {
 
-    private int id;
+    private UUID id;
     private String name;
     private double goldAmount;
     private double health;
     private Mine currentMine;
     private Backpack backpack;
 
-    public Player(int id, String name, double goldAmount, double health, Mine currentMine, Backpack backpack) {
+    public Player(UUID id, String name, double goldAmount, double health, Mine currentMine, Backpack backpack) {
         this.id = id;
         this.name = name;
         this.goldAmount = goldAmount;
@@ -18,12 +20,8 @@ public class Player {
         this.backpack = backpack;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
