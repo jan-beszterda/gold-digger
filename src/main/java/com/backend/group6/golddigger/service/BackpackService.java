@@ -20,6 +20,10 @@ public class BackpackService {
         return backpackDAO.getFoodFromBackpack();
     }
 
+    public FoodItem getFoodItemByID(UUID id) {
+        return backpackDAO.findFoodItemById(id).orElse(null);
+    }
+
     public void putFoodItemInBackpack(FoodItem foodItemToPutIn) {
         backpackDAO.createFoodItem(foodItemToPutIn);
     }
@@ -27,4 +31,6 @@ public class BackpackService {
     public void removeFoodFromBackpack(UUID id) {
         backpackDAO.deleteFoodItem(id);
     }
+
+
 }

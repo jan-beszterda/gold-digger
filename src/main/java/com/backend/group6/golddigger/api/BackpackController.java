@@ -1,6 +1,6 @@
 package com.backend.group6.golddigger.api;
 
-import com.backend.group6.golddigger.model.FoodItem;
+import  com.backend.group6.golddigger.model.FoodItem;
 import com.backend.group6.golddigger.service.BackpackService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +20,11 @@ public class BackpackController {
     @GetMapping()
     public List<FoodItem> getFoodFromBackpack() {
         return backpackService.getFoodFromBackpack();
+    }
+
+    @GetMapping("/{id}")
+    public FoodItem getFoodItemById(@PathVariable("id") UUID id) {
+        return backpackService.getFoodItemByID(id);
     }
 
     @PostMapping()
