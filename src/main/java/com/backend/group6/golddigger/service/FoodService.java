@@ -2,7 +2,6 @@ package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.FoodDAO;
 import com.backend.group6.golddigger.model.FoodItem;
-import com.backend.group6.golddigger.model.Pickaxe;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

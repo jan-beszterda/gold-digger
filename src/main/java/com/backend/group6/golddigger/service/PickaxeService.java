@@ -1,6 +1,6 @@
 package com.backend.group6.golddigger.service;
 
-import com.backend.group6.golddigger.dao.PickAxeDAO;
+import com.backend.group6.golddigger.dao.PickaxeDAO;
 import com.backend.group6.golddigger.model.Pickaxe;
 import org.springframework.stereotype.Service;
 
@@ -10,17 +10,17 @@ import java.util.UUID;
 @Service
 public class PickaxeService {
 
-    PickAxeDAO pickAxeDAO;
+    PickaxeDAO pickaxeDAO;
 
-    public PickaxeService(PickAxeDAO pickAxeDAO) {
-        this.pickAxeDAO = pickAxeDAO;
+    public PickaxeService(PickaxeDAO pickAxeDAO) {
+        this.pickaxeDAO = pickAxeDAO;
     }
 
     public List<Pickaxe> getAllPickaxes() {
-        return pickAxeDAO.getAllPickaxes();
+        return pickaxeDAO.getAllPickaxes();
     }
 
     public Pickaxe getPickaxeById(UUID id) {
-        return pickAxeDAO.getPickaxeById(id).orElse(null);
+        return pickaxeDAO.getPickaxeById(id).orElse(null);
     }
 }
