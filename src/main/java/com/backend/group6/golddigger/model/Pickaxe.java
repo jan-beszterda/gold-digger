@@ -3,6 +3,7 @@ package com.backend.group6.golddigger.model;
 import java.util.UUID;
 
 public class Pickaxe extends Item {
+
     private double strength;
     private double condition;
 
