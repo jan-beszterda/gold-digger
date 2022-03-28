@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class PickAxeDAO {
+public class PickaxeDAO {
 
     public List<Pickaxe> DB = new ArrayList<>(List.of(
             new Pickaxe(UUID.randomUUID(), "Diamond pickaxe", 1, 1),
