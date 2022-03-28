@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/mines")
+@RequestMapping("/api/mine")
 public class MineController {
 
     MineService mineService;
@@ -27,9 +27,8 @@ public class MineController {
         return mineService.getMineById(id);
     }
 
-    @DeleteMapping("{id}")
-    public void removeMine(@PathVariable("id") UUID id) {
-        mineService.removeMine(id);
-    }
+    //@DeleteMapping("{id}")
+    // public void removeMine(@PathVariable("id") UUID id) {
+    //mineService.removeMine(id);}
 
 }
