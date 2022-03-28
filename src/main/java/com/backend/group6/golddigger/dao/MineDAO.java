@@ -12,8 +12,10 @@ import java.util.UUID;
 public class MineDAO {
 
     public List<Mine> DB = new ArrayList<>(List.of(
-            new Mine(UUID.randomUUID(), "Dark mine", 250, 0.5),
-            new Mine(UUID.randomUUID(), "Light mine", 500, 0.8)));
+            new Mine(UUID.randomUUID(), "East mine", 250, 0.5),
+            new Mine(UUID.randomUUID(), "North mine", 500, 0.8),
+            new Mine(UUID.randomUUID(), "South mine", 100, 0.4),
+            new Mine(UUID.randomUUID(), "West mine", 750, 0.6)));
 
     public List<Mine> getAllMines() {
         return DB;
