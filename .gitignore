@@ -28,7 +28,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-
+# properties
+application.properties
 
 ### STS ###
 .apt_generated
