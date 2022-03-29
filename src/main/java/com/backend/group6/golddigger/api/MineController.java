@@ -2,13 +2,16 @@ package com.backend.group6.golddigger.api;
 
 import com.backend.group6.golddigger.model.Mine;
 import com.backend.group6.golddigger.service.MineService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/mine")
+@RequestMapping("/api/mines")
 public class MineController {
 
     MineService mineService;
@@ -18,17 +21,15 @@ public class MineController {
     }
 
     @GetMapping()
-    public List<Mine> getMines() {
+    public List<Mine> getMines(@PathParam("id") Integer id) {
+        if (id != null) {
+            return List.of(mineService.getMineById(id));
+        }
         return mineService.getAllMines();
     }
 
-    @GetMapping("/{id}")
-    public Mine getMineById(@PathVariable("id") UUID id) {
-        return mineService.getMineById(id);
+    @DeleteMapping()
+    public void removeMine(@PathParam("id") Integer id) {
+        mineService.removeMine(id);
     }
-
-    //@DeleteMapping("{id}")
-    // public void removeMine(@PathVariable("id") UUID id) {
-    //mineService.removeMine(id);}
-
 }

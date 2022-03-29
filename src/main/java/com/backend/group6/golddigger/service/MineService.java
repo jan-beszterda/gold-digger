@@ -5,7 +5,6 @@ import com.backend.group6.golddigger.model.Mine;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class MineService {
@@ -17,14 +16,14 @@ public class MineService {
     }
 
     public List<Mine> getAllMines() {
-        return mineDAO.getAllMines();
+        return (List<Mine>) mineDAO.getAllMines();
     }
 
-    public Mine getMineById(UUID id) {
+    public Mine getMineById(Integer id) {
         return mineDAO.getMineByID(id).orElse(null);
     }
 
-    public void removeMine(UUID id) {
+    public void removeMine(Integer id) {
         mineDAO.deleteMine(id);
     }
 }
