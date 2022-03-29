@@ -1,18 +1,14 @@
 package com.backend.group6.golddigger.api;
 
-import com.backend.group6.golddigger.dao.PlayerDAO;
 import com.backend.group6.golddigger.model.Player;
 import com.backend.group6.golddigger.service.PlayerService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/player")
+@RequestMapping("/api/players")
 public class PlayerController {
 
     PlayerService playerService;
@@ -22,10 +18,16 @@ public class PlayerController {
     }
 
     @GetMapping()
-    public List<Player> getPlayers(@PathParam("id") UUID id) {
-        if (id == null) {
-            return playerService.getPlayers();
+    public List<Player> getAllPlayers(@PathParam("id") Integer id) {
+        if (id != null) {
+            return List.of(playerService.getPlayerById(id));
+
         }
-        return List.of(playerService.getPlayerById(id));
+        return playerService.getAllPlayers();
+    }
+
+    @PostMapping()
+    public void addPlayer(@RequestBody Player player) {
+        playerService.addPlayer(player);
     }
 }

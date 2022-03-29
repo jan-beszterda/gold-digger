@@ -5,6 +5,7 @@ import com.backend.group6.golddigger.model.FoodItem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FoodService {
@@ -16,14 +17,10 @@ public class FoodService {
     }
 
     public List<FoodItem> getAllFood() {
-        return (List<FoodItem>) foodDAO.getAllFoodItems();
+        return foodDAO.getAllFoodItems();
     }
 
-    public FoodItem getFoodItemById(Integer id) {
-        return foodDAO.findFoodItemById(id).orElse(null);
-    }
-
-    public void addFoodItem(FoodItem foodItem) {
-        foodDAO.saveFoodItem(foodItem);
+    public FoodItem getFoodItemById(UUID id) {
+        return foodDAO.getFoodItemById(id).orElse(null);
     }
 }
