@@ -1,38 +1,51 @@
 package com.backend.group6.golddigger.model;
 
+import javax.persistence.*;
 import java.util.UUID;
 
+@Entity
+@Table(name = "mines")
 public class Mine {
 
-    private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
     private double totalGold;
     private double difficulty;
 
-    public Mine(UUID id, String name, double totalGold, double difficulty) {
-        this.id = id;
-        this.name = name;
-        this.totalGold = totalGold;
-        this.difficulty = difficulty;
+    public Mine() {
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public double getTotalGold() {
         return totalGold;
+    }
+
+    public void setTotalGold(double totalGold) {
+        this.totalGold = totalGold;
     }
 
     public double getDifficulty() {
         return difficulty;
     }
 
-    public void setTotalGold(double totalGold) {
-        this.totalGold = totalGold;
+    public void setDifficulty(double difficulty) {
+        this.difficulty = difficulty;
     }
 }

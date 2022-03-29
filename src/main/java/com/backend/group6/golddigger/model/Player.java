@@ -1,27 +1,37 @@
 package com.backend.group6.golddigger.model;
 
-import java.util.UUID;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "players")
 public class Player {
-
-    private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
     private double goldAmount;
     private double health;
+    private static int maxActions;
+    private int actionsRemaining;
+    @ManyToOne
+    @JoinColumn(name = "id")
     private Mine currentMine;
+    @OneToOne
+    @JoinColumn(name = "id")
     private Backpack backpack;
+    @OneToOne
+    @JoinColumn(name = "id")
+    private Pickaxe pickaxe;
 
-    public Player(UUID id, String name, double goldAmount, double health, Mine currentMine, Backpack backpack) {
-        this.id = id;
-        this.name = name;
-        this.goldAmount = goldAmount;
-        this.health = health;
-        this.currentMine = currentMine;
-        this.backpack = backpack;
+    public Player() {
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -48,6 +58,22 @@ public class Player {
         this.health = health;
     }
 
+    public static int getMaxActions() {
+        return maxActions;
+    }
+
+    public static void setMaxActions(int maxActions) {
+        Player.maxActions = maxActions;
+    }
+
+    public int getActionsRemaining() {
+        return actionsRemaining;
+    }
+
+    public void setActionsRemaining(int actionsRemaining) {
+        this.actionsRemaining = actionsRemaining;
+    }
+
     public Mine getCurrentMine() {
         return currentMine;
     }
@@ -62,5 +88,13 @@ public class Player {
 
     public void setBackpack(Backpack backpack) {
         this.backpack = backpack;
+    }
+
+    public Pickaxe getPickaxe() {
+        return pickaxe;
+    }
+
+    public void setPickaxe(Pickaxe pickaxe) {
+        this.pickaxe = pickaxe;
     }
 }
