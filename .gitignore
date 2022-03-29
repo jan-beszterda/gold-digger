@@ -29,7 +29,7 @@ target/
 !**/src/test/**/target/
 
 # properties
-src/main/resources/application.properties
+application.properties
 
 ### STS ###
 .apt_generated

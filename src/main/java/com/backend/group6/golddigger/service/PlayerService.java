@@ -5,7 +5,6 @@ import com.backend.group6.golddigger.model.Player;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class PlayerService {
@@ -16,15 +15,15 @@ public class PlayerService {
         this.playerDAO = playerDAO;
     }
 
-    public List<Player> getPlayers() {
-        return playerDAO.getPlayers();
+    public List<Player> getAllPlayers() {
+        return (List<Player>) playerDAO.findAllPlayers();
     }
 
-    public Player getPlayerById(UUID id) {
-        return playerDAO.getPlayerById(id).orElse(null);
+    public Player getPlayerById(Integer id) {
+        return playerDAO.findPlayerById(id).orElse(null);
     }
 
-    public void addNewPlayer(Player newPlayer) {
-        playerDAO.addNewPlayer(newPlayer);
+    public void addPlayer(Player player) {
+        playerDAO.addPlayer(player);
     }
 }
