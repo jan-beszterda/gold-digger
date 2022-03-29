@@ -1,14 +1,16 @@
 package com.backend.group6.golddigger.api;
 
-import  com.backend.group6.golddigger.model.FoodItem;
+import com.backend.group6.golddigger.model.Backpack;
 import com.backend.group6.golddigger.service.BackpackService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/backpack")
+@RequestMapping("/api/backpacks")
 public class BackpackController {
 
     BackpackService backpackService;
@@ -18,22 +20,12 @@ public class BackpackController {
     }
 
     @GetMapping()
-    public List<FoodItem> getFoodFromBackpack() {
-        return backpackService.getFoodFromBackpack();
+    public List<Backpack> getAllBackpacks() {
+        return backpackService.getAllBackpacks();
     }
 
-    @GetMapping("/{id}")
-    public FoodItem getFoodItemById(@PathVariable("id") UUID id) {
-        return backpackService.getFoodItemByID(id);
-    }
-
-    @PostMapping()
-    public void putFoodInBackpack(@RequestBody FoodItem foodItemToPutIn) {
-        backpackService.putFoodItemInBackpack(foodItemToPutIn);
-    }
-
-    @DeleteMapping("{id}")
-    public void removeFoodFromBackpack(@PathVariable("id") UUID id) {
-        backpackService.removeFoodFromBackpack(id);
+    @GetMapping()
+    public Backpack getBackpackById(@PathParam("id") Integer id) {
+        return backpackService.getBackpackById(id);
     }
 }

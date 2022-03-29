@@ -19,10 +19,12 @@ public class ShopController {
     }
 
     @GetMapping()
-    public List<Shop> getAllShops(@PathParam("id") Integer id) {
-        if (id != null) {
-            return List.of(shopService.getShopById(id));
-        }
+    public List<Shop> getAllShops() {
         return shopService.getAllShops();
+    }
+
+    @GetMapping()
+    public Shop getShopById(@PathParam("id") Integer id) {
+        return shopService.getShopById(id);
     }
 }

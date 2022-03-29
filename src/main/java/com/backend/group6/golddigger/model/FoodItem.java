@@ -1,22 +1,19 @@
 package com.backend.group6.golddigger.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name="fooditems")
+@Table(name="foodItems")
 public class FoodItem{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private double healthEffect;
     private double weight;
 
-    public FoodItem(Integer id, String name, double healthEffect, double weight) {
-        this.id = id;
-        this.name = name;
-        this.healthEffect = healthEffect;
-        this.weight = weight;
+    public FoodItem() {
     }
 
     public Integer getId() {
