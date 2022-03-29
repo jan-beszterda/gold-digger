@@ -5,6 +5,8 @@ import com.backend.group6.golddigger.model.Mine;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class MineService {
@@ -25,5 +27,17 @@ public class MineService {
 
     public void removeMine(Integer id) {
         mineDAO.deleteMine(id);
+    }
+
+    public void createRandomMine() {
+        Random r = new Random();
+        Mine mineToCreate = new Mine();
+        Optional<Mine> mineToDuplicate = getAllMines()
+                .stream()
+                .findAny();
+        mineToDuplicate.ifPresent(mine -> mineToCreate.setName(mine.getName()));
+        mineToCreate.setDifficulty(r.nextDouble());
+        mineToCreate.setTotalGold(r.nextDouble(100.0, 1001.00));
+        mineDAO.createRandomMine(mineToCreate);
     }
 }
