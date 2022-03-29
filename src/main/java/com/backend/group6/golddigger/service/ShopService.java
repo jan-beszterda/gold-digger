@@ -14,7 +14,5 @@ public class ShopService {
         this.shopInventoryDAO = shopInventoryDAO;
     }
 
-    public List<InventoryItem> getInventory() {
-        return shopInventoryDAO.getInventory();
-    }
+
 }
