@@ -1,18 +1,24 @@
 package com.backend.group6.golddigger.service;
 
-import com.backend.group6.golddigger.dao.ShopInventoryDAO;
-import com.backend.group6.golddigger.model.InventoryItem;
+import com.backend.group6.golddigger.dao.ShopDAO;
+import com.backend.group6.golddigger.model.Shop;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ShopService {
-    ShopInventoryDAO shopInventoryDAO;
+    ShopDAO shopDAO;
 
-    public ShopService(ShopInventoryDAO shopInventoryDAO) {
-        this.shopInventoryDAO = shopInventoryDAO;
+    public ShopService(ShopDAO shopDAO) {
+        this.shopDAO = shopDAO;
     }
 
+    public List<Shop> getAllShops() {
+        return (List<Shop>) shopDAO.getAllShops();
+    }
 
+    public Shop getShopById(Integer id) {
+        return shopDAO.getShopById(id).orElse(null);
+    }
 }
