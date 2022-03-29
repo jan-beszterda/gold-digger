@@ -18,12 +18,13 @@ public class PlayerController {
     }
 
     @GetMapping()
-    public List<Player> getAllPlayers(@PathParam("id") Integer id) {
-        if (id != null) {
-            return List.of(playerService.getPlayerById(id));
-
-        }
+    public List<Player> getAllPlayers() {
         return playerService.getAllPlayers();
+    }
+
+    @GetMapping()
+    public Player getPlayerById(@PathParam("id") Integer id) {
+        return playerService.getPlayerById(id);
     }
 
     @PostMapping()

@@ -21,11 +21,13 @@ public class MineController {
     }
 
     @GetMapping()
-    public List<Mine> getMines(@PathParam("id") Integer id) {
-        if (id != null) {
-            return List.of(mineService.getMineById(id));
-        }
+    public List<Mine> getMines() {
         return mineService.getAllMines();
+    }
+
+    @GetMapping()
+    public Mine getMineById(@PathParam("id") Integer id) {
+        return mineService.getMineById(id);
     }
 
     @DeleteMapping()

@@ -1,11 +1,10 @@
 package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.BackpackDAO;
-import com.backend.group6.golddigger.model.FoodItem;
+import com.backend.group6.golddigger.model.Backpack;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class BackpackService {
@@ -16,21 +15,11 @@ public class BackpackService {
         this.backpackDAO = backpackDAO;
     }
 
-    public List<FoodItem> getFoodFromBackpack() {
-        return backpackDAO.getFoodFromBackpack();
+    public List<Backpack> getAllBackpacks() {
+        return (List<Backpack>) backpackDAO.getAllBackpacks();
     }
 
-    public FoodItem getFoodItemByID(UUID id) {
-        return backpackDAO.findFoodItemById(id).orElse(null);
+    public Backpack getBackpackById(Integer id) {
+        return backpackDAO.getBackpackById(id).orElse(null);
     }
-
-    public void putFoodItemInBackpack(FoodItem foodItemToPutIn) {
-        backpackDAO.createFoodItem(foodItemToPutIn);
-    }
-
-    public void removeFoodFromBackpack(UUID id) {
-        backpackDAO.deleteFoodItem(id);
-    }
-
-
 }
