@@ -1,22 +1,31 @@
 package com.backend.group6.golddigger.model;
 
-import java.util.UUID;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "items")
 public class Item {
-
-    private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
 
-    public Item(UUID id, String name) {
-        this.id = id;
-        this.name = name;
+    public Item() {
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
