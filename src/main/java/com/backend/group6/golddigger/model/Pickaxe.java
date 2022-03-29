@@ -1,20 +1,35 @@
 package com.backend.group6.golddigger.model;
 
+import javax.persistence.*;
 import java.util.UUID;
 
+@Entity
+@Table(name = "pickaxes")
 public class Pickaxe extends Item {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private double strength;
     private double condition;
 
-    public Pickaxe(UUID id, String name, double strength, double condition) {
-        super(id, name);
-        this.strength = strength;
-        this.condition = condition;
+    public Pickaxe() {
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public double getStrength() {
         return strength;
+    }
+
+    public void setStrength(double strength) {
+        this.strength = strength;
     }
 
     public double getCondition() {
