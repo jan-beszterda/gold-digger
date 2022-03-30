@@ -12,6 +12,7 @@ import java.util.Random;
 public class MineService {
 
     MineDAO mineDAO;
+    Mine mine;
 
     public MineService(MineDAO mineDAO) {
         this.mineDAO = mineDAO;
@@ -40,4 +41,5 @@ public class MineService {
         mineToCreate.setTotalGold(r.nextDouble(100.0, 1001.00));
         mineDAO.createRandomMine(mineToCreate);
     }
+
 }

@@ -19,7 +19,12 @@ public class FoodService {
         return (List<FoodItem>) foodDAO.getAllFoodItems();
     }
 
+
     public void addFoodItem(FoodItem item) {
         foodDAO.addFoodItem(item);
+    }
+
+    public FoodItem getFoodItemById(Integer id) {
+        return foodDAO.getFoodItemById(id).orElse(null);
     }
 }

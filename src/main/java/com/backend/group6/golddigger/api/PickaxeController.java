@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/pickaxes")
@@ -25,9 +24,10 @@ public class PickaxeController {
         return pickaxeService.getAllPickaxes();
     }
 
-    /*@GetMapping("/{id}")
-    public Pickaxe getPickaxeById(@PathVariable("id") UUID id) {
+
+    @GetMapping("/{id}")
+    public Pickaxe getPickaxeById(@PathVariable("id") Integer id) {
         return pickaxeService.getPickaxeById(id);
-    }*/
+    }
 
 }

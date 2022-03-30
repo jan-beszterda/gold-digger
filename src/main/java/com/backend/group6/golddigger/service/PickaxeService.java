@@ -5,12 +5,11 @@ import com.backend.group6.golddigger.model.Pickaxe;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class PickaxeService {
-
     PickaxeDAO pickaxeDAO;
+    Pickaxe pickaxe;
 
     public PickaxeService(PickaxeDAO pickAxeDAO) {
         this.pickaxeDAO = pickAxeDAO;
@@ -20,7 +19,8 @@ public class PickaxeService {
         return (List<Pickaxe>) pickaxeDAO.getAllPickaxes();
     }
 
-    /*public Pickaxe getPickaxeById(UUID id) {
+
+    public Pickaxe getPickaxeById(Integer id) {
         return pickaxeDAO.getPickaxeById(id).orElse(null);
-    }*/
+    }
 }
