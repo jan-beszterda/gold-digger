@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/pickaxe")
+@RequestMapping("/api/pickaxes")
 public class PickaxeController {
 
     PickaxeService pickaxeService;
@@ -23,6 +23,7 @@ public class PickaxeController {
     public List<Pickaxe> getAllPickaxes() {
         return pickaxeService.getAllPickaxes();
     }
+
 
     @GetMapping("/{id}")
     public Pickaxe getPickaxeById(@PathVariable("id") Integer id) {

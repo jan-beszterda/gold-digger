@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Repository
 public class PickaxeDAO {
-
     PickaxeRepository repository;
 
     public PickaxeDAO(PickaxeRepository repository) {

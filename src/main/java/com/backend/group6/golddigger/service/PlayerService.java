@@ -1,6 +1,7 @@
 package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.PlayerDAO;
+import com.backend.group6.golddigger.model.FoodItem;
 import com.backend.group6.golddigger.model.Player;
 import org.springframework.stereotype.Service;
 
@@ -9,12 +10,13 @@ import java.util.Random;
 
 @Service
 public class PlayerService {
-
     PlayerDAO playerDAO;
+    BackpackService backpackService;
     Player player;
 
-    public PlayerService(PlayerDAO playerDAO) {
+    public PlayerService(PlayerDAO playerDAO, BackpackService backpackService) {
         this.playerDAO = playerDAO;
+        this.backpackService = backpackService;
     }
 
     public List<Player> getAllPlayers() {
@@ -29,6 +31,11 @@ public class PlayerService {
         playerDAO.addPlayer(player);
     }
 
+
+    public void addItem(FoodItem item) {
+        backpackService.addItemToBackpack(item);
+    }
+      
     public double hitWithPickaxe() {
         Random random = new Random();
         int randomHit = random.nextInt(10);

@@ -3,49 +3,56 @@ package com.backend.group6.golddigger.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "inventory_items")
+@Table(name = "inventoryItems")
 public class InventoryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer inventoryItemId;
     @OneToOne
-    @JoinColumn(name = "id")
-    private Item item;
-    private double price;
-    private int count;
+    @JoinColumn(name = "itemId")
+    private Item inventoryItem;
+    private double itemPrice;
+    private int itemCount;
+    @ManyToOne
+    @JoinColumn(name = "shopId")
+    private Shop shop;
+
+    public Shop getShop() {
+        return shop;
+    }
 
     public InventoryItem() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getInventoryItemId() {
+        return inventoryItemId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setInventoryItemId(Integer inventoryItemId) {
+        this.inventoryItemId = inventoryItemId;
     }
 
-    public Item getItem() {
-        return item;
+    public Item getInventoryItem() {
+        return inventoryItem;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setInventoryItem(Item inventoryItem) {
+        this.inventoryItem = inventoryItem;
     }
 
-    public double getPrice() {
-        return price;
+    public double getItemPrice() {
+        return itemPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setItemPrice(double itemPrice) {
+        this.itemPrice = itemPrice;
     }
 
-    public int getCount() {
-        return count;
+    public int getItemCount() {
+        return itemCount;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
     }
 }

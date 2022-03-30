@@ -7,39 +7,39 @@ import javax.persistence.*;
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
+    private Integer playerId;
+    private String playerName;
     private double goldAmount;
     private double health;
-    private static int maxActions;
+    private int maxActions;
     private int actionsRemaining;
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "mineId")
     private Mine currentMine;
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "backpackId")
     private Backpack backpack;
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "itemId")
     private Pickaxe pickaxe;
 
     public Player() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getPlayerId() {
+        return playerId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPlayerId(Integer playerId) {
+        this.playerId = playerId;
     }
 
-    public String getName() {
-        return name;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public double getGoldAmount() {
@@ -58,12 +58,12 @@ public class Player {
         this.health = health;
     }
 
-    public static int getMaxActions() {
+    public int getMaxActions() {
         return maxActions;
     }
 
-    public static void setMaxActions(int maxActions) {
-        Player.maxActions = maxActions;
+    public void setMaxActions(int maxActions) {
+        this.maxActions = maxActions;
     }
 
     public int getActionsRemaining() {

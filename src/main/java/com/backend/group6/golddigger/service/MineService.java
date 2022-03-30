@@ -36,7 +36,7 @@ public class MineService {
         Optional<Mine> mineToDuplicate = getAllMines()
                 .stream()
                 .findAny();
-        mineToDuplicate.ifPresent(mine -> mineToCreate.setName(mine.getName()));
+        mineToDuplicate.ifPresent(mine -> mineToCreate.setMineName(mine.getMineName()));
         mineToCreate.setDifficulty(r.nextDouble());
         mineToCreate.setTotalGold(r.nextDouble(100.0, 1001.00));
         mineDAO.createRandomMine(mineToCreate);

@@ -8,28 +8,28 @@ public class Mine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
+    private Integer mineId;
+    private String mineName;
     private double totalGold;
     private double difficulty;
 
     public Mine() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getMineId() {
+        return mineId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setMineId(Integer mineId) {
+        this.mineId = mineId;
     }
 
-    public String getName() {
-        return name;
+    public String getMineName() {
+        return mineName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMineName(String mineName) {
+        this.mineName = mineName;
     }
 
     public double getTotalGold() {

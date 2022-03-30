@@ -24,6 +24,7 @@ public class FoodController {
         return foodService.getAllFood();
     }
 
+
     @GetMapping("/{id}")
     public FoodItem getFoodItemById(@PathVariable("id") Integer id) {
         return foodService.getFoodItemById(id);
