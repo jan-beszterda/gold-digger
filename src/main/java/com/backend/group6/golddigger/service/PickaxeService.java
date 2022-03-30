@@ -17,10 +17,10 @@ public class PickaxeService {
     }
 
     public List<Pickaxe> getAllPickaxes() {
-        return pickaxeDAO.getAllPickaxes();
+        return (List<Pickaxe>) pickaxeDAO.getAllPickaxes();
     }
 
-    public Pickaxe getPickaxeById(UUID id) {
+    public Pickaxe getPickaxeById(Integer id) {
         return pickaxeDAO.getPickaxeById(id).orElse(null);
     }
 }
