@@ -32,8 +32,8 @@ public class PlayerController {
         playerService.addPlayer(player);
     }
 
-    @PostMapping("/buyFood")
-    public void buyFood(@RequestBody FoodItem item) {
-        playerService.addItem(item);
+    @PostMapping("/{id}/buyFood")
+    public void buyFood(@PathVariable("id") Integer id, @RequestBody FoodItem item) {
+        playerService.addItem(id, item);
     }
 }

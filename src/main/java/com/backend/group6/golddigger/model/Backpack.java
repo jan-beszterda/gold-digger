@@ -1,5 +1,7 @@
 package com.backend.group6.golddigger.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,8 +13,9 @@ public class Backpack {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer backpackId;
     private double maxWeight;
-    @OneToMany
-    @JoinColumn(name = "backpackId")
+    @OneToMany(mappedBy = "backpack", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //@JoinColumn(name = "backpackId")
+    @JsonManagedReference
     private List<FoodItem> foodItems;
 
     public Backpack() {

@@ -21,4 +21,8 @@ public class BackpackDAO {
     public Optional<Backpack> getBackpackById(Integer id) {
         return repository.findById(id);
     }
+
+    public void saveBackpack(Backpack backpack) {
+        repository.save(backpack);
+    }
 }

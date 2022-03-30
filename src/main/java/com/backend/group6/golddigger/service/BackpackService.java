@@ -29,4 +29,8 @@ public class BackpackService {
     public void addItemToBackpack(FoodItem item) {
         foodService.addFoodItem(item);
     }
+
+    public void saveBackpack(Backpack backpack) {
+        backpackDAO.saveBackpack(backpack);
+    }
 }

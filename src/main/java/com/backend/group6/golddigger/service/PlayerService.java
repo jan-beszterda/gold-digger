@@ -1,8 +1,10 @@
 package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.PlayerDAO;
+import com.backend.group6.golddigger.model.Backpack;
 import com.backend.group6.golddigger.model.FoodItem;
 import com.backend.group6.golddigger.model.Player;
+import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,8 +34,14 @@ public class PlayerService {
     }
 
 
-    public void addItem(FoodItem item) {
-        backpackService.addItemToBackpack(item);
+    public void addItem(Integer id, FoodItem item) {
+        Player player = getPlayerById(id);
+        Backpack backpack = player.getBackpack();
+        item.setBackpack(backpack);
+        backpack.getFoodItems().add(item);
+        //backpackService.saveBackpack(backpack);
+        //player.setBackpack(backpack);
+        playerDAO.addPlayer(player);
     }
       
     public double hitWithPickaxe() {
