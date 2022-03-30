@@ -64,7 +64,7 @@ public class PlayerService {
     }
 
     public void wastePickaxe() {
-
+        player.setPickaxe(null);
     }
 
     public void decreaseAmountGoldInMine(double goldToRemove) {
@@ -76,6 +76,6 @@ public class PlayerService {
     }
 
     public void closeMine() {
-
+        player.setCurrentMine(null);
     }
 }
