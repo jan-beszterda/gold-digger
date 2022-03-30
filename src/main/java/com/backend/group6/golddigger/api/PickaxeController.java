@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/pickaxe")
+@RequestMapping("/api/pickaxes")
 public class PickaxeController {
 
     PickaxeService pickaxeService;
@@ -25,9 +25,9 @@ public class PickaxeController {
         return pickaxeService.getAllPickaxes();
     }
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public Pickaxe getPickaxeById(@PathVariable("id") UUID id) {
         return pickaxeService.getPickaxeById(id);
-    }
+    }*/
 
 }

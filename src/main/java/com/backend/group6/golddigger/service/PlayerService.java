@@ -1,6 +1,7 @@
 package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.PlayerDAO;
+import com.backend.group6.golddigger.model.FoodItem;
 import com.backend.group6.golddigger.model.Player;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,11 @@ import java.util.List;
 public class PlayerService {
 
     PlayerDAO playerDAO;
+    BackpackService backpackService;
 
-    public PlayerService(PlayerDAO playerDAO) {
+    public PlayerService(PlayerDAO playerDAO, BackpackService backpackService) {
         this.playerDAO = playerDAO;
+        this.backpackService = backpackService;
     }
 
     public List<Player> getAllPlayers() {
@@ -25,5 +28,9 @@ public class PlayerService {
 
     public void addPlayer(Player player) {
         playerDAO.addPlayer(player);
+    }
+
+    public void addItem(FoodItem item) {
+        backpackService.addItemToBackpack(item);
     }
 }

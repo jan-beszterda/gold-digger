@@ -1,35 +1,16 @@
 package com.backend.group6.golddigger.model;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 @Entity
-@Table(name="foodItems")
-public class FoodItem{
+@DiscriminatorValue("Food")
+public class FoodItem extends Item{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
     private double healthEffect;
     private double weight;
 
     public FoodItem() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getHealthEffect() {

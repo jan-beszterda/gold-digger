@@ -23,8 +23,8 @@ public class ShopController {
         return shopService.getAllShops();
     }
 
-    @GetMapping()
+    /*@GetMapping()
     public Shop getShopById(@PathParam("id") Integer id) {
         return shopService.getShopById(id);
-    }
+    }*/
 }

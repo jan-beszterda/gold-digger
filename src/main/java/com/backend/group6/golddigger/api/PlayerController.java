@@ -1,10 +1,10 @@
 package com.backend.group6.golddigger.api;
 
+import com.backend.group6.golddigger.model.FoodItem;
 import com.backend.group6.golddigger.model.Player;
 import com.backend.group6.golddigger.service.PlayerService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -22,13 +22,18 @@ public class PlayerController {
         return playerService.getAllPlayers();
     }
 
-    @GetMapping()
-    public Player getPlayerById(@PathParam("id") Integer id) {
+    @GetMapping("/{id}")
+    public Player getPlayerById(@PathVariable("id") Integer id) {
         return playerService.getPlayerById(id);
     }
 
     @PostMapping()
     public void addPlayer(@RequestBody Player player) {
         playerService.addPlayer(player);
+    }
+
+    @PostMapping("/buyFood")
+    public void buyFood(@RequestBody FoodItem item) {
+        playerService.addItem(item);
     }
 }

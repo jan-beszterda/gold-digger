@@ -1,7 +1,7 @@
 package com.backend.group6.golddigger.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "backpacks")
@@ -9,11 +9,21 @@ public class Backpack {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer backpackId;
     private double maxWeight;
-    private ArrayList<FoodItem> foodItems = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "backpackId")
+    private List<FoodItem> foodItems;
 
     public Backpack() {
+    }
+
+    public Integer getBackpackId() {
+        return backpackId;
+    }
+
+    public void setBackpackId(Integer backpackId) {
+        this.backpackId = backpackId;
     }
 
     public double getMaxWeight() {
@@ -24,11 +34,11 @@ public class Backpack {
         this.maxWeight = maxWeight;
     }
 
-    public ArrayList<FoodItem> getFoodItems() {
+    public List<FoodItem> getFoodItems() {
         return foodItems;
     }
 
-    public void setFoodItems(ArrayList<FoodItem> foodItems) {
+    public void setFoodItems(List<FoodItem> foodItems) {
         this.foodItems = foodItems;
     }
 }

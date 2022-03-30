@@ -25,10 +25,10 @@ public class MineController {
         return mineService.getAllMines();
     }
 
-    @GetMapping()
+    /*@GetMapping()
     public Mine getMineById(@PathParam("id") Integer id) {
         return mineService.getMineById(id);
-    }
+    }*/
 
     @DeleteMapping()
     public void removeMine(@PathParam("id") Integer id) {

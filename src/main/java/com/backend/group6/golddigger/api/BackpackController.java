@@ -24,8 +24,8 @@ public class BackpackController {
         return backpackService.getAllBackpacks();
     }
 
-    @GetMapping()
+    /*@GetMapping()
     public Backpack getBackpackById(@PathParam("id") Integer id) {
         return backpackService.getBackpackById(id);
-    }
+    }*/
 }

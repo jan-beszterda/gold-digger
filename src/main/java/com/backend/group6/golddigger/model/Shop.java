@@ -1,43 +1,42 @@
 package com.backend.group6.golddigger.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "shops")
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
-    @OneToMany
-    @JoinTable(name = "inventory_items")
-    private ArrayList<InventoryItem> inventory;
+    private Integer shopId;
+    private String shopName;
+    @OneToMany(mappedBy = "shop", fetch = FetchType.EAGER)
+    private List<InventoryItem> shopInventory;
 
     public Shop() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getShopId() {
+        return shopId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
     }
 
-    public String getName() {
-        return name;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
-    public ArrayList<InventoryItem> getInventory() {
-        return inventory;
+    public List<InventoryItem> getShopInventory() {
+        return shopInventory;
     }
 
-    public void setInventory(ArrayList<InventoryItem> inventory) {
-        this.inventory = inventory;
+    public void setShopInventory(List<InventoryItem> shopInventory) {
+        this.shopInventory = shopInventory;
     }
 }
