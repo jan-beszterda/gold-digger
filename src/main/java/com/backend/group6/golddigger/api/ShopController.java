@@ -3,6 +3,7 @@ package com.backend.group6.golddigger.api;
 import com.backend.group6.golddigger.model.Shop;
 import com.backend.group6.golddigger.service.ShopService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +24,8 @@ public class ShopController {
         return shopService.getAllShops();
     }
 
-    /*@GetMapping()
-    public Shop getShopById(@PathParam("id") Integer id) {
+    @GetMapping("/{id}")
+    public Shop getShopById(@PathVariable("id") Integer id) {
         return shopService.getShopById(id);
-    }*/
+    }
 }

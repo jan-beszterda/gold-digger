@@ -3,6 +3,7 @@ package com.backend.group6.golddigger.api;
 import com.backend.group6.golddigger.model.Backpack;
 import com.backend.group6.golddigger.service.BackpackService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +25,8 @@ public class BackpackController {
         return backpackService.getAllBackpacks();
     }
 
-    /*@GetMapping()
-    public Backpack getBackpackById(@PathParam("id") Integer id) {
+    @GetMapping("/{id}")
+    public Backpack getBackpackById(@PathVariable("id") Integer id) {
         return backpackService.getBackpackById(id);
-    }*/
+    }
 }

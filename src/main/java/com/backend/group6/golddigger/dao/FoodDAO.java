@@ -1,7 +1,6 @@
 package com.backend.group6.golddigger.dao;
 
 import com.backend.group6.golddigger.model.FoodItem;
-import com.backend.group6.golddigger.model.Item;
 import com.backend.group6.golddigger.repository.FoodRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +13,7 @@ public class FoodDAO {
 
     public FoodDAO(FoodRepository repository) {
         this.repository = repository;
+    }
 
     public Iterable<FoodItem> getAllFoodItems() {
         return repository.findAll();
