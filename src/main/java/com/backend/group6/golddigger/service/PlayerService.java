@@ -69,7 +69,7 @@ public class PlayerService {
     public void addItem(Integer id, FoodItem item) {
         Player player = getPlayerById(id);
         Backpack backpack = player.getBackpack();
-        item.setBackpack(backpack);
+        //item.setBackpack(backpack);
         backpack.getFoodItems().add(item);
         //backpackService.saveBackpack(backpack);
         //player.setBackpack(backpack);
