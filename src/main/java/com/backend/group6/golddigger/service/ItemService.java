@@ -18,5 +18,11 @@ public class ItemService {
         return (List<Item>) itemDAO.getAllItems();
     }
 
+    public Item getItemById(Integer id) {
+        return itemDAO.getItemById(id).orElse(null);
+    }
 
+    public void addItem(Item item) {
+        itemDAO.addItem(item);
+    }
 }

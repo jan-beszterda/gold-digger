@@ -29,4 +29,8 @@ public class MineDAO {
     public void createRandomMine(Mine mineToCreate) {
         repository.save(mineToCreate);
     }
+
+    public void addMine(Mine mine) {
+        repository.save(mine);
+    }
 }

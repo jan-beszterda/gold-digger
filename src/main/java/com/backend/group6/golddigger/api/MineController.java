@@ -31,4 +31,9 @@ public class MineController {
     public void removeMine(@PathParam("id") Integer id) {
         mineService.removeMine(id);
     }
+
+    @PostMapping()
+    public void addMine(@RequestBody Mine mine) {
+        mineService.addMine(mine);
+    }
 }

@@ -13,14 +13,14 @@ public class Player {
     private double health;
     private int maxActions;
     private int actionsRemaining;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mineId")
     private Mine currentMine;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "backpackId")
     private Backpack backpack;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "itemId")
+    @JoinColumn(name = "pickaxeId")
     private Pickaxe pickaxe;
 
     public Player() {

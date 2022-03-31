@@ -1,10 +1,7 @@
 package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.PlayerDAO;
-import com.backend.group6.golddigger.model.Backpack;
-import com.backend.group6.golddigger.model.FoodItem;
-import com.backend.group6.golddigger.model.Player;
-import org.hibernate.Session;
+import com.backend.group6.golddigger.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +11,17 @@ import java.util.Random;
 public class PlayerService {
     PlayerDAO playerDAO;
     BackpackService backpackService;
-    Player player;
+    MineService mineService;
+    PickaxeService pickaxeService;
+    ItemService itemService;
+    Player player = new Player();
 
-    public PlayerService(PlayerDAO playerDAO, BackpackService backpackService) {
+    public PlayerService(PlayerDAO playerDAO, BackpackService backpackService, MineService mineService, PickaxeService pickaxeService, ItemService itemService) {
         this.playerDAO = playerDAO;
         this.backpackService = backpackService;
+        this.mineService = mineService;
+        this.pickaxeService = pickaxeService;
+        this.itemService = itemService;
     }
 
     public List<Player> getAllPlayers() {
@@ -30,6 +33,35 @@ public class PlayerService {
     }
 
     public void addPlayer(Player player) {
+        player.setGoldAmount(100.0);
+        player.setHealth(100.0);
+        player.setMaxActions(3);
+        player.setActionsRemaining(3);
+        Backpack aBackpack = new Backpack();
+        aBackpack.setMaxWeight(15.0);
+        /*List<FoodItem> items = itemService.getAllItems()
+                .stream()
+                .filter(item -> item.)*/
+        player.setBackpack(aBackpack);
+        Mine aMine = mineService.getAllMines()
+                .stream()
+                .findAny()
+                .get();
+        Mine newMine = new Mine();
+        newMine.setMineName(aMine.getMineName());
+        newMine.setTotalGold(aMine.getTotalGold());
+        newMine.setDifficulty(aMine.getDifficulty());
+        player.setCurrentMine(newMine);
+        Pickaxe aPickaxe = pickaxeService.getAllPickaxes()
+                .stream()
+                .filter(pickaxe -> pickaxe.getItemName().equalsIgnoreCase("Wooden pickaxe"))
+                .findAny()
+                .get();
+        Pickaxe newPickaxe = new Pickaxe();
+        newPickaxe.setItemName(aPickaxe.getItemName());
+        newPickaxe.setStrength(aPickaxe.getStrength());
+        newPickaxe.setCondition(aPickaxe.getCondition());
+        player.setPickaxe(newPickaxe);
         playerDAO.addPlayer(player);
     }
 

@@ -9,7 +9,6 @@ import java.util.List;
 @Service
 public class PickaxeService {
     PickaxeDAO pickaxeDAO;
-    Pickaxe pickaxe;
 
     public PickaxeService(PickaxeDAO pickAxeDAO) {
         this.pickaxeDAO = pickAxeDAO;
@@ -22,5 +21,9 @@ public class PickaxeService {
 
     public Pickaxe getPickaxeById(Integer id) {
         return pickaxeDAO.getPickaxeById(id).orElse(null);
+    }
+
+    public void addPickaxe(Pickaxe pickaxe) {
+        pickaxeDAO.addPickaxe(pickaxe);
     }
 }

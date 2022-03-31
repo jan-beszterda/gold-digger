@@ -2,9 +2,7 @@ package com.backend.group6.golddigger.api;
 
 import com.backend.group6.golddigger.model.Item;
 import com.backend.group6.golddigger.service.ItemService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +18,15 @@ public class ItemController {
     @GetMapping()
     public List<Item> getAllItems() {
         return itemService.getAllItems();
+    }
+
+    @GetMapping("/{id}")
+    public Item getItemById(@PathVariable("id") Integer id) {
+        return itemService.getItemById(id);
+    }
+
+    @PostMapping
+    public void addItem(@RequestBody Item item) {
+        itemService.addItem(item);
     }
 }

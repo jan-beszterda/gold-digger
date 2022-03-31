@@ -42,4 +42,7 @@ public class MineService {
         mineDAO.createRandomMine(mineToCreate);
     }
 
+    public void addMine(Mine mine) {
+        mineDAO.addMine(mine);
+    }
 }

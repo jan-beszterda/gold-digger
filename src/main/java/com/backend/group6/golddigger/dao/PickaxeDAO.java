@@ -21,4 +21,8 @@ public class PickaxeDAO {
     public Optional<Pickaxe> getPickaxeById(Integer id) {
         return repository.findById(id);
     }
+
+    public void addPickaxe(Pickaxe pickaxe) {
+        repository.save(pickaxe);
+    }
 }

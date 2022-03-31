@@ -4,6 +4,8 @@ import com.backend.group6.golddigger.model.Item;
 import com.backend.group6.golddigger.repository.ItemRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class ItemDAO {
     ItemRepository repository;
@@ -16,5 +18,11 @@ public class ItemDAO {
         return repository.findAll();
     }
 
+    public Optional<Item> getItemById(Integer id) {
+        return repository.findById(id);
+    }
 
+    public void addItem(Item item) {
+        repository.save(item);
+    }
 }

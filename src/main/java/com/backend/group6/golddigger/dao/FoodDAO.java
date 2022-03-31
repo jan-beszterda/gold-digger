@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Repository
 public class FoodDAO {
-
     FoodRepository repository;
 
     public FoodDAO(FoodRepository repository) {
@@ -23,7 +22,7 @@ public class FoodDAO {
         return repository.findById(id);
     }
 
-    public void addFoodItem(FoodItem item) {
-        repository.save(item);
+    public void addFoodItem(FoodItem foodItem) {
+        repository.save(foodItem);
     }
 }
