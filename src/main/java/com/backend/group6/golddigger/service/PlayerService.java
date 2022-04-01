@@ -75,23 +75,40 @@ public class PlayerService {
         //player.setBackpack(backpack);
         playerDAO.addPlayer(player);
     }
-      
+
+
+    public void dig() {
+        goldDug();
+        increaseGoldAmount();
+        decreaseHealth();
+        decreasePickaxeCondition();
+        decreaseAmountGoldInMine();
+    }
+
     public double hitWithPickaxe() {
         Random random = new Random();
-        int randomHit = random.nextInt(10);
-        double totalHit = randomHit * player.getCurrentMine().getDifficulty()
+        double randomHit = Math.round(random.nextDouble(0.0, 1.0) * 10.0) / 10.0;
+        double totalHit = randomHit * (player.getHealth() / 100)
                 * player.getPickaxe().getStrength()
-                * player.getPickaxe().getCondition();
+                * (player.getPickaxe().getCondition() / 100);
         return totalHit;
     }
 
-    public void increaseGoldAmount(double goldToAdd) {
-        Double newAmount = player.getGoldAmount() + goldToAdd;
+    public double goldDug() {
+        return player.getCurrentMine().getTotalGold() * hitWithPickaxe()
+                * (1 - player.getCurrentMine().getDifficulty());
+    }
+
+    public void increaseGoldAmount() {
+        Double newAmount = player.getGoldAmount() + goldDug();
         player.setGoldAmount(newAmount);
     }
 
-    public void decreaseHealth(double healthToLose) {
-        Double newHealth = player.getHealth() - healthToLose;
+    public void decreaseHealth() {
+        Random random = new Random();
+        Double newHealth = player.getHealth() - (player.getHealth() * hitWithPickaxe()
+                * player.getCurrentMine().getDifficulty()
+                * random.nextDouble(0, 100) * 10.0 / 10.0);
         if (newHealth <= 0) {
             die();
         }
@@ -102,8 +119,11 @@ public class PlayerService {
 
     }
 
-    public void decreasePickaxeCondition(Double conditionToDecrease) {
-        Double newCondition = player.getPickaxe().getCondition() - conditionToDecrease;
+    public void decreasePickaxeCondition() {
+        Random random = new Random();
+        Double newCondition = player.getPickaxe().getCondition() - (player.getPickaxe().getCondition()
+                * hitWithPickaxe() * player.getCurrentMine().getDifficulty()
+                * random.nextDouble(0, 100) * 10.0 / 10.0);
         if (newCondition <= 0) {
             wastePickaxe();
         }
@@ -114,8 +134,8 @@ public class PlayerService {
         player.setPickaxe(null);
     }
 
-    public void decreaseAmountGoldInMine(double goldToRemove) {
-        Double newTotalGoldInMine = player.getCurrentMine().getTotalGold() - goldToRemove;
+    public void decreaseAmountGoldInMine() {
+        Double newTotalGoldInMine = player.getCurrentMine().getTotalGold() - goldDug();
         if (newTotalGoldInMine <= 0) {
             closeMine();
         }
