@@ -41,6 +41,10 @@ public class Backpack {
     public void setFoodItems(List<FoodItem> foodItems) {
         this.foodItems = foodItems;
     }
+
+    public void removeFoodItem (FoodItem foodItemToRemove) {
+        foodItems.remove(foodItemToRemove);
+    }
 }
 
 
