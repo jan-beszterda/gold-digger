@@ -5,7 +5,6 @@ import com.backend.group6.golddigger.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -158,7 +157,7 @@ public class PlayerService {
     }
 
     public double foodItemsMaxHealthIncrement(FoodItem foodItem) {
-        return foodItem.getHealthEffect() * foodItem.getWeight();
+        return foodItem.getHealthEffect() * foodItem.getWeight() / 100;
     }
 
     public double healthNeededToFull() {
@@ -166,14 +165,14 @@ public class PlayerService {
     }
 
     public void eat(FoodItem foodItem) {
-        double foodWeightNeeded = healthNeededToFull() / foodItem.getHealthEffect();
+        double foodWeightNeeded = 100 * healthNeededToFull() / foodItem.getHealthEffect();
         if (foodWeightNeeded > foodItem.getWeight()) {
             double newHealth = player.getHealth() + foodItemsMaxHealthIncrement(foodItem);
             player.setHealth(newHealth);
             player.getBackpack().removeFoodItem(foodItem);
         } else if (foodWeightNeeded < foodItem.getWeight()) {
             double newFoodWeight = foodItem.getWeight()
-                    - ((foodItemsMaxHealthIncrement(foodItem) - healthNeededToFull())
+                    - (100 * (foodItemsMaxHealthIncrement(foodItem) - healthNeededToFull())
                     / foodItem.getHealthEffect());
             player.setHealth(100);
             foodItem.setWeight(newFoodWeight);
