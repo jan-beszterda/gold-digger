@@ -145,4 +145,40 @@ public class PlayerService {
     public void closeMine() {
         player.setCurrentMine(null);
     }
+
+    public List<FoodItem> showFoodInBackpack() {
+        return player.getBackpack().getFoodItems();
+    }
+
+    public FoodItem chooseFoodItemInBackpack(Integer id) {
+        return showFoodInBackpack().stream()
+                .filter(foodItem -> foodItem.getItemId().equals(id))
+                .findFirst().orElse(null);
+    }
+
+    public double foodItemsMaxHealthIncrement(FoodItem foodItem) {
+        return foodItem.getHealthEffect() * foodItem.getWeight() / 100;
+    }
+
+    public double healthNeededToFull() {
+        return 100 - player.getHealth();
+    }
+
+    public void eat(FoodItem foodItem) {
+        double foodWeightNeeded = 100 * healthNeededToFull() / foodItem.getHealthEffect();
+        if (foodWeightNeeded > foodItem.getWeight()) {
+            double newHealth = player.getHealth() + foodItemsMaxHealthIncrement(foodItem);
+            player.setHealth(newHealth);
+            player.getBackpack().removeFoodItem(foodItem);
+        } else if (foodWeightNeeded <= foodItem.getWeight()) {
+            double newFoodWeight = foodItem.getWeight()
+                    - (100 * (foodItemsMaxHealthIncrement(foodItem) - healthNeededToFull())
+                    / foodItem.getHealthEffect());
+            player.setHealth(100);
+            foodItem.setWeight(newFoodWeight);
+        }
+
+    }
+
+
 }
