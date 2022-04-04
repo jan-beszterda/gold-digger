@@ -180,21 +180,6 @@ public class PlayerService {
     }
 
     public void sleep() {
-        int numberOfActions = decreaseActionsRemainingByOne();
-        player.setActionsRemaining(numberOfActions);
-        double newHealthAfterSleeping = increaseHealthBySleeping();
-        player.setHealth(newHealthAfterSleeping);
-    }
-
-    public int decreaseActionsRemainingByOne() {
-        int decreasedNumberOfActions = player.getActionsRemaining() - 1;
-        if (decreasedNumberOfActions == 0) {
-            die();
-        }
-        return decreasedNumberOfActions;
-    }
-
-    public double increaseHealthBySleeping() {
-        return player.getHealth() + 10;
+        player.setActionsRemaining(player.getMaxActions());
     }
 }
