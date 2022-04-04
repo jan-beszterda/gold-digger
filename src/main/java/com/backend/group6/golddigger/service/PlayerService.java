@@ -177,8 +177,24 @@ public class PlayerService {
             player.setHealth(100);
             foodItem.setWeight(newFoodWeight);
         }
-
     }
 
+    public void sleep() {
+        int numberOfActions = decreaseActionsRemainingByOne();
+        player.setActionsRemaining(numberOfActions);
+        double newHealthAfterSleeping = increaseHealthBySleeping();
+        player.setHealth(newHealthAfterSleeping);
+    }
 
+    public int decreaseActionsRemainingByOne() {
+        int decreasedNumberOfActions = player.getActionsRemaining() - 1;
+        if (decreasedNumberOfActions == 0) {
+            die();
+        }
+        return decreasedNumberOfActions;
+    }
+
+    public double increaseHealthBySleeping() {
+        return player.getHealth() + 10;
+    }
 }
