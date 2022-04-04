@@ -170,7 +170,7 @@ public class PlayerService {
             double newHealth = player.getHealth() + foodItemsMaxHealthIncrement(foodItem);
             player.setHealth(newHealth);
             player.getBackpack().removeFoodItem(foodItem);
-        } else if (foodWeightNeeded < foodItem.getWeight()) {
+        } else if (foodWeightNeeded <= foodItem.getWeight()) {
             double newFoodWeight = foodItem.getWeight()
                     - (100 * (foodItemsMaxHealthIncrement(foodItem) - healthNeededToFull())
                     / foodItem.getHealthEffect());
