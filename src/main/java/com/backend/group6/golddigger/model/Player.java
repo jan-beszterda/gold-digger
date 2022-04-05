@@ -1,5 +1,7 @@
 package com.backend.group6.golddigger.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,19 +10,25 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer playerId;
+
     private String playerName;
     private double goldAmount;
     private double health;
     private int maxActions;
     private int actionsRemaining;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mineId")
+    @JsonManagedReference
     private Mine currentMine;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "backpackId")
     private Backpack backpack;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pickaxeId")
+    @JsonManagedReference
     private Pickaxe pickaxe;
 
     public Player() {

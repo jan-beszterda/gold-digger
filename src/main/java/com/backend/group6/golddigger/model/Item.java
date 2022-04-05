@@ -1,5 +1,7 @@
 package com.backend.group6.golddigger.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +13,9 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer itemId;
+
     private String itemName;
+    private double itemPrice;
 
     public Item() {
     }
@@ -30,5 +34,13 @@ public class Item {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    public double getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(double itemPrice) {
+        this.itemPrice = itemPrice;
     }
 }

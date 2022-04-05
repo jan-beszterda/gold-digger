@@ -1,6 +1,7 @@
 package com.backend.group6.golddigger.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class Backpack {
     private double maxWeight;
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "backpackId")
-    private List<FoodItem> foodItems;
+    private List<FoodItem> foodItems = new ArrayList<>();
 
     public Backpack() {
     }
