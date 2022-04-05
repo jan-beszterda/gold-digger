@@ -21,4 +21,8 @@ public class ShopDAO {
     public Optional<Shop> getShopById(Integer id) {
         return repository.findById(id);
     }
+
+    public void addShop(Shop shop) {
+        repository.save(shop);
+    }
 }

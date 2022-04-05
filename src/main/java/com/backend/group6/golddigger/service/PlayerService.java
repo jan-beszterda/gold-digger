@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
@@ -14,14 +15,19 @@ public class PlayerService {
     MineService mineService;
     PickaxeService pickaxeService;
     ItemService itemService;
+    FoodService foodService;
+    ShopService shopService;
     Player player = new Player();
 
-    public PlayerService(PlayerDAO playerDAO, BackpackService backpackService, MineService mineService, PickaxeService pickaxeService, ItemService itemService) {
+    public PlayerService(PlayerDAO playerDAO, BackpackService backpackService, MineService mineService, PickaxeService pickaxeService,
+                         ItemService itemService, ShopService shopService, FoodService foodService) {
         this.playerDAO = playerDAO;
         this.backpackService = backpackService;
         this.mineService = mineService;
         this.pickaxeService = pickaxeService;
         this.itemService = itemService;
+        this.shopService = shopService;
+        this.foodService = foodService;
     }
 
     public List<Player> getAllPlayers() {
@@ -37,33 +43,21 @@ public class PlayerService {
         player.setHealth(100.0);
         player.setMaxActions(3);
         player.setActionsRemaining(3);
-        Backpack aBackpack = new Backpack();
-        aBackpack.setMaxWeight(15.0);
-        /*List<FoodItem> items = itemService.getAllItems()
-                .stream()
-                .filter(item -> item.)*/
-        player.setBackpack(aBackpack);
-        Mine aMine = mineService.getAllMines()
-                .stream()
-                .findAny()
-                .get();
-        Mine newMine = new Mine();
-        newMine.setMineName(aMine.getMineName());
-        newMine.setTotalGold(aMine.getTotalGold());
-        newMine.setDifficulty(aMine.getDifficulty());
-        player.setCurrentMine(newMine);
-        Pickaxe aPickaxe = pickaxeService.getAllPickaxes()
-                .stream()
-                .filter(pickaxe -> pickaxe.getItemName().equalsIgnoreCase("Wooden pickaxe"))
-                .findAny()
-                .get();
-        Pickaxe newPickaxe = new Pickaxe();
-        newPickaxe.setItemName(aPickaxe.getItemName());
-        newPickaxe.setStrength(aPickaxe.getStrength());
-        newPickaxe.setCondition(aPickaxe.getCondition());
+
+        player.setBackpack(createBackpack());
+
+        Mine mine = createMine();
+        player.setCurrentMine(mine);
+        mine.setPlayer(player);
+
+        Pickaxe newPickaxe = createPickaxe();
         player.setPickaxe(newPickaxe);
+        newPickaxe.setPlayer(player);
+
         playerDAO.addPlayer(player);
     }
+
+
 
 
     public void addItem(Integer id, FoodItem item) {
@@ -196,5 +190,48 @@ public class PlayerService {
 
     public double increaseHealthBySleeping() {
         return player.getHealth() + 10;
+    }
+
+    private Backpack createBackpack() {
+        Backpack backpack = new Backpack();
+        backpack.setMaxWeight(15.0);
+        List<FoodItem> items = foodService.getAllFoodItems()
+                .stream()
+                .filter(foodItem -> foodItem.getHealthEffect() < 5)
+                .toList();
+        items.stream()
+                .forEach(foodItem -> {
+                    FoodItem item = new FoodItem();
+                    item.setItemName(foodItem.getItemName());
+                    item.setWeight(foodItem.getWeight());
+                    item.setHealthEffect(foodItem.getHealthEffect());
+                    backpack.getFoodItems().add(item);
+                });
+        return backpack;
+    }
+
+    private Mine createMine() {
+        Mine mine = mineService.getAllMines()
+                .stream()
+                .findAny()
+                .get();
+        Mine newMine = new Mine();
+        newMine.setMineName(mine.getMineName());
+        newMine.setTotalGold(mine.getTotalGold());
+        newMine.setDifficulty(mine.getDifficulty());
+        return newMine;
+    }
+
+    private Pickaxe createPickaxe() {
+        Pickaxe aPickaxe = pickaxeService.getAllPickaxes()
+                .stream()
+                .filter(pickaxe -> pickaxe.getItemName().equalsIgnoreCase("Wooden pickaxe"))
+                .findAny()
+                .get();
+        Pickaxe newPickaxe = new Pickaxe();
+        newPickaxe.setItemName(aPickaxe.getItemName());
+        newPickaxe.setStrength(aPickaxe.getStrength());
+        newPickaxe.setCondition(aPickaxe.getCondition());
+        return newPickaxe;
     }
 }

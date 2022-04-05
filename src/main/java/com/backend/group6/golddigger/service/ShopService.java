@@ -21,4 +21,8 @@ public class ShopService {
     public Shop getShopById(Integer id) {
         return shopDAO.getShopById(id).orElse(null);
     }
+
+    public void addShop(Shop shop) {
+        shopDAO.addShop(shop);
+    }
 }
