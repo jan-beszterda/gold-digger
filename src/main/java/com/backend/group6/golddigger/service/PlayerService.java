@@ -5,8 +5,8 @@ import com.backend.group6.golddigger.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
@@ -58,8 +58,6 @@ public class PlayerService {
     }
 
 
-
-
     public void addItem(Integer id, FoodItem item) {
         Player player = getPlayerById(id);
         Backpack backpack = player.getBackpack();
@@ -71,12 +69,15 @@ public class PlayerService {
     }
 
 
-    public void dig() {
-        goldDug();
-        increaseGoldAmount();
-        decreaseHealth();
-        decreasePickaxeCondition();
-        decreaseAmountGoldInMine();
+    public void dig(Integer id) {
+        Optional<Player> maybePlayer = playerDAO.findPlayerById(id);
+        Player player = maybePlayer.get();
+        goldDug(player);
+        increaseGoldAmount(player);
+        decreaseHealth(player);
+        decreasePickaxeCondition(player);
+        decreaseAmountGoldInMine(player);
+        playerDAO.addPlayer(player);
     }
 
     public double hitWithPickaxe() {
@@ -88,48 +89,48 @@ public class PlayerService {
         return totalHit;
     }
 
-    public double goldDug() {
+    public double goldDug(Player player) {
         return player.getCurrentMine().getTotalGold() * hitWithPickaxe()
                 * (1 - player.getCurrentMine().getDifficulty());
     }
 
-    public void increaseGoldAmount() {
-        Double newAmount = player.getGoldAmount() + goldDug();
+    public void increaseGoldAmount(Player player) {
+        Double newAmount = player.getGoldAmount() + goldDug(player);
         player.setGoldAmount(newAmount);
     }
 
-    public void decreaseHealth() {
+    public void decreaseHealth(Player player) {
         Random random = new Random();
         Double newHealth = player.getHealth() - (player.getHealth() * hitWithPickaxe()
                 * player.getCurrentMine().getDifficulty()
                 * random.nextDouble(0, 100) * 10.0 / 10.0);
         if (newHealth <= 0) {
-            die();
+            die(player);
         }
         player.setHealth(newHealth);
     }
 
-    public void die() {
-
+    public void die(Player player) {
+        player.setHealth(0);
     }
 
-    public void decreasePickaxeCondition() {
+    public void decreasePickaxeCondition(Player player) {
         Random random = new Random();
         Double newCondition = player.getPickaxe().getCondition() - (player.getPickaxe().getCondition()
                 * hitWithPickaxe() * player.getCurrentMine().getDifficulty()
                 * random.nextDouble(0, 100) * 10.0 / 10.0);
         if (newCondition <= 0) {
-            wastePickaxe();
+            wastePickaxe(player);
         }
         player.getPickaxe().setCondition(newCondition);
     }
 
-    public void wastePickaxe() {
+    public void wastePickaxe(Player player) {
         player.setPickaxe(null);
     }
 
-    public void decreaseAmountGoldInMine() {
-        Double newTotalGoldInMine = player.getCurrentMine().getTotalGold() - goldDug();
+    public void decreaseAmountGoldInMine(Player player) {
+        Double newTotalGoldInMine = player.getCurrentMine().getTotalGold() - goldDug(player);
         if (newTotalGoldInMine <= 0) {
             closeMine();
         }
