@@ -33,4 +33,12 @@ public class BackpackService {
     public void saveBackpack(Backpack backpack) {
         backpackDAO.saveBackpack(backpack);
     }
+
+    public Backpack createStartingBackpack(List<FoodItem> startingItems) {
+        Backpack backpack = new Backpack();
+        backpack.setMaxWeight(15.0);
+        backpack.setFoodItems(startingItems);
+        backpackDAO.saveBackpack(backpack);
+        return backpack;
+    }
 }

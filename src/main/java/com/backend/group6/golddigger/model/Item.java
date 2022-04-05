@@ -1,7 +1,5 @@
 package com.backend.group6.golddigger.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 
 @Entity
@@ -9,11 +7,9 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "category", discriminatorType = DiscriminatorType.STRING)
 public class Item {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer itemId;
-
     private String itemName;
     private double itemPrice;
 
