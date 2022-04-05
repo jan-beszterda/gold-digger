@@ -45,4 +45,17 @@ public class MineService {
     public void addMine(Mine mine) {
         mineDAO.addMine(mine);
     }
+
+    public Mine getStartingMine() {
+        Mine newMine = new Mine();
+        Mine aMine = getAllMines()
+                .stream()
+                .findAny()
+                .get();
+        newMine.setMineName(aMine.getMineName());
+        newMine.setDifficulty(aMine.getDifficulty());
+        newMine.setTotalGold(aMine.getTotalGold());
+        mineDAO.addMine(newMine);
+        return newMine;
+    }
 }

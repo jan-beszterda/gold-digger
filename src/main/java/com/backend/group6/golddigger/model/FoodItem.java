@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("Food")
 public class FoodItem extends Item{
-
     private double healthEffect;
     private double weight;
 

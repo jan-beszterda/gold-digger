@@ -40,33 +40,26 @@ public class PlayerService {
         return playerDAO.findPlayerById(id).orElse(null);
     }
 
-    public void addPlayer(Player player) {
+    public void createNewPlayer(Player player, Backpack backpack, Mine mine, Pickaxe pickaxe) {
         player.setGoldAmount(100.0);
         player.setHealth(100.0);
         player.setMaxActions(3);
         player.setActionsRemaining(3);
-
-        player.setBackpack(createBackpack());
-
-        Mine mine = createMine();
+        player.setBackpack(backpack);
         player.setCurrentMine(mine);
-        mine.setPlayer(player);
-
-        Pickaxe newPickaxe = createPickaxe();
-        player.setPickaxe(newPickaxe);
-        newPickaxe.setPlayer(player);
-
+        player.setPickaxe(pickaxe);
         playerDAO.addPlayer(player);
     }
 
-
-    public void addItem(Integer id, FoodItem item) {
+    public void buyItem(Integer id, Item item) {
         Player player = getPlayerById(id);
-        Backpack backpack = player.getBackpack();
-        //item.setBackpack(backpack);
-        backpack.getFoodItems().add(item);
-        //backpackService.saveBackpack(backpack);
-        //player.setBackpack(backpack);
+        if (item instanceof FoodItem) {
+            Backpack backpack = player.getBackpack();
+            backpack.getFoodItems().add((FoodItem) item);
+        } else {
+            player.setPickaxe((Pickaxe) item);
+        }
+        player.setGoldAmount(player.getGoldAmount() - item.getItemPrice());
         playerDAO.addPlayer(player);
     }
 
@@ -195,23 +188,7 @@ public class PlayerService {
         playerDAO.addPlayer(player);
     }
 
-    private Backpack createBackpack() {
-        Backpack backpack = new Backpack();
-        backpack.setMaxWeight(15.0);
-        List<FoodItem> items = foodService.getAllFoodItems()
-                .stream()
-                .filter(foodItem -> foodItem.getHealthEffect() < 5)
-                .toList();
-        items.stream()
-                .forEach(foodItem -> {
-                    FoodItem item = new FoodItem();
-                    item.setItemName(foodItem.getItemName());
-                    item.setWeight(foodItem.getWeight());
-                    item.setHealthEffect(foodItem.getHealthEffect());
-                    backpack.getFoodItems().add(item);
-                });
-        return backpack;
-    }
+
 
     private Mine createMine() {
         Mine mine = mineService.getAllMines()

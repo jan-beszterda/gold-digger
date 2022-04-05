@@ -7,12 +7,12 @@ import java.util.List;
 @Entity
 @Table(name = "backpacks")
 public class Backpack {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer backpackId;
     private double maxWeight;
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @OneToMany
     @JoinColumn(name = "backpackId")
     private List<FoodItem> foodItems = new ArrayList<>();
 

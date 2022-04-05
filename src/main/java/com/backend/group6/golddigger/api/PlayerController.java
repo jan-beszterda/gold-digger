@@ -1,8 +1,8 @@
 package com.backend.group6.golddigger.api;
 
-import com.backend.group6.golddigger.model.FoodItem;
+import com.backend.group6.golddigger.model.Item;
 import com.backend.group6.golddigger.model.Player;
-import com.backend.group6.golddigger.service.PlayerService;
+import com.backend.group6.golddigger.service.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,9 +12,22 @@ import java.util.List;
 public class PlayerController {
 
     PlayerService playerService;
+    ShopService shopService;
+    FoodService foodService;
+    BackpackService backpackService;
+    MineService mineService;
+    PickaxeService pickaxeService;
+    ItemService itemService;
 
-    public PlayerController(PlayerService playerService) {
+    public PlayerController(PlayerService playerService, ShopService shopService, FoodService foodService,
+                            BackpackService backpackService, MineService mineService, PickaxeService pickaxeService, ItemService itemService) {
         this.playerService = playerService;
+        this.shopService = shopService;
+        this.foodService = foodService;
+        this.backpackService = backpackService;
+        this.mineService = mineService;
+        this.pickaxeService = pickaxeService;
+        this.itemService = itemService;
     }
 
     @GetMapping()
@@ -27,13 +40,20 @@ public class PlayerController {
         return playerService.getPlayerById(id);
     }
 
-    @PostMapping()
-    public void addPlayer(@RequestBody Player player) {
-        playerService.addPlayer(player);
+    @PostMapping("/create")
+    public void createNewPlayer(@RequestBody Player player) {
+        playerService.createNewPlayer(
+                player,
+                backpackService.createStartingBackpack(foodService.getStartingItems()),
+                mineService.getStartingMine(),
+                pickaxeService.getStartingPickaxe()
+        );
     }
 
-    @PostMapping("/{id}/buyFood")
-    public void buyFood(@PathVariable("id") Integer id, @RequestBody FoodItem item) {
-        playerService.addItem(id, item);
+    @PostMapping("/{playerId}/buyItem/{itemId}")
+    public void buyItem(@PathVariable("playerId") Integer playerId,  @PathVariable("itemId") Integer itemId) {
+        Item item = shopService.sellItem(itemId);
+        itemService.addItem(item);
+        playerService.buyItem(playerId, item);
     }
 }

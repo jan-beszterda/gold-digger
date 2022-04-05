@@ -4,6 +4,7 @@ import com.backend.group6.golddigger.dao.FoodDAO;
 import com.backend.group6.golddigger.model.FoodItem;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,5 +25,23 @@ public class FoodService {
 
     public void addFoodItem(FoodItem foodItem) {
         foodDAO.addFoodItem(foodItem);
+    }
+
+    public List<FoodItem> getStartingItems() {
+        List<FoodItem> items = new ArrayList<>();
+        getAllFoodItems()
+                .stream()
+                .filter(foodItem -> foodItem.getHealthEffect() < 5)
+                .toList()
+                .stream()
+                .forEach(foodItem -> {
+                    FoodItem item = new FoodItem();
+                    item.setItemName(foodItem.getItemName());
+                    item.setWeight(foodItem.getWeight());
+                    item.setHealthEffect(foodItem.getHealthEffect());
+                    foodDAO.addFoodItem(item);
+                    items.add(item);
+        });
+        return items;
     }
 }

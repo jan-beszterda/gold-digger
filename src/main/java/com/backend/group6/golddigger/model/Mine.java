@@ -1,23 +1,16 @@
 package com.backend.group6.golddigger.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "mines")
 public class Mine {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer mineId;
     private String mineName;
     private double totalGold;
     private double difficulty;
-    @OneToOne
-    @JoinColumn(name = "player_id")
-    @JsonBackReference
-    private Player player;
 
     public Mine() {
     }
@@ -52,13 +45,5 @@ public class Mine {
 
     public void setDifficulty(double difficulty) {
         this.difficulty = difficulty;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 }
