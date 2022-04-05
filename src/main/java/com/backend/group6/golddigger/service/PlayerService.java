@@ -2,9 +2,12 @@ package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.PlayerDAO;
 import com.backend.group6.golddigger.model.*;
+import net.bytebuddy.description.field.FieldDescription;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -48,9 +51,6 @@ public class PlayerService {
         playerDAO.addPlayer(player);
     }
 
-
-
-
     public void buyItem(Integer id, Item item) {
         Player player = getPlayerById(id);
         if (item instanceof FoodItem) {
@@ -64,15 +64,18 @@ public class PlayerService {
     }
 
 
-    public void dig() {
-        goldDug();
-        increaseGoldAmount();
-        decreaseHealth();
-        decreasePickaxeCondition();
-        decreaseAmountGoldInMine();
+    public void dig(Integer id) {
+        Optional<Player> maybePlayer = playerDAO.findPlayerById(id);
+        Player player = maybePlayer.get();
+        goldDug(player);
+        increaseGoldAmount(player);
+        decreaseHealth(player);
+        decreasePickaxeCondition(player);
+        decreaseAmountGoldInMine(player);
+        playerDAO.addPlayer(player);
     }
 
-    public double hitWithPickaxe() {
+    public double hitWithPickaxe(Player player) {
         Random random = new Random();
         double randomHit = Math.round(random.nextDouble(0.0, 1.0) * 10.0) / 10.0;
         double totalHit = randomHit * (player.getHealth() / 100)
@@ -81,93 +84,108 @@ public class PlayerService {
         return totalHit;
     }
 
-    public double goldDug() {
-        return player.getCurrentMine().getTotalGold() * hitWithPickaxe()
+    public double goldDug(Player player) {
+        return player.getCurrentMine().getTotalGold() * hitWithPickaxe(player)
                 * (1 - player.getCurrentMine().getDifficulty());
     }
 
-    public void increaseGoldAmount() {
-        Double newAmount = player.getGoldAmount() + goldDug();
+    public void increaseGoldAmount(Player player) {
+        Double newAmount = player.getGoldAmount() + goldDug(player);
         player.setGoldAmount(newAmount);
     }
 
-    public void decreaseHealth() {
+    public void decreaseHealth(Player player) {
         Random random = new Random();
-        Double newHealth = player.getHealth() - (player.getHealth() * hitWithPickaxe()
+        Double newHealth = player.getHealth() - (player.getHealth() * hitWithPickaxe(player)
                 * player.getCurrentMine().getDifficulty()
                 * random.nextDouble(0, 100) * 10.0 / 10.0);
         if (newHealth <= 0) {
-            die();
+            die(player);
         }
         player.setHealth(newHealth);
     }
 
-    public void die() {
-
+    public void die(Player player) {
+        player.setHealth(0);
     }
 
-    public void decreasePickaxeCondition() {
+    public void decreasePickaxeCondition(Player player) {
         Random random = new Random();
         Double newCondition = player.getPickaxe().getCondition() - (player.getPickaxe().getCondition()
-                * hitWithPickaxe() * player.getCurrentMine().getDifficulty()
+                * hitWithPickaxe(player) * player.getCurrentMine().getDifficulty()
                 * random.nextDouble(0, 100) * 10.0 / 10.0);
         if (newCondition <= 0) {
-            wastePickaxe();
+            wastePickaxe(player);
         }
         player.getPickaxe().setCondition(newCondition);
     }
 
-    public void wastePickaxe() {
+    public void wastePickaxe(Player player) {
         player.setPickaxe(null);
     }
 
-    public void decreaseAmountGoldInMine() {
-        Double newTotalGoldInMine = player.getCurrentMine().getTotalGold() - goldDug();
+    public void decreaseAmountGoldInMine(Player player) {
+        Double newTotalGoldInMine = player.getCurrentMine().getTotalGold() - goldDug(player);
         if (newTotalGoldInMine <= 0) {
-            closeMine();
+            closeMine(player);
         }
         player.getCurrentMine().setTotalGold(newTotalGoldInMine);
     }
 
-    public void closeMine() {
+    public void closeMine(Player player) {
         player.setCurrentMine(null);
     }
 
-    public List<FoodItem> showFoodInBackpack() {
+    public List<FoodItem> showFoodInBackpack(Integer id) {
+        Optional<Player> maybePlayer = playerDAO.findPlayerById(id);
+        Player player = maybePlayer.get();
         return player.getBackpack().getFoodItems();
     }
 
-    public FoodItem chooseFoodItemInBackpack(Integer id) {
-        return showFoodInBackpack().stream()
-                .filter(foodItem -> foodItem.getItemId().equals(id))
-                .findFirst().orElse(null);
+   /* public FoodItem chooseFoodItemInBackpack(Integer id) {
+        List<FoodItem> items = showFoodInBackpack()
+         Optional<FoodItem> maybeFoodItem = Optional.ofNullable(showFoodInBackpack(player).stream()
+                 .filter(foodItem -> id == foodItem.getItemId())
+                 .findFirst().orElse(null));
+         return maybeFoodItem.get();
     }
+    */
+
 
     public double foodItemsMaxHealthIncrement(FoodItem foodItem) {
         return foodItem.getHealthEffect() * foodItem.getWeight() / 100;
     }
 
-    public double healthNeededToFull() {
+    public double healthNeededToFull(Player player) {
         return 100 - player.getHealth();
     }
 
-    public void eat(FoodItem foodItem) {
-        double foodWeightNeeded = 100 * healthNeededToFull() / foodItem.getHealthEffect();
+    public void eat(Integer id, Integer foodItemId) {
+        Optional<Player> maybePlayer = playerDAO.findPlayerById(id);
+        Player player = maybePlayer.get();
+        FoodItem foodItem = player.getBackpack().getFoodItems().stream()
+                .filter(foodItem1 -> foodItem1.getItemId().equals(foodItemId))
+                .findFirst().orElse(null);
+        double foodWeightNeeded = 100 * healthNeededToFull(player) / foodItem.getHealthEffect();
         if (foodWeightNeeded > foodItem.getWeight()) {
             double newHealth = player.getHealth() + foodItemsMaxHealthIncrement(foodItem);
             player.setHealth(newHealth);
             player.getBackpack().removeFoodItem(foodItem);
         } else if (foodWeightNeeded <= foodItem.getWeight()) {
             double newFoodWeight = foodItem.getWeight()
-                    - (100 * (foodItemsMaxHealthIncrement(foodItem) - healthNeededToFull())
+                    - (100 * (foodItemsMaxHealthIncrement(foodItem) - healthNeededToFull(player))
                     / foodItem.getHealthEffect());
             player.setHealth(100);
             foodItem.setWeight(newFoodWeight);
         }
+        playerDAO.addPlayer(player);
     }
 
-    public void sleep() {
+    public void sleep(Integer id) {
+        Optional<Player> maybePlayer = playerDAO.findPlayerById(id);
+        Player player = maybePlayer.get();
         player.setActionsRemaining(player.getMaxActions());
+        playerDAO.addPlayer(player);
     }
 
 
