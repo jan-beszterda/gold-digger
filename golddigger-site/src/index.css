@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: darkgreen;
+  color: white;
+}
+
+.logo {
+  max-width: 60px;
+  height: auto;
+  border-radius: 5px;
+}
+
+header {
+  background-color: saddlebrown;
+}
