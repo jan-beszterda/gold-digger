@@ -80,7 +80,7 @@ public class PlayerService {
         playerDAO.addPlayer(player);
     }
 
-    public double hitWithPickaxe() {
+    public double hitWithPickaxe(Player player) {
         Random random = new Random();
         double randomHit = Math.round(random.nextDouble(0.0, 1.0) * 10.0) / 10.0;
         double totalHit = randomHit * (player.getHealth() / 100)
@@ -90,7 +90,7 @@ public class PlayerService {
     }
 
     public double goldDug(Player player) {
-        return player.getCurrentMine().getTotalGold() * hitWithPickaxe()
+        return player.getCurrentMine().getTotalGold() * hitWithPickaxe(player)
                 * (1 - player.getCurrentMine().getDifficulty());
     }
 
@@ -101,7 +101,7 @@ public class PlayerService {
 
     public void decreaseHealth(Player player) {
         Random random = new Random();
-        Double newHealth = player.getHealth() - (player.getHealth() * hitWithPickaxe()
+        Double newHealth = player.getHealth() - (player.getHealth() * hitWithPickaxe(player)
                 * player.getCurrentMine().getDifficulty()
                 * random.nextDouble(0, 100) * 10.0 / 10.0);
         if (newHealth <= 0) {
@@ -117,7 +117,7 @@ public class PlayerService {
     public void decreasePickaxeCondition(Player player) {
         Random random = new Random();
         Double newCondition = player.getPickaxe().getCondition() - (player.getPickaxe().getCondition()
-                * hitWithPickaxe() * player.getCurrentMine().getDifficulty()
+                * hitWithPickaxe(player) * player.getCurrentMine().getDifficulty()
                 * random.nextDouble(0, 100) * 10.0 / 10.0);
         if (newCondition <= 0) {
             wastePickaxe(player);
