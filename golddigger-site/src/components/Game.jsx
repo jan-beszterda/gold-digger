@@ -6,14 +6,16 @@ function Game(props) {
         playerName: ""
     });
 
+    const [currentPlayer, setCurrentPlayer] = useState({});
+
     const handleFieldChange = (fieldName, fieldValue) => {
-        setPlayer({...player, [fieldName]: fieldValue});
+        setPlayer({...player, [fieldName]:fieldValue});
     };
 
     async function handleSubmit(e) {
         e.preventDefault();
         if (player.playerName) {
-            await fetch('/api/players/create', {
+            let response = await fetch('/api/players/create', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -21,7 +23,10 @@ function Game(props) {
                 },
                 body: JSON.stringify(player),
             });
+            let newPlayer = await response.json();
+            setCurrentPlayer((prevState) => (newPlayer));
         }
+        setPlayer({playerName: ""});
     }
 
     async function handleSubmit(e) {
