@@ -1,18 +1,18 @@
-import { useState } from "react";
+import {useState} from "react";
 import NewGame from "./NewGame";
 
 function Game(props) {
     const [player, setPlayer] = useState({
-            playerName: ""
-        });
+        playerName: ""
+    });
 
     const handleFieldChange = (fieldName, fieldValue) => {
-        setPlayer({ ...player, [fieldName]: fieldValue });
+        setPlayer({...player, [fieldName]: fieldValue});
     };
 
-    async function handleSubmit (e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-        if ( player.playerName ) {
+        if (player.playerName) {
             await fetch('/api/players/create', {
                 method: 'POST',
                 headers: {
@@ -24,9 +24,9 @@ function Game(props) {
         }
     }
 
-    async function handleSubmit (e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-        if ( player.playerId ) {
+        if (player.playerId) {
             await fetch('/api/players/' + player.playerId + '/dig', {
                 method: 'GET',
                 headers: {
@@ -37,6 +37,31 @@ function Game(props) {
         }
     }
 
+    async function handleSubmit(e) {
+        e.preventDefault();
+        if (player.playerId, item.itemId) {
+            await fetch('/api/players/' + player.playerId + '/eat/' + item.itemId, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+        }
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        if (player.playerId) {
+            await fetch('/api/players/' + player.playerId + '/sleep', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+        }
+    }
 
 
     return (
