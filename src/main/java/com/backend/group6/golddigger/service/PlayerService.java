@@ -2,10 +2,8 @@ package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.PlayerDAO;
 import com.backend.group6.golddigger.model.*;
-import net.bytebuddy.description.field.FieldDescription;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
