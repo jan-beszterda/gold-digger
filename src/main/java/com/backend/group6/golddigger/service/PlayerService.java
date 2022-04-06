@@ -40,7 +40,7 @@ public class PlayerService {
         return playerDAO.findPlayerById(id).orElse(null);
     }
 
-    public void createNewPlayer(Player player, Backpack backpack, Mine mine, Pickaxe pickaxe) {
+    public Player createNewPlayer(Player player, Backpack backpack, Mine mine, Pickaxe pickaxe) {
         player.setGoldAmount(100.0);
         player.setHealth(100.0);
         player.setMaxActions(3);
@@ -48,7 +48,7 @@ public class PlayerService {
         player.setBackpack(backpack);
         player.setCurrentMine(mine);
         player.setPickaxe(pickaxe);
-        playerDAO.addPlayer(player);
+        return playerDAO.addPlayer(player);
     }
 
     public void buyItem(Integer id, Item item) {

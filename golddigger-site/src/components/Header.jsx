@@ -15,7 +15,8 @@ function Header(props) {
             <nav className="navbar">
                 <div className="container-fluid" id="nav-container">
                     <Link to="/" className="navbar-brand p-2 m-0">
-                        <img src="/graphics/logo.png" className="logo" alt="Logo" />
+                        <img src="/graphics/logo.png" className="logo d-inline-block align-text-bottom me-2" alt="Logo" />
+                        GoldDigger
                     </Link>
                     <button
                         className="navbar-toggler p-2"

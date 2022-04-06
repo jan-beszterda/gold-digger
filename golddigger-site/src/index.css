@@ -14,6 +14,14 @@ body {
   height: auto;
   border-radius: 5px;
 }
+a {
+  font-size: 2rem;
+}
+
+.image {
+  max-width: 600px;
+  height: auto;
+}
 
 header {
   background-color: saddlebrown;

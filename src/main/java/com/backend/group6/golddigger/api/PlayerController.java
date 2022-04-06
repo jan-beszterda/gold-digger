@@ -41,8 +41,8 @@ public class PlayerController {
     }
 
     @PostMapping("/create")
-    public void createNewPlayer(@RequestBody Player player) {
-        playerService.createNewPlayer(
+    public Player createNewPlayer(@RequestBody Player player) {
+        return playerService.createNewPlayer(
                 player,
                 backpackService.createStartingBackpack(foodService.getStartingItems()),
                 mineService.getStartingMine(),

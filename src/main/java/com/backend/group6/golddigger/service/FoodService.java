@@ -32,6 +32,7 @@ public class FoodService {
         getAllFoodItems()
                 .stream()
                 .filter(foodItem -> foodItem.getHealthEffect() < 5)
+                .limit(2)
                 .toList()
                 .stream()
                 .forEach(foodItem -> {
@@ -39,7 +40,6 @@ public class FoodService {
                     item.setItemName(foodItem.getItemName());
                     item.setWeight(foodItem.getWeight());
                     item.setHealthEffect(foodItem.getHealthEffect());
-                    foodDAO.addFoodItem(item);
                     items.add(item);
         });
         return items;
