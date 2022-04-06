@@ -59,18 +59,18 @@ public class PlayerController {
     }
 
     @GetMapping("/{playerId}/dig")
-    public void dig(@PathVariable("playerId") Integer playerId) {
-        playerService.dig(playerId);
+    public Player dig(@PathVariable("playerId") Integer playerId) {
+        return playerService.dig(playerId);
     }
 
     @GetMapping("/{playerId}/eat/{itemId}")
-    public void eat(@PathVariable("playerId") Integer playerId, @PathVariable("itemId") Integer itemId) {
-        playerService.eat(playerId, itemId);
+    public Player eat(@PathVariable("playerId") Integer playerId, @PathVariable("itemId") Integer itemId) {
+        return playerService.eat(playerId, itemId);
     }
 
     @GetMapping("/{playerId}/sleep")
-    public void sleep(@PathVariable("playerId") Integer playerId) {
-        playerService.sleep(playerId);
+    public Player sleep(@PathVariable("playerId") Integer playerId) {
+        return playerService.sleep(playerId);
     }
 
 }

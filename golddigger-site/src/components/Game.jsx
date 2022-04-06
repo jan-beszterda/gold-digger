@@ -24,6 +24,21 @@ function Game(props) {
         }
     }
 
+    async function handleSubmit (e) {
+        e.preventDefault();
+        if ( player.playerId ) {
+            await fetch('/api/players/' + player.playerId + '/dig', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+        }
+    }
+
+
+
     return (
         <div>
             <NewGame

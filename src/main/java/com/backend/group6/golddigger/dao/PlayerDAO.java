@@ -22,7 +22,7 @@ public class PlayerDAO {
         return repository.findById(id);
     }
 
-    public void addPlayer(Player player) {
-        repository.save(player);
+    public Player addPlayer(Player player) {
+        return repository.save(player);
     }
 }

@@ -62,7 +62,7 @@ public class PlayerService {
     }
 
 
-    public void dig(Integer id) {
+    public Player dig(Integer id) {
         Optional<Player> maybePlayer = playerDAO.findPlayerById(id);
         Player player = maybePlayer.get();
         goldDug(player);
@@ -70,7 +70,7 @@ public class PlayerService {
         decreaseHealth(player);
         decreasePickaxeCondition(player);
         decreaseAmountGoldInMine(player);
-        playerDAO.addPlayer(player);
+        return playerDAO.addPlayer(player);
     }
 
     public double hitWithPickaxe(Player player) {
@@ -158,7 +158,7 @@ public class PlayerService {
         return 100 - player.getHealth();
     }
 
-    public void eat(Integer id, Integer foodItemId) {
+    public Player eat(Integer id, Integer foodItemId) {
         Optional<Player> maybePlayer = playerDAO.findPlayerById(id);
         Player player = maybePlayer.get();
         FoodItem foodItem = player.getBackpack().getFoodItems().stream()
@@ -176,14 +176,14 @@ public class PlayerService {
             player.setHealth(100);
             foodItem.setWeight(newFoodWeight);
         }
-        playerDAO.addPlayer(player);
+        return playerDAO.addPlayer(player);
     }
 
-    public void sleep(Integer id) {
+    public Player sleep(Integer id) {
         Optional<Player> maybePlayer = playerDAO.findPlayerById(id);
         Player player = maybePlayer.get();
         player.setActionsRemaining(player.getMaxActions());
-        playerDAO.addPlayer(player);
+        return playerDAO.addPlayer(player);
     }
 
 
