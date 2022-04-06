@@ -68,4 +68,9 @@ public class PlayerController {
         playerService.eat(playerId, itemId);
     }
 
+    @GetMapping("/{playerId}/sleep")
+    public void sleep(@PathVariable("playerId") Integer playerId) {
+        playerService.sleep(playerId);
+    }
+
 }
