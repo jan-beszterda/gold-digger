@@ -1,5 +1,5 @@
-import {useState} from "react";
-import NewGame from "./NewGame";
+import {useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 
 function Game(props) {
     const [player, setPlayer] = useState({
@@ -11,6 +11,10 @@ function Game(props) {
     const handleFieldChange = (fieldName, fieldValue) => {
         setPlayer({...player, [fieldName]:fieldValue});
     };
+
+    const { state } = useLocation();
+
+    console.log(state.currentPlayer);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -29,7 +33,7 @@ function Game(props) {
         setPlayer({playerName: ""});
     }
 
-    async function handleSubmit(e) {
+    /*async function handleSubmit(e) {
         e.preventDefault();
         if (player.playerId) {
             await fetch('/api/players/' + player.playerId + '/dig', {
@@ -66,16 +70,12 @@ function Game(props) {
                 },
             });
         }
-    }
+    }*/
 
 
     return (
         <div>
-            <NewGame
-                data={player}
-                onChange={handleFieldChange}
-                submit={handleSubmit}
-            />
+            TODO
         </div>
     );
 }
