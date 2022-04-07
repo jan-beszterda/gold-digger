@@ -49,7 +49,7 @@ public class PlayerService {
         return playerDAO.addPlayer(player);
     }
 
-    public void buyItem(Integer id, Item item) {
+    public Player buyItem(Integer id, Item item) {
         Player player = getPlayerById(id);
         if (item instanceof FoodItem) {
             Backpack backpack = player.getBackpack();
@@ -58,7 +58,7 @@ public class PlayerService {
             player.setPickaxe((Pickaxe) item);
         }
         player.setGoldAmount(player.getGoldAmount() - item.getItemPrice());
-        playerDAO.addPlayer(player);
+        return playerDAO.addPlayer(player);
     }
 
 

@@ -51,11 +51,11 @@ public class PlayerController {
         );
     }
 
-    @PostMapping("/{playerId}/buyItem/{itemId}")
-    public void buyItem(@PathVariable("playerId") Integer playerId, @PathVariable("itemId") Integer itemId) {
+    @PutMapping("/{playerId}/buyItem/{itemId}")
+    public Player buyItem(@PathVariable("playerId") Integer playerId, @PathVariable("itemId") Integer itemId) {
         Item item = shopService.sellItem(itemId);
         itemService.addItem(item);
-        playerService.buyItem(playerId, item);
+        return playerService.buyItem(playerId, item);
     }
 
     @GetMapping("/{playerId}/dig")

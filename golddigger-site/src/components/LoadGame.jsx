@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 function LoadGame(props) {
     const [players, setPlayers] = useState([]);
@@ -21,9 +21,10 @@ function LoadGame(props) {
 
     const navigate = useNavigate();
 
+    console.log(chosenPlayer.playerId)
+
     const loadGame = () => {
-        console.log(chosenPlayer);
-        navigate("/game", {state: {currentPlayer: chosenPlayer}})
+        navigate(`/game/${chosenPlayer.playerId}`)
     }
 
     return (
