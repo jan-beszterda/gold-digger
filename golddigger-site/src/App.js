@@ -39,12 +39,12 @@ function App() {
     return (
         <BrowserRouter>
             <Header />
-            <main className="container-fluid">
+            <main className="container-fluid d-flex justify-content-center">
                 <Routes>
                     <Route exact path="/" element={<Home />} />
                     <Route path="/new" element={<NewGame />} />
                     <Route path="/load" element={<LoadGame players={players}/>} />
-                    <Route path="/game" element={<Game />} />
+                    <Route path="/game/:playerId" element={<Game shop={shop}/>} />
                     <Route path="/scores" element={<div>TODO</div>} />
                     <Route path="/about" element={<div>TODO</div>} />
                 </Routes>
