@@ -1,9 +1,6 @@
 package com.backend.group6.golddigger.service;
 
-import com.backend.group6.golddigger.dao.BackpackDAO;
-import com.backend.group6.golddigger.dao.MineDAO;
-import com.backend.group6.golddigger.dao.PickaxeDAO;
-import com.backend.group6.golddigger.dao.PlayerDAO;
+import com.backend.group6.golddigger.dao.*;
 import com.backend.group6.golddigger.model.*;
 import org.springframework.stereotype.Service;
 
@@ -17,20 +14,20 @@ public class PlayerService {
     BackpackDAO backpackDAO;
     MineDAO mineDAO;
     PickaxeDAO pickaxeDAO;
-    ItemService itemService;
-    FoodService foodService;
-    ShopService shopService;
+    ItemDAO itemDAO;
+    FoodDAO foodDAO;
+    ShopDAO shopDAO;
     Player player = new Player();
 
     public PlayerService(PlayerDAO playerDAO, BackpackDAO backpackDAO, MineDAO mineDAO, PickaxeDAO pickaxeDAO,
-                         ItemService itemService, ShopService shopService, FoodService foodService) {
+                         ItemDAO itemDAO, FoodDAO foodDAO, ShopDAO shopDAO) {
         this.playerDAO = playerDAO;
         this.backpackDAO = backpackDAO;
         this.mineDAO = mineDAO;
         this.pickaxeDAO = pickaxeDAO;
-        this.itemService = itemService;
-        this.shopService = shopService;
-        this.foodService = foodService;
+        this.itemDAO = itemDAO;
+        this.foodDAO = foodDAO;
+        this.shopDAO = shopDAO;
     }
 
     public List<Player> getAllPlayers() {
