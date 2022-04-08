@@ -17,7 +17,6 @@ public class PlayerService {
     ItemDAO itemDAO;
     FoodDAO foodDAO;
     ShopDAO shopDAO;
-    Player player = new Player();
 
     public PlayerService(PlayerDAO playerDAO, BackpackDAO backpackDAO, MineDAO mineDAO, PickaxeDAO pickaxeDAO,
                          ItemDAO itemDAO, FoodDAO foodDAO, ShopDAO shopDAO) {
@@ -60,7 +59,6 @@ public class PlayerService {
         player.setGoldAmount(player.getGoldAmount() - item.getItemPrice());
         playerDAO.addPlayer(player);
     }
-
 
     public Player dig(Integer id) {
         Optional<Player> maybePlayer = playerDAO.findPlayerById(id);
@@ -161,7 +159,8 @@ public class PlayerService {
     public Player eat(Integer id, Integer foodItemId) {
         Optional<Player> maybePlayer = playerDAO.findPlayerById(id);
         Player player = maybePlayer.get();
-        FoodItem foodItem = player.getBackpack().getFoodItems().stream()
+        FoodItem foodItem = player.getBackpack().getFoodItems()
+                .stream()
                 .filter(foodItem1 -> foodItem1.getItemId().equals(foodItemId))
                 .findFirst().orElse(null);
         double foodWeightNeeded = 100 * healthNeededToFull(player) / foodItem.getHealthEffect();
@@ -186,13 +185,20 @@ public class PlayerService {
         return playerDAO.addPlayer(player);
     }
 
+    public Player move(Integer id) {
+        Optional<Player> maybePlayer = playerDAO.findPlayerById(id);
+        Player player = maybePlayer.get();
+        player.setCurrentMine(createMine());
+        return playerDAO.addPlayer(player);
+    }
+
 
     private Mine createMine() {
         List<Mine> mines = (List<Mine>) mineDAO.getAllMines();
-        Mine mine = mines
+        Optional<Mine> maybeMine = mines
                 .stream()
-                .findAny()
-                .get();
+                .findAny();
+        Mine mine = maybeMine.get();
         Mine newMine = new Mine();
         newMine.setMineName(mine.getMineName());
         newMine.setTotalGold(mine.getTotalGold());
@@ -202,11 +208,11 @@ public class PlayerService {
 
     private Pickaxe createPickaxe() {
         List<Pickaxe> pickaxes = (List<Pickaxe>) pickaxeDAO.getAllPickaxes();
-        Pickaxe aPickaxe = pickaxes
+        Optional<Pickaxe> maybePickaxe = pickaxes
                 .stream()
                 .filter(pickaxe -> pickaxe.getItemName().equalsIgnoreCase("Wooden pickaxe"))
-                .findAny()
-                .get();
+                .findAny();
+        Pickaxe aPickaxe = maybePickaxe.get();
         Pickaxe newPickaxe = new Pickaxe();
         newPickaxe.setItemName(aPickaxe.getItemName());
         newPickaxe.setStrength(aPickaxe.getStrength());
