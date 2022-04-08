@@ -1,5 +1,7 @@
 package com.backend.group6.golddigger.service;
 
+import com.backend.group6.golddigger.dao.BackpackDAO;
+import com.backend.group6.golddigger.dao.MineDAO;
 import com.backend.group6.golddigger.dao.PlayerDAO;
 import com.backend.group6.golddigger.model.*;
 import org.springframework.stereotype.Service;
@@ -11,19 +13,19 @@ import java.util.Random;
 @Service
 public class PlayerService {
     PlayerDAO playerDAO;
-    BackpackService backpackService;
-    MineService mineService;
+    BackpackDAO backpackDAO;
+    MineDAO mineDAO;
     PickaxeService pickaxeService;
     ItemService itemService;
     FoodService foodService;
     ShopService shopService;
     Player player = new Player();
 
-    public PlayerService(PlayerDAO playerDAO, BackpackService backpackService, MineService mineService, PickaxeService pickaxeService,
+    public PlayerService(PlayerDAO playerDAO, BackpackDAO backpackDAO, MineDAO mineDAO, PickaxeService pickaxeService,
                          ItemService itemService, ShopService shopService, FoodService foodService) {
         this.playerDAO = playerDAO;
-        this.backpackService = backpackService;
-        this.mineService = mineService;
+        this.backpackDAO = backpackDAO;
+        this.mineDAO = mineDAO;
         this.pickaxeService = pickaxeService;
         this.itemService = itemService;
         this.shopService = shopService;
@@ -187,9 +189,9 @@ public class PlayerService {
     }
 
 
-
     private Mine createMine() {
-        Mine mine = mineService.getAllMines()
+        List<Mine> mines = (List<Mine>) mineDAO.getAllMines();
+        Mine mine = mines
                 .stream()
                 .findAny()
                 .get();
