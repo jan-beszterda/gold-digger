@@ -7,6 +7,7 @@ function Game(props) {
     const [showShop, setShowShop] = useState(false);
     const [showBackpack, setShowBackpack] = useState(false);
     const [chosenItemId, setChosenItemId] = useState(0);
+    const [message, setMessage] = useState("");
 
     const params = useParams();
 
@@ -42,8 +43,8 @@ function Game(props) {
         setPlayer({playerName: ""});
     }*/
 
-    /*async function handleSubmit(e) {
-        e.preventDefault();
+    async function dig(e) {
+        /*e.preventDefault();
         if (player.playerId) {
             await fetch('/api/players/' + player.playerId + '/dig', {
                 method: 'GET',
@@ -52,11 +53,11 @@ function Game(props) {
                     'Content-Type': 'application/json'
                 },
             });
-        }
+        }*/
     }
 
-    async function handleSubmit(e) {
-        e.preventDefault();
+    async function eat(e) {
+        /*e.preventDefault();
         if (player.playerId, item.itemId) {
             await fetch('/api/players/' + player.playerId + '/eat/' + item.itemId, {
                 method: 'GET',
@@ -65,11 +66,11 @@ function Game(props) {
                     'Content-Type': 'application/json'
                 },
             });
-        }
+        }*/
     }
 
-    async function handleSubmit(e) {
-        e.preventDefault();
+    async function move(e) {
+        /*e.preventDefault();
         if (player.playerId) {
             await fetch('/api/players/' + player.playerId + '/sleep', {
                 method: 'GET',
@@ -78,39 +79,67 @@ function Game(props) {
                     'Content-Type': 'application/json'
                 },
             });
-        }
-    }*/
+        }*/
+    }
+
+    async function sleep(e) {
+        /*e.preventDefault();
+        if (player.playerId) {
+            await fetch('/api/players/' + player.playerId + '/sleep', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+        }*/
+    }
 
     const onChosenItemChange = (e) => {
         let itemId = +e.currentTarget.value;
         setChosenItemId(itemId);
     }
 
-    function openShop() {
-        setShowShop(true);
-        const actionButtonsHolder = document.getElementById("actionButtons");
-        const buttons = actionButtonsHolder.querySelectorAll('button');
-        for (let button in buttons) {
-            button.disabled = true;
+    function lockButtons() {
+        for (let i = 1; i < 6; i++) {
+            document.getElementById(`actionButton${i}`).disabled = true;
         }
     }
 
-    function closeShop() {
-        setShowShop(false);
-        const actionButtonsHolder = document.getElementById("actionButtons");
-        const buttons = actionButtonsHolder.querySelectorAll('button');
-        for (let button in buttons) {
-            button.disabled = false;
+    function unlockButtons() {
+        for (let i = 1; i < 6; i++) {
+            document.getElementById(`actionButton${i}`).disabled = false;
         }
+    }
+
+    function openShop() {
+        lockButtons();
+        setShowShop(true);
+    }
+
+    function openBackpack() {
+        setShowBackpack(true);
+        lockButtons();
+    }
+
+    function closeShop() {
+        unlockButtons();
+        setShowShop(false);
+    }
+
+    function closeBackpack() {
+        setShowBackpack(false);
+        unlockButtons();
     }
 
     async function buyItem() {
         let response = await fetch('/api/players/' + currentPlayer.playerId + '/buyItem/' + chosenItemId, {
             method: 'PUT'
         });
-        console.log(response);
         let result = await response.json();
-        console.log(result);
+
+
+        setChosenItemId(0);
         setCurrentPlayer(result);
         closeShop();
     }
@@ -174,20 +203,42 @@ function Game(props) {
                             <button className="btn btn-primary btn-lg mt-4" onClick={buyItem}>BUY ITEM</button>
                         </>
                     )}
+                    { showBackpack && (
+                        <>
+                            <h3 className="mb-3">Your backpack</h3>
+                            { currentPlayer.backpack.foodItems.map( (item) => (
+                                <div className="my-2" key={item.itemId}>
+                                    <input
+                                        type="radio"
+                                        className="btn-check"
+                                        name="btnradio"
+                                        id={item.itemId}
+                                        autoComplete="off"
+                                        value={item.itemId}
+                                        onChange={onChosenItemChange}
+                                    />
+                                    <label className="btn btn-primary btn-lg" htmlFor={item.itemId}>
+                                        {item.itemName}, Health effect: {item.healthEffect}
+                                    </label>
+                                </div>))
+                            }
+                            <button className="btn btn-primary btn-lg mt-4" onClick={buyItem}>EAT</button>
+                        </>
+                    )}
                 </div>
             </div>
             <div className="row border">
-                <div className="col border d-flex justify-content-evenly p-4" id="actionButtons">
-                    <button className="btn btn-primary btn-lg">DIG</button>
-                    <button className="btn btn-primary btn-lg">EAT</button>
-                    <button className="btn btn-primary btn-lg" onClick={openShop}>VISIT SHOP</button>
-                    <button className="btn btn-primary btn-lg">MOVE</button>
-                    <button className="btn btn-primary btn-lg">SLEEP</button>
+                <div className="col border d-flex justify-content-evenly p-4">
+                    <button className="btn btn-primary btn-lg" id="actionButton1" onClick={dig}>DIG</button>
+                    <button className="btn btn-primary btn-lg" id="actionButton2" onClick={openBackpack}>EAT</button>
+                    <button className="btn btn-primary btn-lg" id="actionButton3" onClick={openShop}>VISIT SHOP</button>
+                    <button className="btn btn-primary btn-lg" id="actionButton4" onClick={move}>MOVE</button>
+                    <button className="btn btn-primary btn-lg" id="actionButton5" onClick={sleep}>SLEEP</button>
                 </div>
             </div>
             <div className="row border">
                 <div className="col border p-4">
-                    TODO
+                    <span>{message}</span>
                 </div>
             </div>
         </div>
