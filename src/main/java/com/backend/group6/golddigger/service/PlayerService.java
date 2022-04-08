@@ -2,6 +2,7 @@ package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.BackpackDAO;
 import com.backend.group6.golddigger.dao.MineDAO;
+import com.backend.group6.golddigger.dao.PickaxeDAO;
 import com.backend.group6.golddigger.dao.PlayerDAO;
 import com.backend.group6.golddigger.model.*;
 import org.springframework.stereotype.Service;
@@ -15,18 +16,18 @@ public class PlayerService {
     PlayerDAO playerDAO;
     BackpackDAO backpackDAO;
     MineDAO mineDAO;
-    PickaxeService pickaxeService;
+    PickaxeDAO pickaxeDAO;
     ItemService itemService;
     FoodService foodService;
     ShopService shopService;
     Player player = new Player();
 
-    public PlayerService(PlayerDAO playerDAO, BackpackDAO backpackDAO, MineDAO mineDAO, PickaxeService pickaxeService,
+    public PlayerService(PlayerDAO playerDAO, BackpackDAO backpackDAO, MineDAO mineDAO, PickaxeDAO pickaxeDAO,
                          ItemService itemService, ShopService shopService, FoodService foodService) {
         this.playerDAO = playerDAO;
         this.backpackDAO = backpackDAO;
         this.mineDAO = mineDAO;
-        this.pickaxeService = pickaxeService;
+        this.pickaxeDAO = pickaxeDAO;
         this.itemService = itemService;
         this.shopService = shopService;
         this.foodService = foodService;
@@ -203,7 +204,8 @@ public class PlayerService {
     }
 
     private Pickaxe createPickaxe() {
-        Pickaxe aPickaxe = pickaxeService.getAllPickaxes()
+        List<Pickaxe> pickaxes = (List<Pickaxe>) pickaxeDAO.getAllPickaxes();
+        Pickaxe aPickaxe = pickaxes
                 .stream()
                 .filter(pickaxe -> pickaxe.getItemName().equalsIgnoreCase("Wooden pickaxe"))
                 .findAny()
