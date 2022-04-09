@@ -142,8 +142,6 @@ public class PlayerService {
         return playerDAO.savePlayer(player);
     }
 
-
-
     public Player move(Integer playerId) {
         Optional<Player> maybePlayer = playerDAO.findPlayerById(playerId);
         if (maybePlayer.isEmpty()) {
@@ -216,6 +214,7 @@ public class PlayerService {
         player.setCurrentMine(null);
     }
 
+
     private Mine createMine(Player player) {
         List<Mine> mines = (List<Mine>) mineDAO.getAllMines();
         Optional<Mine> maybeMine = mines
@@ -233,6 +232,7 @@ public class PlayerService {
         newMine.setPlayer(player);
         return newMine;
     }
+
 
     private Backpack createBackpack(Player player) {
         Backpack backpack = new Backpack();
