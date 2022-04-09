@@ -22,7 +22,7 @@ public class PickaxeDAO {
         return repository.findById(id);
     }
 
-    public void addPickaxe(Pickaxe pickaxe) {
-        repository.save(pickaxe);
+    public Pickaxe addPickaxe(Pickaxe pickaxe) {
+        return repository.save(pickaxe);
     }
 }

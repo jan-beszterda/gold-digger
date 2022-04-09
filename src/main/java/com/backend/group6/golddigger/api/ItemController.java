@@ -25,7 +25,7 @@ public class ItemController {
         return itemService.getItemById(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public void addItem(@RequestBody Item item) {
         itemService.addItem(item);
     }

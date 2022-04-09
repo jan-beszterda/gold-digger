@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 
-function Home(props) {
+function Home() {
     return (
         <div className="container-sm my-3 p-3 d-flex flex-column align-items-center">
             <img src="/graphics/logo.png" className="image my-2" alt="GoldDigger"/>

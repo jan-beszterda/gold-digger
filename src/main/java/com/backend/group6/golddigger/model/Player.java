@@ -15,15 +15,15 @@ public class Player {
     private int maxActions;
     private int actionsRemaining;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mineId")
     private Mine currentMine;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "backpackId")
     private Backpack backpack;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pickaxeId")
     private Pickaxe pickaxe;
 

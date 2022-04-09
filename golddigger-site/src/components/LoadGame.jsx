@@ -1,13 +1,35 @@
 import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 
-function LoadGame(props) {
+function LoadGame() {
     const [players, setPlayers] = useState([]);
     const [chosenPlayer, setChosenPlayer] = useState({});
 
     useEffect(() => {
-        setPlayers(props.players);
-    }, [props.players]);
+        let isCancelled = false;
+        const fetchData = async () => {
+            const tmpPlayers = await getPlayers();
+            if (!isCancelled) {
+                setPlayers(tmpPlayers);
+            }
+        }
+        if (!isCancelled) {
+            fetchData();
+        }
+        return () => {
+            isCancelled = true;
+        }
+    }, [])
+
+    async function getPlayers() {
+        let allPlayers = [];
+        await fetch('/api/players/available').then(response => response.json()).then(data => {
+            for (const player of data) {
+                allPlayers.push(player);
+            }
+        })
+        return allPlayers;
+    }
 
     const onChosenPlayerChange = (e) => {
         let selectedPlayer;

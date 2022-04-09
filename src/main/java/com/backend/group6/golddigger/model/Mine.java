@@ -1,5 +1,7 @@
 package com.backend.group6.golddigger.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,11 @@ public class Mine {
     private String mineName;
     private double totalGold;
     private double difficulty;
+
+    @OneToOne
+    @JoinColumn(name = "playerId")
+    @JsonIgnore
+    private Player player;
 
     public Mine() {
     }
@@ -45,5 +52,13 @@ public class Mine {
 
     public void setDifficulty(double difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

@@ -9,7 +9,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/items/food")
 public class FoodController {
-
     FoodService foodService;
 
     public FoodController(FoodService foodService) {
@@ -20,7 +19,6 @@ public class FoodController {
     public List<FoodItem> getAllFoodItems() {
         return foodService.getAllFoodItems();
     }
-
 
     @GetMapping("/{id}")
     public FoodItem getFoodItemById(@PathVariable("id") Integer id) {
