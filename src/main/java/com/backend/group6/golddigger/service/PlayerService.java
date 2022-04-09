@@ -147,7 +147,6 @@ public class PlayerService {
     }
     */
 
-
     public double foodItemsMaxHealthIncrement(FoodItem foodItem) {
         return foodItem.getHealthEffect() * foodItem.getWeight() / 100;
     }
@@ -191,7 +190,6 @@ public class PlayerService {
         player.setCurrentMine(createMine());
         return playerDAO.addPlayer(player);
     }
-
 
     private Mine createMine() {
         List<Mine> mines = (List<Mine>) mineDAO.getAllMines();
