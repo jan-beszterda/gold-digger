@@ -3,7 +3,6 @@ package com.backend.group6.golddigger.api;
 import com.backend.group6.golddigger.model.Item;
 import com.backend.group6.golddigger.model.Player;
 import com.backend.group6.golddigger.service.*;
-import org.hibernate.query.criteria.internal.ValueHandlerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -71,6 +70,11 @@ public class PlayerController {
     @GetMapping("/{playerId}/sleep")
     public Player sleep(@PathVariable("playerId") Integer playerId) {
         return playerService.sleep(playerId);
+    }
+
+    @GetMapping("/{playerId}/move")
+    public Player move(@PathVariable("playerId") Integer playerId) {
+        return playerService.move(playerId);
     }
 
 }
