@@ -22,7 +22,7 @@ public class ShopDAO {
         return repository.findById(id);
     }
 
-    public void addShop(Shop shop) {
-        repository.save(shop);
+    public Shop addShop(Shop shop) {
+        return repository.save(shop);
     }
 }

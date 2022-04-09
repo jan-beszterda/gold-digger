@@ -9,13 +9,43 @@ body {
   color: white;
 }
 
+header {
+  background-color: saddlebrown;
+}
+
 .logo {
   max-width: 60px;
   height: auto;
   border-radius: 5px;
 }
-a {
+
+.navbar-brand {
   font-size: 2rem;
+  color: white;
+}
+
+.navbar-brand:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.navbar-toggler:hover,
+.navbar-toggler:active,
+.navbar-toggler:visited,
+.navbar-toggler:focus {
+  border: none !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.nav-link {
+  font-size: 1.4rem;
+  color: white;
+}
+
+.nav-link:hover {
+  color: white;
+  text-decoration: underline;
 }
 
 .image {
@@ -23,6 +53,43 @@ a {
   height: auto;
 }
 
-header {
-  background-color: saddlebrown;
+.btn-primary,
+.btn-primary:disabled,
+.btn-primary:enabled {
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+  transition-duration: 0.4s;
+}
+
+/*.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:disabled,
+.btn-primary:enabled,
+.btn-primary:focus,
+.btn-primary:checked {
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+  box-shadow: none;
+  outline: 0;
+}*/
+
+.btn-primary:hover {
+  background-color: black;
+  color: white;
+  border: 2px solid black;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:disabled,
+.btn-primary:enabled,
+.btn-primary:focus,
+.btn-primary:checked {
+  box-shadow: none;
+  outline: 0;
+  border: none;
 }

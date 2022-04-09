@@ -9,7 +9,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/items/pickaxes")
 public class PickaxeController {
-
     PickaxeService pickaxeService;
 
     public PickaxeController(PickaxeService pickaxeService) {

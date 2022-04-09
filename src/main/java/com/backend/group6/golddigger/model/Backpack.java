@@ -1,5 +1,7 @@
 package com.backend.group6.golddigger.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,11 @@ public class Backpack {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "backpackId")
     private List<FoodItem> foodItems = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "playerId")
+    @JsonIgnore
+    private Player player;
 
     public Backpack() {
     }
@@ -45,6 +52,14 @@ public class Backpack {
 
     public void removeFoodItem (FoodItem foodItemToRemove) {
         foodItems.remove(foodItemToRemove);
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
 

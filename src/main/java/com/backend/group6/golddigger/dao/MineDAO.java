@@ -26,11 +26,7 @@ public class MineDAO {
         repository.deleteById(id);
     }
 
-    public void createRandomMine(Mine mineToCreate) {
-        repository.save(mineToCreate);
-    }
-
-    public void addMine(Mine mine) {
-        repository.save(mine);
+    public Mine saveMine(Mine mine) {
+        return repository.save(mine);
     }
 }

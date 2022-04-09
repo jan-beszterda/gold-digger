@@ -4,13 +4,11 @@ import com.backend.group6.golddigger.model.Mine;
 import com.backend.group6.golddigger.service.MineService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/mines")
 public class MineController {
-
     MineService mineService;
 
     public MineController(MineService mineService) {
@@ -27,12 +25,12 @@ public class MineController {
         return mineService.getMineById(id);
     }
 
-    @DeleteMapping()
-    public void removeMine(@PathParam("id") Integer id) {
+    @DeleteMapping("/{id}")
+    public void removeMine(@PathVariable("id") Integer id) {
         mineService.removeMine(id);
     }
 
-    @PostMapping()
+    @PostMapping("/create")
     public void addMine(@RequestBody Mine mine) {
         mineService.addMine(mine);
     }

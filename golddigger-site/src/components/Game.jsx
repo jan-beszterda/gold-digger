@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 function Game(props) {
     const [currentShop, setCurrentShop] = useState({});
@@ -8,91 +8,148 @@ function Game(props) {
     const [showBackpack, setShowBackpack] = useState(false);
     const [chosenItemId, setChosenItemId] = useState(0);
     const [message, setMessage] = useState("");
+    const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
     const params = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        let isCancelled = false;
         const getCurrentPlayer = async () => {
             let response = await fetch('/api/players/' + params.playerId);
             let result = await response.json();
             setCurrentPlayer(result);
         }
-        getCurrentPlayer();
-        setCurrentShop(props.shop);
-        console.log(currentShop);
-    },[]);
-
-    /*const handleFieldChange = (fieldName, fieldValue) => {
-        setPlayer({...player, [fieldName]:fieldValue});
-    };
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-        if (player.playerName) {
-            let response = await fetch('/api/players/create', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(player),
-            });
-            let newPlayer = await response.json();
-            setCurrentPlayer((prevState) => (newPlayer));
+        if (!isCancelled) {
+            getCurrentPlayer();
+            setCurrentShop(props.shop)
         }
-        setPlayer({playerName: ""});
-    }*/
+        return () => {
+            isCancelled = true;
+        }
+    },[params.playerId, props.shop]);
 
-    async function dig(e) {
-        /*e.preventDefault();
-        if (player.playerId) {
-            await fetch('/api/players/' + player.playerId + '/dig', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
+    useEffect(() => {
+        if (currentPlayer !== undefined && (currentPlayer.health === 0 && currentPlayer.maxActions === 0)) {
+            navigate('/gameover');
+        }
+    }, [currentPlayer]);
+
+    async function dig() {
+        let response = await fetch('/api/players/' + currentPlayer.playerId + '/dig', {
+                method: 'PUT'
             });
-        }*/
+        let resultText = await response.text();
+        let result = resultText.length ? JSON.parse(resultText) : null;
+        if (result === null) {
+            setMessage("Error: something went wrong!")
+            setTimeout(() => {
+                setMessage("");
+            }, 2000);
+            return false;
+        }
+        let healthDecrease = currentPlayer.health - result.health;
+        let damage = currentPlayer.pickaxe.condition - result.pickaxe.condition;
+        let gold = result.goldAmount - currentPlayer.goldAmount;
+        setMessage("Bang! You hit the ground with your pickaxe and... You got " + gold + " gold. You lost " + healthDecrease + " health. You damaged your pickaxe by " + damage +".");
+        setCurrentPlayer(result);
+        setTimeout(() => {
+            setMessage("");
+        }, 5000);
+        return true;
     }
 
-    async function eat(e) {
-        /*e.preventDefault();
-        if (player.playerId, item.itemId) {
-            await fetch('/api/players/' + player.playerId + '/eat/' + item.itemId, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
+    async function eat() {
+        currentPlayer.backpack.foodItems.map(item => console.log(item.itemId));
+        let response = await fetch('/api/players/' + currentPlayer.playerId + '/eat/' + chosenItemId, {
+                method: 'PUT'
             });
-        }*/
+        let resultText = await response.text();
+        let result = resultText.length ? JSON.parse(resultText) : null;
+        if (result === null) {
+            setMessage("Error: something went wrong!")
+            setTimeout(() => {
+                setMessage("");
+            }, 2000);
+            return false;
+        }
+        let healthIncrease = result.health - currentPlayer.health;
+        setMessage("Noms! " + healthIncrease + " health restored.");
+        closeBackpack();
+        setCurrentPlayer(result);
+        setChosenItemId(0);
+        setTimeout(() => {
+            setMessage("");
+        }, 2000);
+        return true;
     }
 
-    async function move(e) {
-        /*e.preventDefault();
-        if (player.playerId) {
-            await fetch('/api/players/' + player.playerId + '/sleep', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-            });
-        }*/
+    async function buyItem() {
+        let response = await fetch('/api/players/' + currentPlayer.playerId + '/buyItem/' + chosenItemId, {
+            method: 'PUT'
+        });
+        let resultText = await response.text();
+        let result = resultText.length ? JSON.parse(resultText) : null;
+        if (result === null) {
+            setMessage("Error: something went wrong!")
+            setTimeout(() => {
+                setMessage("");
+            }, 2000);
+            return false;
+        }
+        let item = currentShop.shopInventory.filter((item) => item.itemId === chosenItemId);
+        let payment = currentPlayer.goldAmount - result.goldAmount;
+        setMessage("Congrats! You bought " + item[0].itemName + ". You paid " + payment + ".");
+        closeShop();
+        setChosenItemId(0);
+        setCurrentPlayer(result);
+        setTimeout(() => {
+            setMessage("");
+        }, 2000);
+        return true;
     }
 
-    async function sleep(e) {
-        /*e.preventDefault();
-        if (player.playerId) {
-            await fetch('/api/players/' + player.playerId + '/sleep', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
+    async function move() {
+        let response = await fetch('/api/players/' + currentPlayer.playerId + '/move', {
+                method: 'PUT'
             });
-        }*/
+        let resultText = await response.text();
+        let result = resultText.length ? JSON.parse(resultText) : null;
+        if (result === null) {
+            setMessage("Error: something went wrong!")
+            setTimeout(() => {
+                setMessage("");
+            }, 2000);
+            return false;
+        }
+        setMessage("New mine '" + result.currentMine.mineName + "' discovered.");
+        setCurrentPlayer(result);
+        setTimeout(() => {
+            setMessage("");
+        }, 2000);
+        return true;
+    }
+
+    async function sleep() {
+        let response = await fetch('/api/players/' + currentPlayer.playerId + '/sleep', {
+            method: 'PUT'
+        });
+        let resultText = await response.text();
+        let result = resultText.length ? JSON.parse(resultText) : null;
+        if (result === null) {
+            setMessage("Error: something went wrong!")
+            setTimeout(() => {
+                setMessage("");
+            }, 2000);
+            return false;
+        }
+        let healthDecrease = currentPlayer.health - result.health;
+        setMessage("Happy dreaming! You lost " + healthDecrease + " health. Remaining actions restored.");
+        setCurrentPlayer(result);
+        setTimeout(() => {
+            setMessage("");
+        }, 2000);
+        return true;
     }
 
     const onChosenItemChange = (e) => {
@@ -100,48 +157,24 @@ function Game(props) {
         setChosenItemId(itemId);
     }
 
-    function lockButtons() {
-        for (let i = 1; i < 6; i++) {
-            document.getElementById(`actionButton${i}`).disabled = true;
-        }
-    }
-
-    function unlockButtons() {
-        for (let i = 1; i < 6; i++) {
-            document.getElementById(`actionButton${i}`).disabled = false;
-        }
-    }
-
     function openShop() {
-        lockButtons();
         setShowShop(true);
+        setButtonsDisabled(true);
     }
 
     function openBackpack() {
         setShowBackpack(true);
-        lockButtons();
+        setButtonsDisabled(true);
     }
 
     function closeShop() {
-        unlockButtons();
         setShowShop(false);
+        setButtonsDisabled(false);
     }
 
     function closeBackpack() {
         setShowBackpack(false);
-        unlockButtons();
-    }
-
-    async function buyItem() {
-        let response = await fetch('/api/players/' + currentPlayer.playerId + '/buyItem/' + chosenItemId, {
-            method: 'PUT'
-        });
-        let result = await response.json();
-
-
-        setChosenItemId(0);
-        setCurrentPlayer(result);
-        closeShop();
+        setButtonsDisabled(false);
     }
 
     return (
@@ -168,7 +201,9 @@ function Game(props) {
                             </div>
                             <div className="my-2">
                                 Backpack:
-                                <span className="d-block">Weight: {currentPlayer.backpack.maxWeight}</span>
+                                <span className="d-block">Weight: {currentPlayer.backpack.foodItems.reduce((previousWeight, item) => previousWeight + item.weight, 0.0)}
+                                    /{currentPlayer.backpack.maxWeight}
+                                </span>
                                 Items:
                                 {currentPlayer.backpack.foodItems.map(item => (
                                         <span className="d-block" key={item.itemId}>{item.itemName}, Effect: +{item.healthEffect} health, Weight: {item.weight}</span>
@@ -200,7 +235,8 @@ function Game(props) {
                                     </label>
                                 </div>))
                             }
-                            <button className="btn btn-primary btn-lg mt-4" onClick={buyItem}>BUY ITEM</button>
+                            <button className="btn btn-primary btn-lg mt-4 me-4" onClick={buyItem}>BUY ITEM</button>
+                            <button className="btn btn-primary btn-lg mt-4 ms-4" onClick={closeShop}>BACK</button>
                         </>
                     )}
                     { showBackpack && (
@@ -222,19 +258,21 @@ function Game(props) {
                                     </label>
                                 </div>))
                             }
-                            <button className="btn btn-primary btn-lg mt-4" onClick={buyItem}>EAT</button>
+                            <button className="btn btn-primary btn-lg mt-4 me-4" onClick={eat}>EAT</button>
+                            <button className="btn btn-primary btn-lg mt-4 ms-4" onClick={closeBackpack}>BACK</button>
                         </>
                     )}
                 </div>
             </div>
             <div className="row border">
+                { (currentPlayer && !buttonsDisabled) && (
                 <div className="col border d-flex justify-content-evenly p-4">
-                    <button className="btn btn-primary btn-lg" id="actionButton1" onClick={dig}>DIG</button>
-                    <button className="btn btn-primary btn-lg" id="actionButton2" onClick={openBackpack}>EAT</button>
-                    <button className="btn btn-primary btn-lg" id="actionButton3" onClick={openShop}>VISIT SHOP</button>
-                    <button className="btn btn-primary btn-lg" id="actionButton4" onClick={move}>MOVE</button>
+                    { (currentPlayer.actionsRemaining !== 0 && currentPlayer.pickaxe !== null && currentPlayer.currentMine !== null) && <button className="btn btn-primary btn-lg" id="actionButton1" onClick={dig}>DIG</button> }
+                    { (currentPlayer.actionsRemaining !== 0 && currentPlayer.backpack.foodItems.length !== 0) && <button className="btn btn-primary btn-lg" id="actionButton2" onClick={openBackpack}>EAT</button> }
+                    { (currentPlayer.actionsRemaining !== 0 && currentPlayer.goldAmount > 0) && <button className="btn btn-primary btn-lg" id="actionButton3" onClick={openShop}>VISIT SHOP</button> }
+                    { currentPlayer.actionsRemaining !== 0 && <button className="btn btn-primary btn-lg" id="actionButton4" onClick={move}>MOVE</button> }
                     <button className="btn btn-primary btn-lg" id="actionButton5" onClick={sleep}>SLEEP</button>
-                </div>
+                </div>)}
             </div>
             <div className="row border">
                 <div className="col border p-4">

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { useState } from "react";
 
-function Header(props) {
+function Header() {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
@@ -28,12 +28,12 @@ function Header(props) {
                     <div className={"collapse navbar-collapse mt-3 px-2" + show}>
                         <ul className="navbar-nav">
                             <li className="nav-item mx-0 mx-lg-2 align-self-end">
-                                <Link className="nav-link" to="/newGame">
+                                <Link className="nav-link" to="/new">
                                     New game
                                 </Link>
                             </li>
                             <li className="nav-item mx-0 mx-lg-2 align-self-end">
-                                <Link className="nav-link" to="/loadGame">
+                                <Link className="nav-link" to="/load">
                                     Load game
                                 </Link>
                             </li>

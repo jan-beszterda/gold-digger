@@ -6,25 +6,28 @@ import NewGame from "./components/NewGame";
 import Home from "./components/Home";
 import LoadGame from "./components/LoadGame";
 import Game from "./components/Game";
+import Scores from "./components/Scores";
+import About from "./components/About";
+import GameLost from "./components/GameLost";
 
 function App() {
-    const [players, setPlayers] = useState([]);
     const [shop, setShop] = useState({});
 
     useEffect(() => {
-        getPlayers();
-        getShop();
-    }, []);
-
-    async function getPlayers() {
-        let allPlayers = [];
-        await fetch('/api/players').then(response => response.json()).then(data => {
-            for (const player of data) {
-                allPlayers.push(player);
+        let isCancelled = false;
+        const fetchData = async () => {
+            const tmpShop = await getShop();
+            if (!isCancelled) {
+                setShop(tmpShop);
             }
-        })
-        setPlayers(allPlayers);
-    }
+        }
+        if (!isCancelled) {
+            fetchData();
+        }
+        return () => {
+            isCancelled = true;
+        }
+    }, [])
 
     async function getShop() {
         let aShop;
@@ -33,7 +36,7 @@ function App() {
                 aShop = shop;
             }
         })
-        setShop(aShop);
+        return aShop;
     }
 
     return (
@@ -43,10 +46,11 @@ function App() {
                 <Routes>
                     <Route exact path="/" element={<Home />} />
                     <Route path="/new" element={<NewGame />} />
-                    <Route path="/load" element={<LoadGame players={players}/>} />
-                    <Route path="/game/:playerId" element={<Game shop={shop}/>} />
-                    <Route path="/scores" element={<div>TODO</div>} />
-                    <Route path="/about" element={<div>TODO</div>} />
+                    <Route path="/load" element={<LoadGame />} />
+                    <Route path="/game/:playerId" element={<Game shop={shop} />} />
+                    <Route path="/scores" element={<Scores />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/gameover" element={<GameLost />} />
                 </Routes>
             </main>
         </BrowserRouter>
