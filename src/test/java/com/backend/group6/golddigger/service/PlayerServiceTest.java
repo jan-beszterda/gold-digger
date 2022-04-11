@@ -2,11 +2,13 @@ package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.*;
 import com.backend.group6.golddigger.model.Player;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -92,7 +94,7 @@ class PlayerServiceTest extends MockitoExtension {
         List<Player> actualListOfPlayers = unitUnderTest.getAllPlayers();
 
         //Verify
-        assertEquals("Peter", actualListOfPlayers.get(0).getPlayerName());
-        assertEquals("David", actualListOfPlayers.get(1).getPlayerName());
+        Assertions.assertAll(() -> assertEquals("Peter", actualListOfPlayers.get(0).getPlayerName()),
+                () -> assertEquals("David", actualListOfPlayers.get(1).getPlayerName()));
     }
 }
