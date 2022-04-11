@@ -60,15 +60,7 @@ class PlayerServiceTest extends MockitoExtension {
 
     @Test
     @DisplayName("Verify that getPlayers() returns all players from DB")
-    void getAllPlayersShouldReturnFalseIFEmpty() {
-        //Setup
-        /*Player player1 = new Player();
-        player1.setPlayerId(1);
-        player1.setPlayerName("Peter");
-
-        Player player2 = new Player();
-        player2.setPlayerId(2);
-        player2.setPlayerName("David");*/
+    void getAllPlayersShouldReturnFalseIfEmpty() {
 
         List<Player> playersFromDB = List.of();
         Mockito.when(playerDAO.findAllPlayers()).thenReturn(playersFromDB);
@@ -101,5 +93,6 @@ class PlayerServiceTest extends MockitoExtension {
 
         //Verify
         assertEquals("Peter", actualListOfPlayers.get(0).getPlayerName());
+        assertEquals("David", actualListOfPlayers.get(1).getPlayerName());
     }
 }
