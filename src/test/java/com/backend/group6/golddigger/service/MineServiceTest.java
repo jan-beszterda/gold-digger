@@ -23,7 +23,6 @@ class MineServiceTest extends MockitoExtension {
         unitUnderTest = new MineService(mineDAO);
     }
 
-
     @Test
     @DisplayName("Verify that getAllMines() returns all mines from DB")
     void getAllMinesShouldReturnTrueIfNOTEmpty() {
@@ -48,7 +47,19 @@ class MineServiceTest extends MockitoExtension {
     }
 
     @Test
-    void getMineById() {
+    @DisplayName("Verify that getAllMines() returns all mines from DB")
+    void getMineByIdShouldReturnFalseIfEmpty() {
+        //Setup
+        List<Mine> minesFromDB = List.of();
+        Mockito.when(mineDAO.getAllMines()).thenReturn(minesFromDB);
+
+        //Test
+        List<Mine> actualListOfMines = unitUnderTest.getAllMines();
+        boolean containingMines = (actualListOfMines.isEmpty() ? false : true);
+
+        //Verify
+        assertEquals(false, containingMines);
+
     }
 
     @Test
