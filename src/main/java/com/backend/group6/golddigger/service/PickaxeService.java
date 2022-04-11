@@ -18,12 +18,11 @@ public class PickaxeService {
         return (List<Pickaxe>) pickaxeDAO.getAllPickaxes();
     }
 
-
     public Pickaxe getPickaxeById(Integer id) {
         return pickaxeDAO.getPickaxeById(id).orElse(null);
     }
 
-    public void addPickaxe(Pickaxe pickaxe) {
-        pickaxeDAO.addPickaxe(pickaxe);
+    public Pickaxe addPickaxe(Pickaxe pickaxe) {
+        return pickaxeDAO.addPickaxe(pickaxe);
     }
 }
