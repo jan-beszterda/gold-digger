@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -7,6 +9,13 @@
 body {
   background-color: darkgreen;
   color: white;
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-size: 1.2rem;
+}
+
+.navbar-brand, h1, h2, h3, h4, h5, h6, th {
+  font-family: "Merriweather", Georgia, 'Times New Roman', Times, serif;
+  /*font-size: 1.4rem;*/
 }
 
 header {
@@ -21,12 +30,12 @@ header {
 
 .navbar-brand {
   font-size: 2rem;
-  color: white;
+  color: black;
 }
 
 .navbar-brand:hover {
-  color: white;
-  text-decoration: underline;
+  color: black;
+  text-decoration: none;
 }
 
 .navbar-toggler:hover,
@@ -40,12 +49,16 @@ header {
 
 .nav-link {
   font-size: 1.4rem;
-  color: white;
+  color: black;
 }
 
 .nav-link:hover {
   color: white;
   text-decoration: underline;
+}
+
+.nav-link:focus {
+  color: white;
 }
 
 .image {
@@ -92,4 +105,21 @@ header {
   box-shadow: none;
   outline: 0;
   border: none;
+}
+
+.form-check-input:checked {
+  background-color: black;
+  border-color: black;
+}
+
+.table, .table-hover>tbody>tr:hover>* {
+  color: white !important;
+}
+
+.logo-background {
+  background-image: url("../public/graphics/logo.png");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
 }

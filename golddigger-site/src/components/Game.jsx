@@ -45,7 +45,7 @@ function Game(props) {
             setMessage("Error: something went wrong!")
             setTimeout(() => {
                 setMessage("");
-            }, 2000);
+            }, 5000);
             return false;
         }
         let healthDecrease = currentPlayer.health - result.health;
@@ -70,7 +70,7 @@ function Game(props) {
             setMessage("Error: something went wrong!")
             setTimeout(() => {
                 setMessage("");
-            }, 2000);
+            }, 5000);
             return false;
         }
         let healthIncrease = result.health - currentPlayer.health;
@@ -80,7 +80,7 @@ function Game(props) {
         setChosenItemId(0);
         setTimeout(() => {
             setMessage("");
-        }, 2000);
+        }, 5000);
         return true;
     }
 
@@ -91,10 +91,10 @@ function Game(props) {
         let resultText = await response.text();
         let result = resultText.length ? JSON.parse(resultText) : null;
         if (result === null) {
-            setMessage("Error: something went wrong!")
+            setMessage("Error: something went wrong! Check if you have enough money and/or space in your backpack!");
             setTimeout(() => {
                 setMessage("");
-            }, 2000);
+            }, 5000);
             return false;
         }
         let item = currentShop.shopInventory.filter((item) => item.itemId === chosenItemId);
@@ -105,7 +105,7 @@ function Game(props) {
         setCurrentPlayer(result);
         setTimeout(() => {
             setMessage("");
-        }, 2000);
+        }, 5000);
         return true;
     }
 
@@ -119,14 +119,14 @@ function Game(props) {
             setMessage("Error: something went wrong!")
             setTimeout(() => {
                 setMessage("");
-            }, 2000);
+            }, 5000);
             return false;
         }
         setMessage("New mine '" + result.currentMine.mineName + "' discovered.");
         setCurrentPlayer(result);
         setTimeout(() => {
             setMessage("");
-        }, 2000);
+        }, 5000);
         return true;
     }
 
@@ -140,7 +140,7 @@ function Game(props) {
             setMessage("Error: something went wrong!")
             setTimeout(() => {
                 setMessage("");
-            }, 2000);
+            }, 5000);
             return false;
         }
         let healthDecrease = currentPlayer.health - result.health;
@@ -148,7 +148,7 @@ function Game(props) {
         setCurrentPlayer(result);
         setTimeout(() => {
             setMessage("");
-        }, 2000);
+        }, 5000);
         return true;
     }
 
@@ -158,21 +158,29 @@ function Game(props) {
     }
 
     function openShop() {
+        let col = document.getElementById("shop-backpack-col");
+        col.classList.remove("logo-background");
         setShowShop(true);
         setButtonsDisabled(true);
     }
 
     function openBackpack() {
+        let col = document.getElementById("shop-backpack-col");
+        col.classList.remove("logo-background");
         setShowBackpack(true);
         setButtonsDisabled(true);
     }
 
     function closeShop() {
+        let col = document.getElementById("shop-backpack-col");
+        col.classList.add("logo-background");
         setShowShop(false);
         setButtonsDisabled(false);
     }
 
     function closeBackpack() {
+        let col = document.getElementById("shop-backpack-col");
+        col.classList.add("logo-background");
         setShowBackpack(false);
         setButtonsDisabled(false);
     }
@@ -212,22 +220,22 @@ function Game(props) {
                         </>
                     )}
                 </div>
-                <div className="col border p-4">
+                <div className="col border p-4 logo-background" id="shop-backpack-col">
                     { showShop && (
                         <>
                             <h3 className="mb-3">Welcome to {currentShop.shopName}</h3>
                             { currentShop.shopInventory.map( (item) => (
-                                <div className="my-2" key={item.itemId}>
+                                <div className="form-check my-2" key={item.itemId}>
                                     <input
                                         type="radio"
-                                        className="btn-check"
+                                        className="form-check-input"
                                         name="btnradio"
                                         id={item.itemId}
                                         autoComplete="off"
                                         value={item.itemId}
                                         onChange={onChosenItemChange}
                                     />
-                                    <label className="btn btn-primary btn-lg" htmlFor={item.itemId}>
+                                    <label className="form-check-label" htmlFor={item.itemId}>
                                         {item.itemName}, Price: {item.itemPrice}
                                         {item.healthEffect && (<>, Health effect: {item.healthEffect}</>)}
                                         {item.weight && (<>, Weight: {item.weight}</>)}
@@ -235,31 +243,35 @@ function Game(props) {
                                     </label>
                                 </div>))
                             }
-                            <button className="btn btn-primary btn-lg mt-4 me-4" onClick={buyItem}>BUY ITEM</button>
-                            <button className="btn btn-primary btn-lg mt-4 ms-4" onClick={closeShop}>BACK</button>
+                            <div className="mt-4">
+                                <button className="btn btn-primary btn-lg ms-2 me-1" style={{width: "45%"}} onClick={buyItem}>BUY ITEM</button>
+                                <button className="btn btn-primary btn-lg ms-1 me-2" style={{width: "45%"}} onClick={closeShop}>BACK</button>
+                            </div>
                         </>
                     )}
                     { showBackpack && (
                         <>
                             <h3 className="mb-3">Your backpack</h3>
                             { currentPlayer.backpack.foodItems.map( (item) => (
-                                <div className="my-2" key={item.itemId}>
+                                <div className="form-check my-2" key={item.itemId}>
                                     <input
                                         type="radio"
-                                        className="btn-check"
+                                        className="form-check-input"
                                         name="btnradio"
                                         id={item.itemId}
                                         autoComplete="off"
                                         value={item.itemId}
                                         onChange={onChosenItemChange}
                                     />
-                                    <label className="btn btn-primary btn-lg" htmlFor={item.itemId}>
+                                    <label className="form-check-label" htmlFor={item.itemId}>
                                         {item.itemName}, Health effect: {item.healthEffect}
                                     </label>
                                 </div>))
                             }
-                            <button className="btn btn-primary btn-lg mt-4 me-4" onClick={eat}>EAT</button>
-                            <button className="btn btn-primary btn-lg mt-4 ms-4" onClick={closeBackpack}>BACK</button>
+                            <div className="mt-4">
+                                <button className="btn btn-primary btn-lg ms-2 me-1" style={{width: "45%"}} onClick={eat}>EAT</button>
+                                <button className="btn btn-primary btn-lg ms-1 me-2" style={{width: "45%"}} onClick={closeBackpack}>BACK</button>
+                            </div>
                         </>
                     )}
                 </div>
@@ -267,11 +279,11 @@ function Game(props) {
             <div className="row border">
                 { (currentPlayer && !buttonsDisabled) && (
                 <div className="col border d-flex justify-content-evenly p-4">
-                    { (currentPlayer.actionsRemaining !== 0 && currentPlayer.pickaxe !== null && currentPlayer.currentMine !== null) && <button className="btn btn-primary btn-lg" id="actionButton1" onClick={dig}>DIG</button> }
-                    { (currentPlayer.actionsRemaining !== 0 && currentPlayer.backpack.foodItems.length !== 0) && <button className="btn btn-primary btn-lg" id="actionButton2" onClick={openBackpack}>EAT</button> }
-                    { (currentPlayer.actionsRemaining !== 0 && currentPlayer.goldAmount > 0) && <button className="btn btn-primary btn-lg" id="actionButton3" onClick={openShop}>VISIT SHOP</button> }
-                    { currentPlayer.actionsRemaining !== 0 && <button className="btn btn-primary btn-lg" id="actionButton4" onClick={move}>MOVE</button> }
-                    <button className="btn btn-primary btn-lg" id="actionButton5" onClick={sleep}>SLEEP</button>
+                    { (currentPlayer.actionsRemaining !== 0 && currentPlayer.pickaxe !== null && currentPlayer.currentMine !== null) && <button className="btn btn-primary btn-lg" style={{width: "15%"}} id="actionButton1" onClick={dig}>DIG</button> }
+                    { (currentPlayer.actionsRemaining !== 0 && currentPlayer.backpack.foodItems.length !== 0) && <button className="btn btn-primary btn-lg" style={{width: "15%"}} id="actionButton2" onClick={openBackpack}>EAT</button> }
+                    { (currentPlayer.actionsRemaining !== 0 && currentPlayer.goldAmount > 0) && <button className="btn btn-primary btn-lg" style={{width: "15%"}} id="actionButton3" onClick={openShop}>VISIT SHOP</button> }
+                    { currentPlayer.actionsRemaining !== 0 && <button className="btn btn-primary btn-lg" style={{width: "15%"}} id="actionButton4" onClick={move}>MOVE</button> }
+                    <button className="btn btn-primary btn-lg" style={{width: "15%"}} id="actionButton5" onClick={sleep}>SLEEP</button>
                 </div>)}
             </div>
             <div className="row border">
