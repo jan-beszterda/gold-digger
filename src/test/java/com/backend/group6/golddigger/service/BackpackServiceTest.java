@@ -24,7 +24,7 @@ class BackpackServiceTest extends MockitoExtension {
 
     @Test
     @DisplayName("Verify that getAllBackpacks() returns all backpacks from DB")
-    void getAllBackpacks() {
+    void getAllBackpacksShouldReturnTrueIfNOTEmpty() {
         //Setup
         Backpack backpack1 = new Backpack();
         backpack1.setBackpackId(1);
