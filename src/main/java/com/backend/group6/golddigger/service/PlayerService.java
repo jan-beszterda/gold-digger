@@ -168,7 +168,6 @@ public class PlayerService {
     private double hitWithPickaxe(Player player) {
         Random random = new Random();
         double randomHit = Math.round(random.nextDouble(0.0, 1.0) * 10.0) / 10.0;
-        System.out.println(randomHit);
         return randomHit * (player.getHealth() / 100)
                 * player.getPickaxe().getStrength()
                 * (player.getPickaxe().getCondition() / 100);

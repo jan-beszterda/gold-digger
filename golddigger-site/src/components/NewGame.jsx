@@ -37,13 +37,13 @@ function NewGame() {
     }
 
     return (
-        <div className="container-sm m-3 p-3">
-            <form className="" onSubmit={handleSubmit}>
-                <label className="form-label" htmlFor="playerName">
+        <div className="container-sm d-flex justify-content-center m-3 p-3">
+            <form className="w-50" onSubmit={handleSubmit}>
+                <label className="form-label mb-4" htmlFor="playerName">
                     Input your name
                 </label>
-                <input type="text" className="form-control" name="playerName" value={player.playerName} onChange={handleChange}/>
-                <button className="btn btn-lg btn-primary mt-3" type="submit">Start</button>
+                <input type="text" className="form-control mb-4" name="playerName" value={player.playerName} onChange={handleChange}/>
+                <button className="btn btn-lg btn-primary mt-3 w-50" type="submit">Start</button>
             </form>
         </div>
     );
