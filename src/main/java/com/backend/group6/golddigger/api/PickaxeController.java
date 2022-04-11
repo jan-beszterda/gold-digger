@@ -26,7 +26,7 @@ public class PickaxeController {
     }
 
     @PostMapping()
-    public void addPickaxe(@RequestBody Pickaxe pickaxe) {
-        pickaxeService.addPickaxe(pickaxe);
+    public Pickaxe addPickaxe(@RequestBody Pickaxe pickaxe) {
+        return pickaxeService.addPickaxe(pickaxe);
     }
 }
