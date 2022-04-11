@@ -21,7 +21,6 @@ class PlayerServiceTest extends MockitoExtension {
     static PickaxeDAO pickaxeDAO;
     static ItemDAO itemDAO;
     static FoodDAO foodDAO;
-    static ShopDAO shopDAO;
 
     @BeforeAll
     public static void init() {
@@ -31,10 +30,9 @@ class PlayerServiceTest extends MockitoExtension {
         pickaxeDAO = Mockito.mock(PickaxeDAO.class);
         itemDAO = Mockito.mock(ItemDAO.class);
         foodDAO = Mockito.mock(FoodDAO.class);
-        shopDAO = Mockito.mock(ShopDAO.class);
 
         unitUnderTest = new PlayerService(playerDAO, backpackDAO, mineDAO, pickaxeDAO,
-                itemDAO, foodDAO, shopDAO);
+                itemDAO, foodDAO);
     }
 
     @Test
