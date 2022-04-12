@@ -22,7 +22,7 @@ public class BackpackDAO {
         return repository.findById(id);
     }
 
-    public void saveBackpack(Backpack backpack) {
-        repository.save(backpack);
+    public Backpack saveBackpack(Backpack backpack) {
+        return repository.save(backpack);
     }
 }
