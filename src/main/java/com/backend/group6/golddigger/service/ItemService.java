@@ -22,7 +22,7 @@ public class ItemService {
         return itemDAO.getItemById(id).orElse(null);
     }
 
-    public void addItem(Item item) {
-        itemDAO.addItem(item);
+    public Item addItem(Item item) {
+        return itemDAO.addItem(item);
     }
 }
