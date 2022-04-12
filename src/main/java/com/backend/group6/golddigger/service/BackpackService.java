@@ -22,7 +22,7 @@ public class BackpackService {
         return backpackDAO.getBackpackById(id).orElse(null);
     }
 
-    public void saveBackpack(Backpack backpack) {
-        backpackDAO.saveBackpack(backpack);
+    public Backpack saveBackpack(Backpack backpack) {
+        return backpackDAO.saveBackpack(backpack);
     }
 }

@@ -24,4 +24,9 @@ public class BackpackController {
     public Backpack getBackpackById(@PathVariable("id") Integer id) {
         return backpackService.getBackpackById(id);
     }
+
+    @PostMapping()
+    public Backpack addBackpack(@RequestBody Backpack backpack) {
+        return backpackService.saveBackpack(backpack);
+    }
 }

@@ -9,9 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 class BackpackServiceTest extends MockitoExtension {
     static BackpackService unitUnderTest;
@@ -40,10 +42,9 @@ class BackpackServiceTest extends MockitoExtension {
 
         //Test
         List<Backpack> actualListOfBackpacks = unitUnderTest.getAllBackpacks();
-        boolean containingBackpacks = (actualListOfBackpacks.isEmpty()) ? false : true;
 
         //Verify
-        assertEquals(true, containingBackpacks);
+        assertEquals(2, actualListOfBackpacks.size());
     }
 
     @Test
@@ -55,10 +56,9 @@ class BackpackServiceTest extends MockitoExtension {
 
         //Test
         List<Backpack> actualListOfBackpacks = unitUnderTest.getAllBackpacks();
-        boolean containingBackpacks = (actualListOfBackpacks.isEmpty()) ? false : true;
 
         //Verify
-        assertEquals(false, containingBackpacks);
+        assertEquals(0, actualListOfBackpacks.size());
     }
 
     @Test
@@ -73,7 +73,7 @@ class BackpackServiceTest extends MockitoExtension {
         backpack2.setBackpackId(2);
         backpack2.setMaxWeight(9);
 
-        List<Backpack> backpacksFromDB = List.of(backpack1, backpack2);
+        List<Backpack> backpacksFromDB = new ArrayList<>();
         Mockito.when(backpackDAO.getAllBackpacks()).thenReturn(backpacksFromDB);
 
         //Test
@@ -84,19 +84,27 @@ class BackpackServiceTest extends MockitoExtension {
                 () -> assertEquals(9, actualListOfBackpacks.get(1).getMaxWeight()));
     }
 
-    /*@Test
+    @Test
     @DisplayName("Verify that saveBackpack() saves into DB")
-    saveBackpack() {
+    void saveBackpack() {
         // Setup
         Backpack backpack1 = new Backpack();
         backpack1.setBackpackId(1);
         backpack1.setMaxWeight(8);
 
-        List<Backpack> backpacksInDB = new ArrayList<>();
-        Mockito.when(backpackDAO.saveBackpack(backpack1)).then(backpacksInDB.add(backpack1));
+        Backpack backpackFromDB = new Backpack();
+        backpackFromDB.setBackpackId(1);
+        backpackFromDB.setMaxWeight(8);
+
+        Mockito.when(backpackDAO.saveBackpack(any())).thenReturn(backpackFromDB);
 
         // Test
+        Backpack actualBackpack = unitUnderTest.saveBackpack(backpack1);
+
+        // Verify
+        assertEquals(1, actualBackpack.getBackpackId());
+        assertEquals(8, actualBackpack.getMaxWeight());
     }
 
-     */
+
 }
