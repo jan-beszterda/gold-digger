@@ -1,11 +1,15 @@
 package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.*;
+import com.backend.group6.golddigger.model.Player;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,6 +41,27 @@ class PlayerServiceTest extends MockitoExtension {
 
     @Test
     void getAllPlayers() {
+        // Setup
+        List<Player> playersFromDB = new ArrayList<>();
+
+        Player player1 = new Player();
+        player1.setPlayerId(1);
+        player1.setPlayerName("Robert");
+
+        Player player2 = new Player();
+        player2.setPlayerId(2);
+        player2.setPlayerName("Peter");
+
+        playersFromDB.add(player1);
+        playersFromDB.add(player2);
+
+        Mockito.when(playerDAO.findAllPlayers()).thenReturn(playersFromDB);
+
+        // Test
+        List<Player> actualPlayers = unitUnderTest.getAllPlayers();
+
+        // Verify
+        assertEquals(2, actualPlayers.size());
     }
 
     @Test
