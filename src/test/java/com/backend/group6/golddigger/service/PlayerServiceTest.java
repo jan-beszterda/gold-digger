@@ -42,7 +42,7 @@ class PlayerServiceTest extends MockitoExtension {
     }
 
     @Test
-    void getAllPlayers() {
+    void verifyThatGetAllPlayersReturnsAllPlayersFromDatabase() {
         // Setup
         List<Player> playersFromDB = new ArrayList<>();
 
@@ -67,7 +67,7 @@ class PlayerServiceTest extends MockitoExtension {
     }
 
     @Test
-    void getAllAvailablePlayers() {
+    void verifyThatGetAllAvailablePlayersReturnAlivePlayersFromDatabase() {
         // Setup
         List<Player> playersFromDB = new ArrayList<>();
 
@@ -96,13 +96,13 @@ class PlayerServiceTest extends MockitoExtension {
     }
 
     @Test
-    void getPlayerById() {
+    void verifyThatGetPlayerByIdReturnsCorrectPlayerFromDatabase_whenCorrectIdIsGiven() {
         // Setup
-        Player player1 = new Player();
-        player1.setPlayerId(1);
-        player1.setPlayerName("Robert");
+        Player playerFromDatabase = new Player();
+        playerFromDatabase.setPlayerId(1);
+        playerFromDatabase.setPlayerName("Robert");
 
-        Mockito.when(playerDAO.findPlayerById(1)).thenReturn(Optional.of(player1));
+        Mockito.when(playerDAO.findPlayerById(1)).thenReturn(Optional.of(playerFromDatabase));
 
         // Test
         Player actualPlayer = unitUnderTest.getPlayerById(1);
@@ -112,11 +112,11 @@ class PlayerServiceTest extends MockitoExtension {
     }
 
     @Test
-    void createNewPlayer() {
+    void verifyThatCreateNewPlayerReturnsCreatedPlayer() {
         // Setup
-        Player player1 = new Player();
-        player1.setPlayerId(1);
-        player1.setPlayerName("Robert");
+        Player newPlayer = new Player();
+        newPlayer.setPlayerId(null);
+        newPlayer.setPlayerName("Robert");
 
         Player playerFromDB = new Player();
         playerFromDB.setPlayerId(1);
@@ -125,7 +125,7 @@ class PlayerServiceTest extends MockitoExtension {
         Mockito.when(playerDAO.savePlayer(any())).thenReturn(playerFromDB);
 
         // Test
-        Player createdPlayer = unitUnderTest.createNewPlayer(player1);
+        Player createdPlayer = unitUnderTest.createNewPlayer(newPlayer);
 
         // Verify
         assertEquals(1, createdPlayer.getPlayerId());
@@ -135,44 +135,47 @@ class PlayerServiceTest extends MockitoExtension {
     }
 
     @Test
-    void dig() {
+    void verifyThatDigLowersPlayersActionsAndHealthAndLowersPickaxeConditionAndReturnsUpdatedPlayer() {
         // Setup
-        Player player = new Player();
+        Player playerToDig = new Player();
         Mine mine = new Mine();
         Pickaxe pickaxe = new Pickaxe();
 
         mine.setMineId(1);
         mine.setMineName("Jan's mine");
         mine.setDifficulty(0.5);
-        mine.setTotalGold(1000);
-        mine.setPlayer(player);
+        mine.setTotalGold(1000.0);
+        mine.setPlayer(playerToDig);
 
         pickaxe.setItemId(1);
         pickaxe.setItemName("Jan's pickaxe");
         pickaxe.setStrength(2.5);
-        pickaxe.setCondition(100);
-        pickaxe.setItemPrice(500);
-        pickaxe.setPlayer(player);
+        pickaxe.setCondition(100.0);
+        pickaxe.setItemPrice(500.0);
+        pickaxe.setPlayer(playerToDig);
 
-        player.setPlayerId(1);
-        player.setPlayerName("Jan");
-        player.setMaxActions(3);
-        player.setActionsRemaining(3);
-        player.setHealth(100);
-        player.setCurrentMine(mine);
-        player.setPickaxe(pickaxe);
+        playerToDig.setPlayerId(50);
+        playerToDig.setPlayerName("Jan");
+        playerToDig.setMaxActions(3);
+        playerToDig.setActionsRemaining(3);
+        playerToDig.setHealth(100.0);
+        playerToDig.setGoldAmount(100.0);
+        playerToDig.setCurrentMine(mine);
+        playerToDig.setPickaxe(pickaxe);
 
 
-        Mockito.when(playerDAO.findPlayerById(1)).thenReturn(Optional.of(player));
-        Mockito.when(playerDAO.savePlayer(any())).thenReturn(player);
+        Mockito.when(playerDAO.findPlayerById(50)).thenReturn(Optional.of(playerToDig));
+        Mockito.when(playerDAO.savePlayer(any())).thenReturn(playerToDig);
 
         // Test
-        Player updatedPlayer = unitUnderTest.dig(1);
+        Player updatedPlayer = unitUnderTest.dig(50);
 
         // Verify
-        Mockito.verify(playerDAO, Mockito.times(1)).findPlayerById(any());
-        Mockito.verify(playerDAO, Mockito.times(1)).savePlayer(any());
+        Mockito.verify(playerDAO, Mockito.times(1)).findPlayerById(50);
+        Mockito.verify(playerDAO, Mockito.times(1)).savePlayer(playerToDig);
         assertEquals(2, updatedPlayer.getActionsRemaining());
+        assertNotEquals(100.0, updatedPlayer.getHealth());
+        assertNotEquals(100.0, updatedPlayer.getPickaxe().getCondition());
     }
 
     @Test
