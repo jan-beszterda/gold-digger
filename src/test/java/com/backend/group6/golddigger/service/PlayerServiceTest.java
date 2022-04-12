@@ -63,7 +63,7 @@ class PlayerServiceTest extends MockitoExtension {
     @Test
     @DisplayName("Verify that getPlayers() returns all players from DB")
     void getAllPlayersShouldReturnFalseIfEmpty() {
-
+        //Setup
         List<Player> playersFromDB = List.of();
         Mockito.when(playerDAO.findAllPlayers()).thenReturn(playersFromDB);
 
