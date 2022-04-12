@@ -141,15 +141,15 @@ class PlayerServiceTest extends MockitoExtension {
     @Test
     void verifyThatEatChangesPlayersHealthAndRemovesItemFromBackpackAndLowersPlayersActionsAndReturnsUpdatedPlayer() {
         // Setup
-        Player player = new Player();
-        player.setPlayerId(1);
-        player.setPlayerName("Jan");
-        player.setHealth(56.0);
-        player.setGoldAmount(5000.0);
-        player.setMaxActions(3);
-        player.setActionsRemaining(3);
-        player.setCurrentMine(new Mine());
-        player.setPickaxe(new Pickaxe());
+        Player playerToDine = new Player();
+        playerToDine.setPlayerId(40);
+        playerToDine.setPlayerName("Jan");
+        playerToDine.setHealth(56.0);
+        playerToDine.setGoldAmount(5000.0);
+        playerToDine.setMaxActions(3);
+        playerToDine.setActionsRemaining(3);
+        playerToDine.setCurrentMine(new Mine());
+        playerToDine.setPickaxe(new Pickaxe());
 
         Backpack backpack = new Backpack();
         backpack.setBackpackId(1);
@@ -173,36 +173,36 @@ class PlayerServiceTest extends MockitoExtension {
         items.add(foodItem1);
         items.add(foodItem2);
         backpack.setFoodItems(items);
-        player.setBackpack(backpack);
+        playerToDine.setBackpack(backpack);
 
-        Mockito.when(playerDAO.findPlayerById(1)).thenReturn(Optional.of(player));
-        Mockito.when(playerDAO.savePlayer(any())).thenReturn(player);
+        Mockito.when(playerDAO.findPlayerById(40)).thenReturn(Optional.of(playerToDine));
+        Mockito.when(playerDAO.savePlayer(any())).thenReturn(playerToDine);
 
         // Test
-        Player updatedPlayer = unitUnderTest.eat(1, 2);
+        Player updatedPlayer = unitUnderTest.eat(40, 2);
 
         // Verify
-        assertEquals(1, updatedPlayer.getPlayerId());
+        assertEquals(40, updatedPlayer.getPlayerId());
         assertEquals(2, updatedPlayer.getActionsRemaining());
         assertEquals(58.0, updatedPlayer.getHealth());
         assertEquals(1, updatedPlayer.getBackpack().getFoodItems().size());
 
-        Mockito.verify(playerDAO, Mockito.times(1)).findPlayerById(any());
-        Mockito.verify(playerDAO, Mockito.times(1)).savePlayer(any());
+        Mockito.verify(playerDAO, Mockito.times(1)).findPlayerById(40);
+        Mockito.verify(playerDAO, Mockito.times(1)).savePlayer(playerToDine);
     }
 
     @Test
     void verifyThatBuyItemChangesPlayersPickaxeAndLowersPlayersGoldAndLowersPlayersActionsAndReturnsUpdatedPlayer_WhenAPickaxeIsBought() {
         // Setup
-        Player player = new Player();
-        player.setPlayerId(1);
-        player.setPlayerName("Jan");
-        player.setHealth(100.0);
-        player.setGoldAmount(5000.0);
-        player.setMaxActions(3);
-        player.setActionsRemaining(3);
-        player.setBackpack(new Backpack());
-        player.setCurrentMine(new Mine());
+        Player playerToMakePurchase = new Player();
+        playerToMakePurchase.setPlayerId(30);
+        playerToMakePurchase.setPlayerName("Jan");
+        playerToMakePurchase.setHealth(100.0);
+        playerToMakePurchase.setGoldAmount(5000.0);
+        playerToMakePurchase.setMaxActions(3);
+        playerToMakePurchase.setActionsRemaining(3);
+        playerToMakePurchase.setBackpack(new Backpack());
+        playerToMakePurchase.setCurrentMine(new Mine());
 
         Pickaxe pickaxe = new Pickaxe();
         pickaxe.setItemId(1);
@@ -210,9 +210,9 @@ class PlayerServiceTest extends MockitoExtension {
         pickaxe.setItemPrice(100.0);
         pickaxe.setStrength(1.0);
         pickaxe.setCondition(100.0);
-        pickaxe.setPlayer(player);
+        pickaxe.setPlayer(playerToMakePurchase);
 
-        player.setPickaxe(pickaxe);
+        playerToMakePurchase.setPickaxe(pickaxe);
 
         Pickaxe newPickaxe = new Pickaxe();
         newPickaxe.setItemId(2);
@@ -221,45 +221,45 @@ class PlayerServiceTest extends MockitoExtension {
         newPickaxe.setStrength(2.3);
         newPickaxe.setCondition(100.0);
 
-        Mockito.when(playerDAO.findPlayerById(1)).thenReturn(Optional.of(player));
-        Mockito.when(playerDAO.savePlayer(any())).thenReturn(player);
+        Mockito.when(playerDAO.findPlayerById(30)).thenReturn(Optional.of(playerToMakePurchase));
+        Mockito.when(playerDAO.savePlayer(any())).thenReturn(playerToMakePurchase);
         Mockito.when(itemDAO.getItemById(2)).thenReturn(Optional.of(newPickaxe));
 
         // Test
-        Player updatedPlayer = unitUnderTest.buyItem(1, 2);
+        Player updatedPlayer = unitUnderTest.buyItem(30, 2);
 
         // Verify
-        assertEquals(1, updatedPlayer.getPlayerId());
+        assertEquals(30, updatedPlayer.getPlayerId());
         assertEquals(2, updatedPlayer.getActionsRemaining());
         assertEquals(3000.0, updatedPlayer.getGoldAmount());
         assertEquals("Diamond pickaxe", updatedPlayer.getPickaxe().getItemName());
 
-        Mockito.verify(itemDAO, Mockito.times(1)).getItemById(any());
-        Mockito.verify(playerDAO, Mockito.times(1)).findPlayerById(any());
-        Mockito.verify(playerDAO, Mockito.times(1)).savePlayer(any());
+        Mockito.verify(itemDAO, Mockito.times(1)).getItemById(2);
+        Mockito.verify(playerDAO, Mockito.times(1)).findPlayerById(30);
+        Mockito.verify(playerDAO, Mockito.times(1)).savePlayer(playerToMakePurchase);
     }
 
     @Test
     void verifyThatMoveChangesPlayersMineAndLowersPlayersActionsAndReturnsUpdatedPlayer() {
         // Setup
-        Player player = new Player();
-        player.setPlayerId(1);
-        player.setPlayerName("Jan");
-        player.setHealth(100.0);
-        player.setGoldAmount(100.0);
-        player.setMaxActions(3);
-        player.setActionsRemaining(3);
-        player.setBackpack(new Backpack());
-        player.setPickaxe(new Pickaxe());
+        Player playerToMove = new Player();
+        playerToMove.setPlayerId(20);
+        playerToMove.setPlayerName("Jan");
+        playerToMove.setHealth(100.0);
+        playerToMove.setGoldAmount(100.0);
+        playerToMove.setMaxActions(3);
+        playerToMove.setActionsRemaining(3);
+        playerToMove.setBackpack(new Backpack());
+        playerToMove.setPickaxe(new Pickaxe());
 
         Mine mine = new Mine();
         mine.setMineId(1);
         mine.setMineName("Mine in the woods");
         mine.setTotalGold(1000.0);
         mine.setDifficulty(0.3);
-        mine.setPlayer(player);
+        mine.setPlayer(playerToMove);
 
-        player.setCurrentMine(mine);
+        playerToMove.setCurrentMine(mine);
 
         Mine otherMine = new Mine();
         otherMine.setMineId(2);
@@ -267,47 +267,47 @@ class PlayerServiceTest extends MockitoExtension {
         otherMine.setTotalGold(3000.0);
         otherMine.setDifficulty(0.6);
 
-        Mockito.when(playerDAO.findPlayerById(1)).thenReturn(Optional.of(player));
-        Mockito.when(playerDAO.savePlayer(any())).thenReturn(player);
+        Mockito.when(playerDAO.findPlayerById(20)).thenReturn(Optional.of(playerToMove));
+        Mockito.when(playerDAO.savePlayer(any())).thenReturn(playerToMove);
         Mockito.when(mineDAO.getAllMines()).thenReturn(List.of(otherMine));
 
         // Test
-        Player updatedPlayer = unitUnderTest.move(1);
+        Player updatedPlayer = unitUnderTest.move(20);
 
         // Verify
-        assertEquals(1, updatedPlayer.getPlayerId());
+        assertEquals(20, updatedPlayer.getPlayerId());
         assertEquals(2, updatedPlayer.getActionsRemaining());
         assertEquals("Deserted mine", updatedPlayer.getCurrentMine().getMineName());
 
         Mockito.verify(mineDAO, Mockito.times(1)).getAllMines();
-        Mockito.verify(playerDAO, Mockito.times(1)).findPlayerById(any());
-        Mockito.verify(playerDAO, Mockito.times(1)).savePlayer(any());
+        Mockito.verify(playerDAO, Mockito.times(1)).findPlayerById(20);
+        Mockito.verify(playerDAO, Mockito.times(1)).savePlayer(playerToMove);
     }
 
     @Test
     void verifyThatSleepRestoresPlayersActionsAndReturnsUpdatedPlayer() {
         // Setup
-        Player player = new Player();
-        player.setPlayerId(1);
-        player.setPlayerName("Jan");
-        player.setHealth(100.0);
-        player.setGoldAmount(100.0);
-        player.setMaxActions(3);
-        player.setActionsRemaining(2);
-        player.setBackpack(new Backpack());
-        player.setPickaxe(new Pickaxe());
-        player.setCurrentMine(new Mine());
+        Player playerToSleep = new Player();
+        playerToSleep.setPlayerId(10);
+        playerToSleep.setPlayerName("Jan");
+        playerToSleep.setHealth(100.0);
+        playerToSleep.setGoldAmount(100.0);
+        playerToSleep.setMaxActions(3);
+        playerToSleep.setActionsRemaining(2);
+        playerToSleep.setBackpack(new Backpack());
+        playerToSleep.setPickaxe(new Pickaxe());
+        playerToSleep.setCurrentMine(new Mine());
 
-        Mockito.when(playerDAO.findPlayerById(1)).thenReturn(Optional.of(player));
-        Mockito.when(playerDAO.savePlayer(any())).thenReturn(player);
+        Mockito.when(playerDAO.findPlayerById(10)).thenReturn(Optional.of(playerToSleep));
+        Mockito.when(playerDAO.savePlayer(any())).thenReturn(playerToSleep);
 
         // Test
-        Player updatedPlayer = unitUnderTest.sleep(1);
+        Player updatedPlayer = unitUnderTest.sleep(10);
 
         // Verify
         assertEquals(3, updatedPlayer.getActionsRemaining());
-        assertEquals(1, updatedPlayer.getPlayerId());
-        Mockito.verify(playerDAO, Mockito.times(1)).findPlayerById(any());
-        Mockito.verify(playerDAO, Mockito.times(1)).savePlayer(any());
+        assertEquals(10, updatedPlayer.getPlayerId());
+        Mockito.verify(playerDAO, Mockito.times(1)).findPlayerById(10);
+        Mockito.verify(playerDAO, Mockito.times(1)).savePlayer(playerToSleep);
     }
 }
