@@ -136,6 +136,43 @@ class PlayerServiceTest extends MockitoExtension {
 
     @Test
     void dig() {
+        // Setup
+        Player player = new Player();
+        Mine mine = new Mine();
+        Pickaxe pickaxe = new Pickaxe();
+
+        mine.setMineId(1);
+        mine.setMineName("Jan's mine");
+        mine.setDifficulty(0.5);
+        mine.setTotalGold(1000);
+        mine.setPlayer(player);
+
+        pickaxe.setItemId(1);
+        pickaxe.setItemName("Jan's pickaxe");
+        pickaxe.setStrength(2.5);
+        pickaxe.setCondition(100);
+        pickaxe.setItemPrice(500);
+        pickaxe.setPlayer(player);
+
+        player.setPlayerId(1);
+        player.setPlayerName("Jan");
+        player.setMaxActions(3);
+        player.setActionsRemaining(3);
+        player.setHealth(100);
+        player.setCurrentMine(mine);
+        player.setPickaxe(pickaxe);
+
+
+        Mockito.when(playerDAO.findPlayerById(1)).thenReturn(Optional.of(player));
+        Mockito.when(playerDAO.savePlayer(any())).thenReturn(player);
+
+        // Test
+        Player updatedPlayer = unitUnderTest.dig(1);
+
+        // Verify
+        Mockito.verify(playerDAO, Mockito.times(1)).findPlayerById(any());
+        Mockito.verify(playerDAO, Mockito.times(1)).savePlayer(any());
+        assertEquals(2, updatedPlayer.getActionsRemaining());
     }
 
     @Test
