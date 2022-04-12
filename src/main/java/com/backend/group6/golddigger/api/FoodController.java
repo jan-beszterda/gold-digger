@@ -26,8 +26,8 @@ public class FoodController {
     }
 
     @PostMapping()
-    public void addFoodItem(@RequestBody FoodItem foodItem) {
-        foodService.addFoodItem(foodItem);
+    public FoodItem addFoodItem(@RequestBody FoodItem foodItem) {
+        return foodService.addFoodItem(foodItem);
     }
 
 }

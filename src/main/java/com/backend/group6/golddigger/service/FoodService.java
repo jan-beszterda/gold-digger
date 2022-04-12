@@ -22,7 +22,7 @@ public class FoodService {
         return foodDAO.getFoodItemById(id).orElse(null);
     }
 
-    public void addFoodItem(FoodItem foodItem) {
-        foodDAO.addFoodItem(foodItem);
+    public FoodItem addFoodItem(FoodItem foodItem) {
+        return foodDAO.addFoodItem(foodItem);
     }
 }

@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 class FoodServiceTest extends MockitoExtension {
 
@@ -41,11 +42,9 @@ class FoodServiceTest extends MockitoExtension {
 
         //Test
         List<FoodItem> actualListOfFoodItems = unitUnderTest.getAllFoodItems();
-        boolean containingFoodItems = (actualListOfFoodItems.isEmpty()) ? false : true;
 
         //Verify
-        assertEquals(true, containingFoodItems);
-
+        assertEquals(2, actualListOfFoodItems.size());
     }
 
     @Test
@@ -57,11 +56,9 @@ class FoodServiceTest extends MockitoExtension {
 
         //Test
         List<FoodItem> actualListOfFoodItems = unitUnderTest.getAllFoodItems();
-        boolean containingFoodItems = (actualListOfFoodItems.isEmpty()) ? false : true;
 
         //Verify
-        assertEquals(false, containingFoodItems);
-
+        assertEquals(0, actualListOfFoodItems.size());
     }
 
     @Test
@@ -89,6 +86,24 @@ class FoodServiceTest extends MockitoExtension {
     }
 
     @Test
+    @DisplayName("Verify that addFoodItem() saves into DB")
     void addFoodItem() {
+        // Setup
+        FoodItem foodItem = new FoodItem();
+        foodItem.setItemId(1);
+        foodItem.setItemName("Tomato");
+
+        FoodItem foodItemFromDB = new FoodItem();
+        foodItemFromDB.setItemId(1);
+        foodItemFromDB.setItemName("Tomato");
+
+        Mockito.when(foodDAO.addFoodItem(any())).thenReturn(foodItemFromDB);
+
+        // Test
+        FoodItem actualFoodItem = unitUnderTest.addFoodItem(foodItem);
+
+        // Verify
+        assertEquals(1, actualFoodItem.getItemId());
+        assertEquals("Tomato", actualFoodItem.getItemName());
     }
 }
