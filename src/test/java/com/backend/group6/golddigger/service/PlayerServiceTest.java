@@ -43,18 +43,95 @@ class PlayerServiceTest extends MockitoExtension {
 
     @Test
     void getAllPlayers() {
+        // Setup
+        List<Player> playersFromDB = new ArrayList<>();
+
+        Player player1 = new Player();
+        player1.setPlayerId(1);
+        player1.setPlayerName("Robert");
+
+        Player player2 = new Player();
+        player2.setPlayerId(2);
+        player2.setPlayerName("Peter");
+
+        playersFromDB.add(player1);
+        playersFromDB.add(player2);
+
+        Mockito.when(playerDAO.findAllPlayers()).thenReturn(playersFromDB);
+
+        // Test
+        List<Player> actualPlayers = unitUnderTest.getAllPlayers();
+
+        // Verify
+        assertEquals(2, actualPlayers.size());
     }
 
     @Test
     void getAllAvailablePlayers() {
+        // Setup
+        List<Player> playersFromDB = new ArrayList<>();
+
+        Player player1 = new Player();
+        player1.setPlayerId(1);
+        player1.setPlayerName("Robert");
+        player1.setHealth(50);
+        player1.setMaxActions(3);
+
+        Player player2 = new Player();
+        player2.setPlayerId(2);
+        player2.setPlayerName("Peter");
+        player2.setHealth(0);
+        player2.setMaxActions(0);
+
+        playersFromDB.add(player1);
+        playersFromDB.add(player2);
+
+        Mockito.when(playerDAO.findAllPlayers()).thenReturn(playersFromDB);
+
+        // Test
+        List<Player> actualPlayers = unitUnderTest.getAllAvailablePlayers();
+
+        // Verify
+        assertEquals(1, actualPlayers.size());
     }
 
     @Test
     void getPlayerById() {
+        // Setup
+        Player player1 = new Player();
+        player1.setPlayerId(1);
+        player1.setPlayerName("Robert");
+
+        Mockito.when(playerDAO.findPlayerById(1)).thenReturn(Optional.of(player1));
+
+        // Test
+        Player actualPlayer = unitUnderTest.getPlayerById(1);
+
+        // Verify
+        assertEquals(1, actualPlayer.getPlayerId());
     }
 
     @Test
     void createNewPlayer() {
+        // Setup
+        Player player1 = new Player();
+        player1.setPlayerId(1);
+        player1.setPlayerName("Robert");
+
+        Player playerFromDB = new Player();
+        playerFromDB.setPlayerId(1);
+        playerFromDB.setPlayerName("Robert");
+
+        Mockito.when(playerDAO.savePlayer(any())).thenReturn(playerFromDB);
+
+        // Test
+        Player createdPlayer = unitUnderTest.createNewPlayer(player1);
+
+        // Verify
+        assertEquals(1, createdPlayer.getPlayerId());
+        assertEquals("Robert", createdPlayer.getPlayerName());
+
+
     }
 
     @Test
