@@ -22,7 +22,7 @@ public class ItemDAO {
         return repository.findById(id);
     }
 
-    public void addItem(Item item) {
-        repository.save(item);
+    public Item addItem(Item item) {
+        return repository.save(item);
     }
 }
