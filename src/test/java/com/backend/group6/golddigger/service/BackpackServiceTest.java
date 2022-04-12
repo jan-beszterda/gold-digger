@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,48 +49,29 @@ class BackpackServiceTest extends MockitoExtension {
     }
 
     @Test
-    @DisplayName("Verify that getAllBackpacks() returns all backpacks from DB")
-    void getAllBackpacksShouldReturnFalseIfEmpty() {
-        //Setup
-        List<Backpack> backpacksFromDB = List.of();
-        Mockito.when(backpackDAO.getAllBackpacks()).thenReturn(backpacksFromDB);
-
-        //Test
-        List<Backpack> actualListOfBackpacks = unitUnderTest.getAllBackpacks();
-
-        //Verify
-        assertEquals(0, actualListOfBackpacks.size());
-    }
-
-    @Test
     @DisplayName("Verify that getBackpacksById() returns specific backpack from DB")
-    void getBackpackById() {
+    void verifyThatGetBackpackByIdReturnsCorrectBackpack_whenCorrectIdIsGiven() {
         //Setup
-        Backpack backpack1 = new Backpack();
-        backpack1.setBackpackId(1);
-        backpack1.setMaxWeight(8);
+        Backpack backpackFromDatabase = new Backpack();
+        backpackFromDatabase.setBackpackId(1);
+        backpackFromDatabase.setMaxWeight(8);
 
-        Backpack backpack2 = new Backpack();
-        backpack2.setBackpackId(2);
-        backpack2.setMaxWeight(9);
-
-        List<Backpack> backpacksFromDB = new ArrayList<>();
-        Mockito.when(backpackDAO.getAllBackpacks()).thenReturn(backpacksFromDB);
+        Mockito.when(backpackDAO.getBackpackById(1)).thenReturn(Optional.of(backpackFromDatabase));
 
         //Test
-        List<Backpack> actualListOfBackpacks = unitUnderTest.getAllBackpacks();
+        Backpack actualBackpack = unitUnderTest.getBackpackById(1);
 
         //Verify
-        Assertions.assertAll(() -> assertEquals(8, actualListOfBackpacks.get(0).getMaxWeight()),
-                () -> assertEquals(9, actualListOfBackpacks.get(1).getMaxWeight()));
+        assertNotNull(actualBackpack);
+        assertEquals(1, actualBackpack.getBackpackId());
     }
 
     @Test
     @DisplayName("Verify that saveBackpack() saves into DB")
-    void saveBackpack() {
+    void verifyThatSaveBackpackReturnsSavedBackpack() {
         // Setup
         Backpack backpack1 = new Backpack();
-        backpack1.setBackpackId(1);
+        backpack1.setBackpackId(null);
         backpack1.setMaxWeight(8);
 
         Backpack backpackFromDB = new Backpack();
@@ -105,6 +87,4 @@ class BackpackServiceTest extends MockitoExtension {
         assertEquals(1, actualBackpack.getBackpackId());
         assertEquals(8, actualBackpack.getMaxWeight());
     }
-
-
 }

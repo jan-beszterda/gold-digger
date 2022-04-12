@@ -26,7 +26,7 @@ public class MineService {
         mineDAO.deleteMine(id);
     }
 
-    public void addMine(Mine mine) {
-        mineDAO.saveMine(mine);
+    public Mine addMine(Mine mine) {
+        return mineDAO.saveMine(mine);
     }
 }
