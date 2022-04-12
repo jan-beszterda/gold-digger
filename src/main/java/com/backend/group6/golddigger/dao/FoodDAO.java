@@ -22,7 +22,7 @@ public class FoodDAO {
         return repository.findById(id);
     }
 
-    public void addFoodItem(FoodItem foodItem) {
-        repository.save(foodItem);
+    public FoodItem addFoodItem(FoodItem foodItem) {
+        return repository.save(foodItem);
     }
 }

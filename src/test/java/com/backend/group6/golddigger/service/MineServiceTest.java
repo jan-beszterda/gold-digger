@@ -84,9 +84,29 @@ class MineServiceTest extends MockitoExtension {
                 () -> assertEquals("Mine2", actualListOfMines.get(1).getMineName()));
     }
 
-    @Test
+  /*  @Test
     void removeMine() {
-    }
+        //Setup
+        Mine mine1 = new Mine();
+        mine1.setMineId(1);
+        mine1.setMineName("Mine1");
+
+        Mine mine2 = new Mine();
+        mine2.setMineId(2);
+        mine2.setMineName("Mine2");
+
+        List<Mine> minesFromDB = List.of(mine1, mine2);
+        Mockito.when(mineDAO.getAllMines()).thenReturn(minesFromDB);
+
+        //Test
+        mineDAO.deleteMine(mine1.getMineId());
+        List<Mine> actualListOfMines = unitUnderTest.getAllMines();
+
+        boolean containingMine = actualListOfMines.contains(mine1);
+
+        //Verify
+        assertEquals(false, containingMine);
+    }*/
 
     @Test
     void addMine() {
