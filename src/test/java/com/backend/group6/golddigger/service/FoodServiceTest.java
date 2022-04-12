@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,49 +49,29 @@ class FoodServiceTest extends MockitoExtension {
     }
 
     @Test
-    @DisplayName("Verify that getAllFoodItems() returns all foodItems from DB")
-    void getAllFoodItemsShouldReturnFalseIfEmpty() {
-        //Setup
-        List<FoodItem> foodFromDB = List.of();
-        Mockito.when(foodDAO.getAllFoodItems()).thenReturn(foodFromDB);
-
-        //Test
-        List<FoodItem> actualListOfFoodItems = unitUnderTest.getAllFoodItems();
-
-        //Verify
-        assertEquals(0, actualListOfFoodItems.size());
-    }
-
-    @Test
     @DisplayName("Verify that getFoodItemById() returns specific foodItem from DB")
-    void getFoodItemById() {
+    void verifyThatGetFoodItemByIdReturnsCorrectFoodItem_whenCorrectIdIsGiven() {
         //Setup
-        FoodItem foodItem1 = new FoodItem();
-        foodItem1.setItemId(1);
-        foodItem1.setItemName("Coca Cola");
+        FoodItem foodItemFromDatabase = new FoodItem();
+        foodItemFromDatabase.setItemId(1);
+        foodItemFromDatabase.setItemName("Coca Cola");
 
-        FoodItem foodItem2 = new FoodItem();
-        foodItem2.setItemId(2);
-        foodItem2.setItemName("Pepsi");
-
-        List<FoodItem> foodFromDB = List.of(foodItem1, foodItem2);
-        Mockito.when(foodDAO.getAllFoodItems()).thenReturn(foodFromDB);
+        Mockito.when(foodDAO.getFoodItemById(1)).thenReturn(Optional.of(foodItemFromDatabase));
 
         //Test
-        List<FoodItem> actualListOfFoodItems = unitUnderTest.getAllFoodItems();
+        FoodItem actualFoodItem = unitUnderTest.getFoodItemById(1);
 
         //Verify
-        Assertions.assertAll(() -> assertEquals("Coca Cola", actualListOfFoodItems.get(0).getItemName()),
-                () -> assertEquals("Pepsi", actualListOfFoodItems.get(1).getItemName()));
-
+        assertNotNull(actualFoodItem);
+        assertEquals(1, actualFoodItem.getItemId());
     }
 
     @Test
     @DisplayName("Verify that addFoodItem() saves into DB")
-    void addFoodItem() {
+    void verifyThatAddFoodItemReturnsAddedItem() {
         // Setup
         FoodItem foodItem = new FoodItem();
-        foodItem.setItemId(1);
+        foodItem.setItemId(null);
         foodItem.setItemName("Tomato");
 
         FoodItem foodItemFromDB = new FoodItem();

@@ -31,7 +31,7 @@ public class MineController {
     }
 
     @PostMapping("/create")
-    public void addMine(@RequestBody Mine mine) {
-        mineService.addMine(mine);
+    public Mine addMine(@RequestBody Mine mine) {
+        return mineService.addMine(mine);
     }
 }
