@@ -11,7 +11,6 @@ function NewGame() {
     async function handleSubmit(e) {
         e.preventDefault();
         let player = await createplayer();
-        console.log(player);
         navigate(`/game/${player.playerId}`);
     }
 
@@ -43,7 +42,7 @@ function NewGame() {
                     Input your name
                 </label>
                 <input type="text" className="form-control mb-4" name="playerName" value={player.playerName} onChange={handleChange}/>
-                <button className="btn btn-lg btn-primary mt-3 w-50" type="submit">Start</button>
+                <button className="btn btn-lg btn-primary mt-3 w-50f" type="submit">Start</button>
             </form>
         </div>
     );

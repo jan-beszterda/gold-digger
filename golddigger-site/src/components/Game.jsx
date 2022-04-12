@@ -60,7 +60,6 @@ function Game(props) {
     }
 
     async function eat() {
-        currentPlayer.backpack.foodItems.map(item => console.log(item.itemId));
         let response = await fetch('/api/players/' + currentPlayer.playerId + '/eat/' + chosenItemId, {
                 method: 'PUT'
             });
