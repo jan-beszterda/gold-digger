@@ -4,6 +4,7 @@ import com.backend.group6.golddigger.dao.ShopDAO;
 import com.backend.group6.golddigger.model.Item;
 import com.backend.group6.golddigger.model.Shop;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -13,12 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 class ShopServiceTest extends MockitoExtension {
-    static ShopService unitUnderTest;
+    private static ShopService unitUnderTest;
     @Mock
-    static ShopDAO shopDAO;
+    private static ShopDAO shopDAO;
 
     @BeforeAll
     public static void init() {
@@ -27,6 +27,7 @@ class ShopServiceTest extends MockitoExtension {
     }
 
     @Test
+    @DisplayName("Verify that getAllShops() returns all shops from database")
     void verifyThatGetAllShopsReturnsAllShopsRegisteredInDatabase() {
         //Setup
         Shop shop1 = new Shop();
@@ -40,7 +41,7 @@ class ShopServiceTest extends MockitoExtension {
         shop2.setShopInventory(List.of(new Item()));
 
         List<Shop> shopsFromDatabase = List.of(shop1, shop2);
-        Mockito.when(shopDAO.getAllShops()).thenReturn(shopsFromDatabase);
+        Mockito.when(shopDAO.findAllShops()).thenReturn(shopsFromDatabase);
 
         //Test
         List<Shop> actualListOfShops = unitUnderTest.getAllShops();
@@ -50,6 +51,7 @@ class ShopServiceTest extends MockitoExtension {
     }
 
     @Test
+    @DisplayName("Verify that getShopById() returns correct shop from database")
     void verifyThatGetShopByIdReturnsCorrectShop_WhenCorrectIdIsGiven() {
         // Setup
         Shop shopFromDatabase = new Shop();
@@ -57,7 +59,7 @@ class ShopServiceTest extends MockitoExtension {
         shopFromDatabase.setShopName("Diggers' den");
         shopFromDatabase.setShopInventory(List.of(new Item()));
 
-        Mockito.when(shopDAO.getShopById(1)).thenReturn(Optional.of(shopFromDatabase));
+        Mockito.when(shopDAO.findShopById(1)).thenReturn(Optional.of(shopFromDatabase));
 
         //Test
         Shop actualShop = unitUnderTest.getShopById(1);
@@ -69,6 +71,7 @@ class ShopServiceTest extends MockitoExtension {
     }
 
     @Test
+    @DisplayName("Verify that addShop() return saved shop")
     void verifyThatAddShopReturnsAddedShop() {
         // Setup
         Shop newShop = new Shop();
@@ -81,7 +84,7 @@ class ShopServiceTest extends MockitoExtension {
         shopFromDatabase.setShopName("Diggers' den");
         shopFromDatabase.setShopInventory(List.of(new Item()));
 
-        Mockito.when(shopDAO.addShop(any())).thenReturn(shopFromDatabase);
+        Mockito.when(shopDAO.saveShop(newShop)).thenReturn(shopFromDatabase);
 
         // Test
         Shop actualShop = unitUnderTest.addShop(newShop);

@@ -12,17 +12,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
-    PlayerDAO playerDAO;
-    BackpackDAO backpackDAO;
-    MineDAO mineDAO;
-    PickaxeDAO pickaxeDAO;
-    ItemDAO itemDAO;
-    FoodDAO foodDAO;
+    private PlayerDAO playerDAO;
+    private MineDAO mineDAO;
+    private PickaxeDAO pickaxeDAO;
+    private ItemDAO itemDAO;
+    private FoodDAO foodDAO;
 
-    public PlayerService(PlayerDAO playerDAO, BackpackDAO backpackDAO, MineDAO mineDAO, PickaxeDAO pickaxeDAO,
+    public PlayerService(PlayerDAO playerDAO, MineDAO mineDAO, PickaxeDAO pickaxeDAO,
                          ItemDAO itemDAO, FoodDAO foodDAO) {
         this.playerDAO = playerDAO;
-        this.backpackDAO = backpackDAO;
         this.mineDAO = mineDAO;
         this.pickaxeDAO = pickaxeDAO;
         this.itemDAO = itemDAO;
@@ -49,9 +47,9 @@ public class PlayerService {
         player.setHealth(100.0);
         player.setMaxActions(3);
         player.setActionsRemaining(3);
-        player.setBackpack(createBackpack(player));
-        player.setCurrentMine(createMine(player));
-        player.setPickaxe(createPickaxe(player));
+        player.setBackpack(createPlayersBackpack(player));
+        player.setCurrentMine(createPlayersMine(player));
+        player.setPickaxe(createPlayersPickaxe(player));
         return playerDAO.savePlayer(player);
     }
 
@@ -61,10 +59,10 @@ public class PlayerService {
             return null;
         }
         Player player = maybePlayer.get();
-        double hit = hitWithPickaxe(player);
-        double goldDug = goldDug(player, hit);
-        increaseGoldAmount(player, goldDug);
-        decreaseHealth(player);
+        double hit = calculatePickaxeHit(player);
+        double goldDug = calculateGoldDug(player, hit);
+        increasePlayerGoldAmount(player, goldDug);
+        decreasePlayersHealth(player);
         decreasePickaxeCondition(player, hit);
         decreaseAmountGoldInMine(player, goldDug);
         int actions = player.getActionsRemaining();
@@ -78,9 +76,7 @@ public class PlayerService {
             return null;
         }
         Player player = maybePlayer.get();
-
         List<FoodItem> itemsInBackpack = player.getBackpack().getFoodItems();
-
         Optional<FoodItem> maybeFoodItem = itemsInBackpack
                 .stream()
                 .filter(foodItem -> foodItem.getItemId().equals(foodItemId))
@@ -89,15 +85,12 @@ public class PlayerService {
             return null;
         }
         FoodItem foodItem = maybeFoodItem.get();
-
         double newHealth = player.getHealth() + foodItem.getHealthEffect();
         player.setHealth(newHealth > 100 ? 100 : newHealth);
-
         itemsInBackpack.remove(foodItem);
         player.getBackpack().setFoodItems(itemsInBackpack);
         int actions = player.getActionsRemaining();
         player.setActionsRemaining(actions-1);
-
         return playerDAO.savePlayer(player);
     }
 
@@ -107,7 +100,7 @@ public class PlayerService {
             return null;
         }
         Player player = maybePlayer.get();
-        Optional<Item> maybeItem = itemDAO.getItemById(itemId);
+        Optional<Item> maybeItem = itemDAO.findItemById(itemId);
         if (maybeItem.isEmpty()) {
             return null;
         }
@@ -148,7 +141,7 @@ public class PlayerService {
             return null;
         }
         Player player = maybePlayer.get();
-        player.setCurrentMine(createMine(player));
+        player.setCurrentMine(createPlayersMine(player));
         int actions = player.getActionsRemaining();
         player.setActionsRemaining(actions-1);
         return playerDAO.savePlayer(player);
@@ -160,12 +153,12 @@ public class PlayerService {
             return null;
         }
         Player player = maybePlayer.get();
-        decreaseHealth(player);
+        decreasePlayersHealth(player);
         player.setActionsRemaining(player.getMaxActions());
         return playerDAO.savePlayer(player);
     }
 
-    private double hitWithPickaxe(Player player) {
+    private double calculatePickaxeHit(Player player) {
         Random random = new Random();
         double randomHit = Math.round(random.nextDouble(0.0, 1.0) * 10.0) / 10.0;
         return randomHit * (player.getHealth() / 100)
@@ -173,12 +166,12 @@ public class PlayerService {
                 * (player.getPickaxe().getCondition() / 100);
     }
 
-    private double goldDug(Player player, double hit) {
+    private double calculateGoldDug(Player player, double hit) {
         return player.getCurrentMine().getTotalGold() * hit
                 * (1 - player.getCurrentMine().getDifficulty());
     }
 
-    private void increaseGoldAmount(Player player, double goldDug) {
+    private void increasePlayerGoldAmount(Player player, double goldDug) {
         double newAmount = player.getGoldAmount() + goldDug;
         player.setGoldAmount(newAmount);
     }
@@ -188,34 +181,49 @@ public class PlayerService {
         double damage = hit * player.getCurrentMine().getDifficulty() * random.nextInt(10, 21);
         double newCondition = player.getPickaxe().getCondition() - damage;
         if (newCondition <= 0) {
-            wastePickaxe(player);
+            removePlayersPickaxe(player);
         } else {
             Pickaxe pickaxe = player.getPickaxe();
             pickaxe.setCondition(newCondition);
         }
     }
 
-    private void wastePickaxe(Player player) {
+    private void removePlayersPickaxe(Player player) {
         player.setPickaxe(null);
     }
 
     private void decreaseAmountGoldInMine(Player player, double goldDug) {
         double newTotalGold = player.getCurrentMine().getTotalGold() - goldDug;
         if (newTotalGold <= 0) {
-            closeMine(player);
+            removePlayersMine(player);
         } else {
             Mine mine = player.getCurrentMine();
             mine.setTotalGold(newTotalGold);
         }
     }
 
-    private void closeMine(Player player) {
+    private void decreasePlayersHealth(Player player) {
+        Random random = new Random();
+        double healthDecrease = player.getCurrentMine().getDifficulty() * random.nextInt(10, 21);
+        double newHealth = player.getHealth() - healthDecrease;
+        if (newHealth <= 0) {
+            invalidatePlayer(player);
+        } else {
+            player.setHealth(newHealth);
+        }
+    }
+
+    private void invalidatePlayer(Player player) {
+        player.setHealth(0);
+        player.setMaxActions(0);
+    }
+
+    private void removePlayersMine(Player player) {
         player.setCurrentMine(null);
     }
 
-
-    private Mine createMine(Player player) {
-        List<Mine> mines = (List<Mine>) mineDAO.getAllMines();
+    private Mine createPlayersMine(Player player) {
+        List<Mine> mines = (List<Mine>) mineDAO.findAllMines();
         Optional<Mine> maybeMine = mines
                 .stream()
                 .filter(mine -> mine.getTotalGold() > 0 && mine.getPlayer() == null)
@@ -233,7 +241,7 @@ public class PlayerService {
     }
 
 
-    private Backpack createBackpack(Player player) {
+    private Backpack createPlayersBackpack(Player player) {
         Backpack backpack = new Backpack();
         backpack.setMaxWeight(15.0);
         backpack.setFoodItems(getStartingItems());
@@ -243,7 +251,7 @@ public class PlayerService {
 
     private List<FoodItem> getStartingItems() {
         List<FoodItem> startingItems = new ArrayList<>();
-        List<FoodItem> foodItems = (List<FoodItem>) foodDAO.getAllFoodItems();
+        List<FoodItem> foodItems = (List<FoodItem>) foodDAO.findAllFoodItems();
         foodItems.stream()
                 .filter(foodItem -> foodItem.getHealthEffect() < 5)
                 .limit(2)
@@ -259,8 +267,8 @@ public class PlayerService {
         return startingItems;
     }
 
-    private Pickaxe createPickaxe(Player player) {
-        List<Pickaxe> pickaxes = (List<Pickaxe>) pickaxeDAO.getAllPickaxes();
+    private Pickaxe createPlayersPickaxe(Player player) {
+        List<Pickaxe> pickaxes = (List<Pickaxe>) pickaxeDAO.findAllPickaxes();
         Optional<Pickaxe> maybePickaxe = pickaxes.stream()
                 .filter(pickaxe -> pickaxe.getItemName().equalsIgnoreCase("Wooden pickaxe"))
                 .findAny();
@@ -274,22 +282,6 @@ public class PlayerService {
         newPickaxe.setCondition(aPickaxe.getCondition());
         newPickaxe.setPlayer(player);
         return newPickaxe;
-    }
-
-    private void decreaseHealth(Player player) {
-        Random random = new Random();
-        double healthDecrease = player.getCurrentMine().getDifficulty() * random.nextInt(10, 21);
-        double newHealth = player.getHealth() - healthDecrease;
-        if (newHealth <= 0) {
-            die(player);
-        } else {
-            player.setHealth(newHealth);
-        }
-    }
-
-    private void die(Player player) {
-        player.setHealth(0);
-        player.setMaxActions(0);
     }
 
     private double getCurrentBackpackWeight(Player player) {

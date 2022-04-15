@@ -5,6 +5,7 @@ import com.backend.group6.golddigger.model.Mine;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -12,11 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 class MineServiceTest extends MockitoExtension {
-    static MineService unitUnderTest;
-    static MineDAO mineDAO;
+    private static MineService unitUnderTest;
+    @Mock
+    private static MineDAO mineDAO;
 
     @BeforeAll
     public static void init() {
@@ -25,7 +26,7 @@ class MineServiceTest extends MockitoExtension {
     }
 
     @Test
-    @DisplayName("Verify that getAllMines() returns all mines from DB")
+    @DisplayName("Verify that getAllMines() returns all mines from database")
     void getAllMinesShouldReturnAllMinesInDatabase() {
         //Setup
         Mine mine1 = new Mine();
@@ -36,8 +37,8 @@ class MineServiceTest extends MockitoExtension {
         mine2.setMineId(2);
         mine2.setMineName("Mine2");
 
-        List<Mine> minesFromDB = List.of(mine1, mine2);
-        Mockito.when(mineDAO.getAllMines()).thenReturn(minesFromDB);
+        List<Mine> minesFromDatabase = List.of(mine1, mine2);
+        Mockito.when(mineDAO.findAllMines()).thenReturn(minesFromDatabase);
 
         //Test
         List<Mine> actualListOfMines = unitUnderTest.getAllMines();
@@ -47,14 +48,14 @@ class MineServiceTest extends MockitoExtension {
     }
 
     @Test
-    @DisplayName("Verify that getMineById() returns specific mine from DB")
+    @DisplayName("Verify that getMineById() returns specific mine from database")
     void verifyThatGetMineByIdReturnCorrectMine_whenCorrectIdIsGiven() {
         //Setup
         Mine mineFromDatabase = new Mine();
         mineFromDatabase.setMineId(1);
         mineFromDatabase.setMineName("A mine");
 
-        Mockito.when(mineDAO.getMineByID(1)).thenReturn(Optional.of(mineFromDatabase));
+        Mockito.when(mineDAO.findMineByID(1)).thenReturn(Optional.of(mineFromDatabase));
 
         //Test
         Mine actualMine = unitUnderTest.getMineById(1);
@@ -65,6 +66,7 @@ class MineServiceTest extends MockitoExtension {
     }
 
     @Test
+    @DisplayName("Verify that removeMine() calls only the deleteMine() method")
     void verifyThatRemoveMineCallsOnlyDeleteMineMethodAndThatDeleteMethodIsCalledOnlyOnce() {
         //Setup
 
@@ -76,6 +78,7 @@ class MineServiceTest extends MockitoExtension {
     }
 
     @Test
+    @DisplayName("Verify that addMine() returns saved mine")
     void verifyThatAddMineReturnsAddedMine() {
         // Setup
         Mine newMine = new Mine();
@@ -86,7 +89,7 @@ class MineServiceTest extends MockitoExtension {
         mineFromDatabase.setMineId(1);
         mineFromDatabase.setMineName("A mine");
 
-        Mockito.when(mineDAO.saveMine(any())).thenReturn(mineFromDatabase);
+        Mockito.when(mineDAO.saveMine(newMine)).thenReturn(mineFromDatabase);
 
         // Test
         Mine actualMine = unitUnderTest.addMine(newMine);

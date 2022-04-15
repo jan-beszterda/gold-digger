@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/items/food")
 public class FoodController {
-    FoodService foodService;
+    private FoodService foodService;
 
     public FoodController(FoodService foodService) {
         this.foodService = foodService;
@@ -25,7 +25,7 @@ public class FoodController {
         return foodService.getFoodItemById(id);
     }
 
-    @PostMapping()
+    @PostMapping("/create")
     public FoodItem addFoodItem(@RequestBody FoodItem foodItem) {
         return foodService.addFoodItem(foodItem);
     }

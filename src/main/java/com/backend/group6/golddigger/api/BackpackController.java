@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/backpacks")
 public class BackpackController {
-    BackpackService backpackService;
+    private BackpackService backpackService;
 
     public BackpackController(BackpackService backpackService) {
         this.backpackService = backpackService;
@@ -25,8 +25,8 @@ public class BackpackController {
         return backpackService.getBackpackById(id);
     }
 
-    @PostMapping()
+    @PostMapping("/create")
     public Backpack addBackpack(@RequestBody Backpack backpack) {
-        return backpackService.saveBackpack(backpack);
+        return backpackService.addBackpack(backpack);
     }
 }

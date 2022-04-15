@@ -8,17 +8,17 @@ import java.util.Optional;
 
 @Repository
 public class BackpackDAO {
-    BackpackRepository repository;
+    private BackpackRepository repository;
 
     public BackpackDAO(BackpackRepository repository) {
         this.repository = repository;
     }
 
-    public Iterable<Backpack> getAllBackpacks() {
+    public Iterable<Backpack> findAllBackpacks() {
         return repository.findAll();
     }
 
-    public Optional<Backpack> getBackpackById(Integer id) {
+    public Optional<Backpack> findBackpackById(Integer id) {
         return repository.findById(id);
     }
 

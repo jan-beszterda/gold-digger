@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/players")
 public class PlayerController {
-    PlayerService playerService;
+    private PlayerService playerService;
 
     public PlayerController(PlayerService playerService) {
         this.playerService = playerService;
@@ -31,7 +31,7 @@ public class PlayerController {
     }
 
     @PostMapping("/create")
-    public Player createNewPlayer(@RequestBody Player player) {
+    public Player addPlayer(@RequestBody Player player) {
         return playerService.createNewPlayer(player);
     }
 

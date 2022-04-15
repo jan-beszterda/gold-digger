@@ -1,4 +1,4 @@
-DELETE FROM items WHERE backpack_id IS NULL AND item_id NOT IN (SELECT pickaxe_id FROM players);
+/*DELETE FROM items WHERE backpack_id IS NULL AND item_id NOT IN (SELECT pickaxe_id FROM players);
 DELETE FROM mines WHERE mine_id NOT IN (SELECT mine_id FROM players);
 DELETE FROM shops;
 
@@ -18,20 +18,20 @@ VALUES ('Pickaxe', 'Diamond pickaxe', 2.3, 100, 2000.0, (SELECT shop_id FROM sho
        ('Pickaxe', 'Stone pickaxe', 1.3, 100, 200.0, (SELECT shop_id FROM shops));
 
 INSERT INTO items (category, item_name, health_effect, weight, item_price, shop_id)
-VALUES ('Food', 'Bread', 7, 0.5, 50.0, (SELECT shop_id FROM shops)),
-       ('Food', 'Raw meat', 15, 1.0, 200.0, (SELECT shop_id FROM shops)),
-       ('Food', 'Water', 2, 0.5, 10.0, (SELECT shop_id FROM shops)),
-       ('Food', 'Apple', 3, 0.3, 15.0, (SELECT shop_id FROM shops)),
-       ('Food', 'Cheese block', 10, 0.7, 100.0, (SELECT shop_id FROM shops)),
-       ('Food', 'Steak', 20, 0.4, 500.0, (SELECT shop_id FROM shops)),
-       ('Food', 'Potatoes', 6.5, 0.4, 25.0, (SELECT shop_id FROM shops)),
-       ('Food', 'Stew', 16.5, 0.8, 250.0, (SELECT shop_id FROM shops)),
-       ('Food', 'Grilled fish', 12, 0.4, 150.0, (SELECT shop_id FROM shops)),
-       ('Food', 'Pasta with meatballs', 18, 0.6, 300.0, (SELECT shop_id FROM shops));
+VALUES ('Food', 'Bread', 14, 0.5, 50.0, (SELECT shop_id FROM shops)),
+       ('Food', 'Raw meat', 20, 1.0, 200.0, (SELECT shop_id FROM shops)),
+       ('Food', 'Water', 3, 0.5, 10.0, (SELECT shop_id FROM shops)),
+       ('Food', 'Apple', 5, 0.3, 15.0, (SELECT shop_id FROM shops)),
+       ('Food', 'Cheese block', 17, 0.7, 100.0, (SELECT shop_id FROM shops)),
+       ('Food', 'Steak', 35, 0.4, 500.0, (SELECT shop_id FROM shops)),
+       ('Food', 'Potatoes', 10, 0.4, 25.0, (SELECT shop_id FROM shops)),
+       ('Food', 'Stew', 25, 0.8, 250.0, (SELECT shop_id FROM shops)),
+       ('Food', 'Grilled fish', 20, 0.4, 150.0, (SELECT shop_id FROM shops)),
+       ('Food', 'Pasta with meatballs', 30, 0.6, 300.0, (SELECT shop_id FROM shops));
 
 INSERT INTO mines (difficulty, mine_name, total_gold)
 VALUES (0.3, 'Mine in the woods', 1000.0),
-       (0.6, 'Desserted mine', 3500.0),
+       (0.6, 'Deserted mine', 3500.0),
        (0.8, 'Ghost mine', 10000.0),
        (0.2, 'Shallow mine', 500.0),
-       (0.5, 'Mountain den', 2000.0);
+       (0.5, 'Mountain den', 2000.0);*/

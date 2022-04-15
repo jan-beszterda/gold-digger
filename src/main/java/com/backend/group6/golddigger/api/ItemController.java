@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {
-    ItemService itemService;
+    private ItemService itemService;
 
     public ItemController(ItemService itemService) {
         this.itemService = itemService;

@@ -8,18 +8,18 @@ import java.util.List;
 
 @Service
 public class MineService {
-    MineDAO mineDAO;
+    private MineDAO mineDAO;
 
     public MineService(MineDAO mineDAO) {
         this.mineDAO = mineDAO;
     }
 
     public List<Mine> getAllMines() {
-        return (List<Mine>) mineDAO.getAllMines();
+        return (List<Mine>) mineDAO.findAllMines();
     }
 
     public Mine getMineById(Integer id) {
-        return mineDAO.getMineByID(id).orElse(null);
+        return mineDAO.findMineByID(id).orElse(null);
     }
 
     public void removeMine(Integer id) {

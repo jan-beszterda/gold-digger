@@ -2,8 +2,8 @@ package com.backend.group6.golddigger.service;
 
 import com.backend.group6.golddigger.dao.ItemDAO;
 import com.backend.group6.golddigger.model.Item;
-import com.backend.group6.golddigger.model.Shop;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 class ItemServiceTest extends MockitoExtension {
     static ItemService unitUnderTest;
@@ -27,6 +26,7 @@ class ItemServiceTest extends MockitoExtension {
     }
 
     @Test
+    @DisplayName("Verify that getAllItems() returns all items from database")
     void verifyThatGetAllItemsReturnsAllItemsRegisteredInDatabase() {
         // Setup
         Item item1 = new Item();
@@ -40,7 +40,7 @@ class ItemServiceTest extends MockitoExtension {
         item2.setItemPrice(15.0);
 
         List<Item> itemsFromDatabase = List.of(item1, item2);
-        Mockito.when(itemDAO.getAllItems()).thenReturn(itemsFromDatabase);
+        Mockito.when(itemDAO.findAllItems()).thenReturn(itemsFromDatabase);
 
         // Test
         List<Item> actualItems = unitUnderTest.getAllItems();
@@ -50,6 +50,7 @@ class ItemServiceTest extends MockitoExtension {
     }
 
     @Test
+    @DisplayName("Verify that getItemById() returns correct item from database")
     void verifyThatGetItemByIdReturnsCorrectItem_whenCorrectItemIdIsGiven() {
         // Setup
         Item itemFromDatabase = new Item();
@@ -57,7 +58,7 @@ class ItemServiceTest extends MockitoExtension {
         itemFromDatabase.setItemName("Wooden pickaxe");
         itemFromDatabase.setItemPrice(100.0);
 
-        Mockito.when(itemDAO.getItemById(1)).thenReturn(Optional.of(itemFromDatabase));
+        Mockito.when(itemDAO.findItemById(1)).thenReturn(Optional.of(itemFromDatabase));
 
         //Test
         Item actualItem = unitUnderTest.getItemById(1);
@@ -68,6 +69,7 @@ class ItemServiceTest extends MockitoExtension {
     }
 
     @Test
+    @DisplayName("Verify that addItem() returns saved item")
     void verifyThatAddItemAddsItemToDatabaseAndReturnsAddedItem() {
         // Setup
         Item newItem = new Item();
@@ -80,7 +82,7 @@ class ItemServiceTest extends MockitoExtension {
         itemFromDatabase.setItemName("Wooden pickaxe");
         itemFromDatabase.setItemPrice(100.0);
 
-        Mockito.when(itemDAO.addItem(any())).thenReturn(itemFromDatabase);
+        Mockito.when(itemDAO.saveItem(newItem)).thenReturn(itemFromDatabase);
 
         // Test
         Item actualItem = unitUnderTest.addItem(newItem);

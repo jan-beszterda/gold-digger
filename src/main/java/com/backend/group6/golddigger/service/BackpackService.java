@@ -8,21 +8,21 @@ import java.util.List;
 
 @Service
 public class BackpackService {
-    BackpackDAO backpackDAO;
+    private BackpackDAO backpackDAO;
 
     public BackpackService(BackpackDAO backpackDAO) {
         this.backpackDAO = backpackDAO;
     }
 
     public List<Backpack> getAllBackpacks() {
-        return (List<Backpack>) backpackDAO.getAllBackpacks();
+        return (List<Backpack>) backpackDAO.findAllBackpacks();
     }
 
     public Backpack getBackpackById(Integer id) {
-        return backpackDAO.getBackpackById(id).orElse(null);
+        return backpackDAO.findBackpackById(id).orElse(null);
     }
 
-    public Backpack saveBackpack(Backpack backpack) {
+    public Backpack addBackpack(Backpack backpack) {
         return backpackDAO.saveBackpack(backpack);
     }
 }

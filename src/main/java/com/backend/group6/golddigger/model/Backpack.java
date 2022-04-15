@@ -50,10 +50,6 @@ public class Backpack {
         this.foodItems = foodItems;
     }
 
-    public void removeFoodItem (FoodItem foodItemToRemove) {
-        foodItems.remove(foodItemToRemove);
-    }
-
     public Player getPlayer() {
         return player;
     }

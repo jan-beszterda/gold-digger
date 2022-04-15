@@ -9,14 +9,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/mines")
 public class MineController {
-    MineService mineService;
+    private MineService mineService;
 
     public MineController(MineService mineService) {
         this.mineService = mineService;
     }
 
     @GetMapping()
-    public List<Mine> getMines() {
+    public List<Mine> getAllMines() {
         return mineService.getAllMines();
     }
 
