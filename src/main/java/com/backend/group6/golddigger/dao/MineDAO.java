@@ -8,17 +8,17 @@ import java.util.Optional;
 
 @Repository
 public class MineDAO {
-    MineRepository repository;
+    private MineRepository repository;
 
     public MineDAO(MineRepository repository) {
         this.repository = repository;
     }
 
-    public Iterable<Mine> getAllMines() {
+    public Iterable<Mine> findAllMines() {
         return repository.findAll();
     }
 
-    public Optional<Mine> getMineByID(Integer id) {
+    public Optional<Mine> findMineByID(Integer id) {
         return repository.findById(id);
     }
 

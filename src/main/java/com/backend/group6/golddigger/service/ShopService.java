@@ -8,21 +8,21 @@ import java.util.List;
 
 @Service
 public class ShopService {
-    ShopDAO shopDAO;
+    private ShopDAO shopDAO;
 
     public ShopService(ShopDAO shopDAO) {
         this.shopDAO = shopDAO;
     }
 
     public List<Shop> getAllShops() {
-        return (List<Shop>) shopDAO.getAllShops();
+        return (List<Shop>) shopDAO.findAllShops();
     }
 
     public Shop getShopById(Integer id) {
-        return shopDAO.getShopById(id).orElse(null);
+        return shopDAO.findShopById(id).orElse(null);
     }
 
     public Shop addShop(Shop shop) {
-        return shopDAO.addShop(shop);
+        return shopDAO.saveShop(shop);
     }
 }

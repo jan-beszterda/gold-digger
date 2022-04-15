@@ -8,21 +8,21 @@ import java.util.List;
 
 @Service
 public class FoodService {
-    FoodDAO foodDAO;
+    private FoodDAO foodDAO;
 
     public FoodService(FoodDAO foodDAO) {
         this.foodDAO = foodDAO;
     }
 
     public List<FoodItem> getAllFoodItems() {
-        return (List<FoodItem>) foodDAO.getAllFoodItems();
+        return (List<FoodItem>) foodDAO.findAllFoodItems();
     }
 
     public FoodItem getFoodItemById(Integer id) {
-        return foodDAO.getFoodItemById(id).orElse(null);
+        return foodDAO.findFoodItemById(id).orElse(null);
     }
 
     public FoodItem addFoodItem(FoodItem foodItem) {
-        return foodDAO.addFoodItem(foodItem);
+        return foodDAO.saveFoodItem(foodItem);
     }
 }

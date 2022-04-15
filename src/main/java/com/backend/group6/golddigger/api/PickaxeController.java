@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/items/pickaxes")
 public class PickaxeController {
-    PickaxeService pickaxeService;
+    private PickaxeService pickaxeService;
 
     public PickaxeController(PickaxeService pickaxeService) {
         this.pickaxeService = pickaxeService;
@@ -25,7 +25,7 @@ public class PickaxeController {
         return pickaxeService.getPickaxeById(id);
     }
 
-    @PostMapping()
+    @PostMapping("/create")
     public Pickaxe addPickaxe(@RequestBody Pickaxe pickaxe) {
         return pickaxeService.addPickaxe(pickaxe);
     }

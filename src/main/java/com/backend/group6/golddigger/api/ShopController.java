@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/shops")
 public class ShopController {
-    ShopService shopService;
+    private ShopService shopService;
 
     public ShopController(ShopService shopService) {
         this.shopService = shopService;
@@ -26,7 +26,7 @@ public class ShopController {
     }
 
     @PostMapping("/create")
-    public Shop createShop(@RequestBody Shop shop) {
+    public Shop addShop(@RequestBody Shop shop) {
         return shopService.addShop(shop);
     }
 }

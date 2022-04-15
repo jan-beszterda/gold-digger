@@ -8,21 +8,21 @@ import java.util.Optional;
 
 @Repository
 public class PickaxeDAO {
-    PickaxeRepository repository;
+    private PickaxeRepository repository;
 
     public PickaxeDAO(PickaxeRepository repository) {
         this.repository = repository;
     }
 
-    public Iterable<Pickaxe> getAllPickaxes() {
+    public Iterable<Pickaxe> findAllPickaxes() {
         return repository.findAll();
     }
 
-    public Optional<Pickaxe> getPickaxeById(Integer id) {
+    public Optional<Pickaxe> findPickaxeById(Integer id) {
         return repository.findById(id);
     }
 
-    public Pickaxe addPickaxe(Pickaxe pickaxe) {
+    public Pickaxe savePickaxe(Pickaxe pickaxe) {
         return repository.save(pickaxe);
     }
 }

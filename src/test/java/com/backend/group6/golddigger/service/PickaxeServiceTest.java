@@ -4,6 +4,7 @@ import com.backend.group6.golddigger.dao.PickaxeDAO;
 import com.backend.group6.golddigger.model.Pickaxe;
 import com.backend.group6.golddigger.model.Player;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -12,12 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 class PickaxeServiceTest {
-    static PickaxeService unitUnderTest;
+    private static PickaxeService unitUnderTest;
     @Mock
-    static PickaxeDAO pickaxeDAO;
+    private static PickaxeDAO pickaxeDAO;
 
     @BeforeAll
     public static void init() {
@@ -26,6 +26,7 @@ class PickaxeServiceTest {
     }
 
     @Test
+    @DisplayName("Verify that getAllPickaxes() returns all pickaxes from database")
     void verifyThatGetAllPickaxesReturnsAllPickaxesRegisteredInDatabase() {
         //Setup
         Pickaxe pickaxe1 = new Pickaxe();
@@ -43,7 +44,7 @@ class PickaxeServiceTest {
         pickaxe2.setCondition(100.0);
 
         List<Pickaxe> pickaxesFromDatabase = List.of(pickaxe1, pickaxe2);
-        Mockito.when(pickaxeDAO.getAllPickaxes()).thenReturn(pickaxesFromDatabase);
+        Mockito.when(pickaxeDAO.findAllPickaxes()).thenReturn(pickaxesFromDatabase);
 
         //Test
         List<Pickaxe> actualListOfPickaxes = unitUnderTest.getAllPickaxes();
@@ -53,6 +54,7 @@ class PickaxeServiceTest {
     }
 
     @Test
+    @DisplayName("Verify that getPickaxeByID() returns correct pickaxe from database")
     void verifyThatGetPickaxeByIdReturnsCorrectPickaxe_WhenCorrectIdIsGiven() {
         // Setup
         Pickaxe pickaxeFromDatabase = new Pickaxe();
@@ -63,7 +65,7 @@ class PickaxeServiceTest {
         pickaxeFromDatabase.setCondition(100.0);
         pickaxeFromDatabase.setPlayer(new Player());
 
-        Mockito.when(pickaxeDAO.getPickaxeById(1)).thenReturn(Optional.of(pickaxeFromDatabase));
+        Mockito.when(pickaxeDAO.findPickaxeById(1)).thenReturn(Optional.of(pickaxeFromDatabase));
 
         //Test
         Pickaxe actualPickaxe = unitUnderTest.getPickaxeById(1);
@@ -75,6 +77,7 @@ class PickaxeServiceTest {
     }
 
     @Test
+    @DisplayName("Verify that addPickaxe() returns saved pickaxe")
     void verifyThatAddPickaxeReturnsAddedPickaxe() {
         // Setup
         Pickaxe newPickaxe = new Pickaxe();
@@ -93,7 +96,7 @@ class PickaxeServiceTest {
         pickaxeFromDatabase.setCondition(100.0);
         pickaxeFromDatabase.setPlayer(new Player());
 
-        Mockito.when(pickaxeDAO.addPickaxe(any())).thenReturn(pickaxeFromDatabase);
+        Mockito.when(pickaxeDAO.savePickaxe(newPickaxe)).thenReturn(pickaxeFromDatabase);
 
         // Test
         Pickaxe actualPickaxe = unitUnderTest.addPickaxe(newPickaxe);

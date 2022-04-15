@@ -8,21 +8,21 @@ import java.util.Optional;
 
 @Repository
 public class ShopDAO {
-    ShopRepository repository;
+    private ShopRepository repository;
 
     public ShopDAO(ShopRepository repository) {
         this.repository = repository;
     }
 
-    public Iterable<Shop> getAllShops() {
+    public Iterable<Shop> findAllShops() {
         return repository.findAll();
     }
 
-    public Optional<Shop> getShopById(Integer id) {
+    public Optional<Shop> findShopById(Integer id) {
         return repository.findById(id);
     }
 
-    public Shop addShop(Shop shop) {
+    public Shop saveShop(Shop shop) {
         return repository.save(shop);
     }
 }

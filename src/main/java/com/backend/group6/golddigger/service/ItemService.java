@@ -8,21 +8,21 @@ import java.util.List;
 
 @Service
 public class ItemService {
-    ItemDAO itemDAO;
+    private ItemDAO itemDAO;
 
     public ItemService(ItemDAO itemDAO) {
         this.itemDAO = itemDAO;
     }
 
     public List<Item> getAllItems() {
-        return (List<Item>) itemDAO.getAllItems();
+        return (List<Item>) itemDAO.findAllItems();
     }
 
     public Item getItemById(Integer id) {
-        return itemDAO.getItemById(id).orElse(null);
+        return itemDAO.findItemById(id).orElse(null);
     }
 
     public Item addItem(Item item) {
-        return itemDAO.addItem(item);
+        return itemDAO.saveItem(item);
     }
 }

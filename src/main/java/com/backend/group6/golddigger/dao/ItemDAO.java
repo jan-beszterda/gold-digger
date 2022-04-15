@@ -8,21 +8,21 @@ import java.util.Optional;
 
 @Repository
 public class ItemDAO {
-    ItemRepository repository;
+    private ItemRepository repository;
 
     public ItemDAO(ItemRepository repository) {
         this.repository = repository;
     }
 
-    public Iterable<Item> getAllItems() {
+    public Iterable<Item> findAllItems() {
         return repository.findAll();
     }
 
-    public Optional<Item> getItemById(Integer id) {
+    public Optional<Item> findItemById(Integer id) {
         return repository.findById(id);
     }
 
-    public Item addItem(Item item) {
+    public Item saveItem(Item item) {
         return repository.save(item);
     }
 }

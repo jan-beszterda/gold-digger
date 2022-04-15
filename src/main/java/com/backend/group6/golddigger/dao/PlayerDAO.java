@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public class PlayerDAO {
-    PlayerRepository repository;
+    private PlayerRepository repository;
 
     public PlayerDAO(PlayerRepository repository) {
         this.repository = repository;

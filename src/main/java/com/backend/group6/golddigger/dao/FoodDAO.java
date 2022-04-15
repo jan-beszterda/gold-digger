@@ -8,21 +8,21 @@ import java.util.Optional;
 
 @Repository
 public class FoodDAO {
-    FoodRepository repository;
+    private FoodRepository repository;
 
     public FoodDAO(FoodRepository repository) {
         this.repository = repository;
     }
 
-    public Iterable<FoodItem> getAllFoodItems() {
+    public Iterable<FoodItem> findAllFoodItems() {
         return repository.findAll();
     }
 
-    public Optional<FoodItem> getFoodItemById(Integer id) {
+    public Optional<FoodItem> findFoodItemById(Integer id) {
         return repository.findById(id);
     }
 
-    public FoodItem addFoodItem(FoodItem foodItem) {
+    public FoodItem saveFoodItem(FoodItem foodItem) {
         return repository.save(foodItem);
     }
 }

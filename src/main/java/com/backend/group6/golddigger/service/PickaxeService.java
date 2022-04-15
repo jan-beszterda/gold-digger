@@ -8,21 +8,21 @@ import java.util.List;
 
 @Service
 public class PickaxeService {
-    PickaxeDAO pickaxeDAO;
+    private PickaxeDAO pickaxeDAO;
 
     public PickaxeService(PickaxeDAO pickAxeDAO) {
         this.pickaxeDAO = pickAxeDAO;
     }
 
     public List<Pickaxe> getAllPickaxes() {
-        return (List<Pickaxe>) pickaxeDAO.getAllPickaxes();
+        return (List<Pickaxe>) pickaxeDAO.findAllPickaxes();
     }
 
     public Pickaxe getPickaxeById(Integer id) {
-        return pickaxeDAO.getPickaxeById(id).orElse(null);
+        return pickaxeDAO.findPickaxeById(id).orElse(null);
     }
 
     public Pickaxe addPickaxe(Pickaxe pickaxe) {
-        return pickaxeDAO.addPickaxe(pickaxe);
+        return pickaxeDAO.savePickaxe(pickaxe);
     }
 }
