@@ -14,7 +14,7 @@ public class Backpack {
     private Integer backpackId;
     private double maxWeight;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "backpackId")
     private List<FoodItem> foodItems = new ArrayList<>();
 

@@ -15,7 +15,7 @@ public class Player {
     private int maxActions;
     private int actionsRemaining;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "mineId")
     private Mine currentMine;
 
@@ -23,7 +23,7 @@ public class Player {
     @JoinColumn(name = "backpackId")
     private Backpack backpack;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "pickaxeId")
     private Pickaxe pickaxe;
 

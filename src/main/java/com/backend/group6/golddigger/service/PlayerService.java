@@ -127,6 +127,7 @@ public class PlayerService {
             pickaxe.setItemName(item.getItemName());
             pickaxe.setStrength(((Pickaxe) item).getStrength());
             pickaxe.setCondition(((Pickaxe) item).getCondition());
+            pickaxe.setPlayer(player);
             player.setPickaxe(pickaxe);
         }
         player.setGoldAmount(player.getGoldAmount() - item.getItemPrice());
@@ -167,8 +168,9 @@ public class PlayerService {
     }
 
     private double calculateGoldDug(Player player, double hit) {
-        return player.getCurrentMine().getTotalGold() * hit
+        double estimatedGold = player.getCurrentMine().getTotalGold() * hit
                 * (1 - player.getCurrentMine().getDifficulty());
+        return Math.min(estimatedGold, player.getCurrentMine().getTotalGold());
     }
 
     private void increasePlayerGoldAmount(Player player, double goldDug) {
@@ -180,26 +182,14 @@ public class PlayerService {
         Random random = new Random();
         double damage = hit * player.getCurrentMine().getDifficulty() * random.nextInt(10, 21);
         double newCondition = player.getPickaxe().getCondition() - damage;
-        if (newCondition <= 0) {
-            removePlayersPickaxe(player);
-        } else {
-            Pickaxe pickaxe = player.getPickaxe();
-            pickaxe.setCondition(newCondition);
-        }
-    }
-
-    private void removePlayersPickaxe(Player player) {
-        player.setPickaxe(null);
+        Pickaxe pickaxe = player.getPickaxe();
+        pickaxe.setCondition(newCondition);
     }
 
     private void decreaseAmountGoldInMine(Player player, double goldDug) {
         double newTotalGold = player.getCurrentMine().getTotalGold() - goldDug;
-        if (newTotalGold <= 0) {
-            removePlayersMine(player);
-        } else {
-            Mine mine = player.getCurrentMine();
-            mine.setTotalGold(newTotalGold);
-        }
+        Mine mine = player.getCurrentMine();
+        mine.setTotalGold(newTotalGold);
     }
 
     private void decreasePlayersHealth(Player player) {
@@ -218,20 +208,13 @@ public class PlayerService {
         player.setMaxActions(0);
     }
 
-    private void removePlayersMine(Player player) {
-        player.setCurrentMine(null);
-    }
-
     private Mine createPlayersMine(Player player) {
         List<Mine> mines = (List<Mine>) mineDAO.findAllMines();
-        Optional<Mine> maybeMine = mines
-                .stream()
-                .filter(mine -> mine.getTotalGold() > 0 && mine.getPlayer() == null)
-                .findAny();
-        if (maybeMine.isEmpty()) {
-            return null;
-        }
-        Mine mine = maybeMine.get();
+        mines = mines.stream()
+                .filter(mine -> mine.getPlayer() == null)
+                .toList();
+        Random r = new Random();
+        Mine mine = mines.get(r.nextInt(0, mines.size()));
         Mine newMine = new Mine();
         newMine.setMineName(mine.getMineName());
         newMine.setTotalGold(mine.getTotalGold());
@@ -253,7 +236,7 @@ public class PlayerService {
         List<FoodItem> startingItems = new ArrayList<>();
         List<FoodItem> foodItems = (List<FoodItem>) foodDAO.findAllFoodItems();
         foodItems.stream()
-                .filter(foodItem -> foodItem.getHealthEffect() < 5)
+                .filter(foodItem -> foodItem.getHealthEffect() <= 5)
                 .limit(2)
                 .toList()
                 .stream()

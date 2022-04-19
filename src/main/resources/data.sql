@@ -1,5 +1,5 @@
-/*DELETE FROM items WHERE backpack_id IS NULL AND item_id NOT IN (SELECT pickaxe_id FROM players);
-DELETE FROM mines WHERE mine_id NOT IN (SELECT mine_id FROM players);
+/* DELETE FROM items WHERE shop_id IS NOT NULL;
+DELETE FROM mines WHERE player_id IS NULL;
 DELETE FROM shops;
 
 INSERT INTO shops (shop_name)
@@ -34,4 +34,4 @@ VALUES (0.3, 'Mine in the woods', 1000.0),
        (0.6, 'Deserted mine', 3500.0),
        (0.8, 'Ghost mine', 10000.0),
        (0.2, 'Shallow mine', 500.0),
-       (0.5, 'Mountain den', 2000.0);*/
+       (0.5, 'Mountain den', 2000.0); */
